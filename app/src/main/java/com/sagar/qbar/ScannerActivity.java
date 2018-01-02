@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -32,6 +33,8 @@ public class ScannerActivity extends AppCompatActivity
     //    public static String TAG = "My tag";
     public static final String CONTENT_TAG = "BAR_OR_QR_CODE_RESULT";
     public static final String TYPE_TAG = "CODE_TYPE";
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,11 @@ public class ScannerActivity extends AppCompatActivity
             drawer.addDrawerListener(toggle);
         }
         toggle.syncState();
+
         MobileAds.initialize(this, this.getResources().getString(R.string.app_pub_id));
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
@@ -60,6 +67,7 @@ public class ScannerActivity extends AppCompatActivity
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
                     MY_CAMERA_REQUEST_CODE);
         }
+
     }
 
     @Override
