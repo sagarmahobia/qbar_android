@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">QBar</string>
+    <string name="app_name_full">QBar - Qr and Barcode Scanner</string>
+    <string name="title_activity_about">About QBar</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="smart_banner_ad_unit_id">ca-app-pub-5244380836127327/6274883492</string>
+    <string name="app_pub_id">ca-app-pub-5244380836127327~3321417095</string>
+    <string name="action_flash">Toggle Flash</string>
+    <string name="app_name_short">QBar</string>
+    <string name="app_name_part">Qr and Barcode Scanner</string>
+    <string name="qbar_logo">QBar Logo</string>
+    <string name="QrCodeText">Qr Code</string>
+    <string name="DataMatrixText">Data Matrix</string>
+    <string name="BarcodeText">Barcode</string>
+    <string name="credits">--Credits--</string>
+    <string name="barcode_scanner_library">Barcode Scanner Library</string>
+    <string name="apache_license_version_2_0">Apache License, Version 2.0</string>
+    <string name="the_zxing_project">The ZXing project</string>
+    <string name="the_zbar_android_sdk">The ZBar Android SDK</string>
+    <string name="gnu_lesser_general_public_license">GNU LESSER GENERAL PUBLIC LICENSE</string>
+    <string name="version_2_1_february_1999">Version 2.1, February 1999</string>
+    <string name="type">Type: </string>
+    <string name="qr_and_barcode_scanner">Qr and Barcode scanner</string>
+</resources>

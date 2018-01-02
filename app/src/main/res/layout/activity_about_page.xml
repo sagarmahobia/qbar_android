@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:showIn="@layout/activity_about_page">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+        <ImageView
+            android:id="@+id/about_logo_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/qbar_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/app_name_short"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/app_name_part"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/credits" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <TextView
+            style="@style/ProjectNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/barcode_scanner_library" />
+
+        <TextView
+            android:id="@+id/projectLinkDm77"
+            style="@style/LinkText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/LicenceText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/apache_license_version_2_0" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+        <TextView
+            style="@style/ProjectNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/the_zxing_project" />
+
+        <TextView
+            android:id="@+id/projectLinkZxing"
+            style="@style/LinkText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+
+            style="@style/LicenceText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/apache_license_version_2_0" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+        <TextView
+            style="@style/ProjectNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/the_zbar_android_sdk" />
+
+        <TextView
+            android:id="@+id/projectLinkZbar"
+            style="@style/LinkText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+
+            style="@style/LicenceText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gnu_lesser_general_public_license" />
+
+        <TextView
+
+            style="@style/LicenceText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/version_2_1_february_1999" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+    </LinearLayout>
+
+</ScrollView>
