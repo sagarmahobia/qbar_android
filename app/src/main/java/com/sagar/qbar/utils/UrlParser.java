@@ -1,20 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.sagar.qbar.utils;
 
-//import android.util.Log;
 
 import android.util.Patterns;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-/**
- * @author SAGAR
- */
+
 public class UrlParser {
 
     private String text;
@@ -47,7 +40,6 @@ public class UrlParser {
         Matcher m = Patterns.WEB_URL.matcher(text);
         while (m.find()) {
             String url = m.group();
-//            Log.d(ScannerActivity.TAG, "URL extracted: " + url);
             links.add(url);
         }
 

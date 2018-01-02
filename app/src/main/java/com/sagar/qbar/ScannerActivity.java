@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -14,8 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
-//import android.util.Log;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -40,9 +39,9 @@ public class ScannerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
@@ -56,7 +55,7 @@ public class ScannerActivity extends AppCompatActivity
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         }
@@ -66,18 +65,20 @@ public class ScannerActivity extends AppCompatActivity
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
                     MY_CAMERA_REQUEST_CODE);
+            mFirebaseAnalytics.logEvent("permissionRequested", null);
         }
 
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         assert drawer != null;
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            mFirebaseAnalytics.logEvent("appClosedUsingBackButton", null);
         }
     }
 
@@ -98,18 +99,25 @@ public class ScannerActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_flash) {
             boolean flash = mScannerView.getFlash();
-            ActionMenuItemView menuItem = (ActionMenuItemView) findViewById(R.id.action_flash);
+            ActionMenuItemView menuItem = findViewById(R.id.action_flash);
+
             if (flash) {
                 mScannerView.setFlash(false);
+                mFirebaseAnalytics.logEvent("flashSwitchedOn",null);
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_on_black_24dp));
                 }
+
+
             } else {
                 mScannerView.setFlash(true);
+                mFirebaseAnalytics.logEvent("flashSwitchedOff",null);
+
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_off_black_24dp));
                 }
             }
+
             return true;
         }
 
@@ -117,27 +125,40 @@ public class ScannerActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_share) {
+
+
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
             String shareBody = "I'm using QBar - Qr and Barcode Scanner app, the fastest QR and Barcode reader. Try it NOW! " +
                     "https://play.google.com/store/apps/details?id=com.sagar.qbar";
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
+            mFirebaseAnalytics.logEvent("appSharerOpened",null);
+            //code for analytics
+
+
         } else if (id == R.id.about) {
+
+
             Intent intent = new Intent(this, AboutPageActivity.class);
             this.startActivity(intent);
+
+
         } else if (id == R.id.ourApps) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://search?q=pub:Sagar+Mahobia"));
             startActivity(intent);
+
+            mFirebaseAnalytics.logEvent("visitedOurApps",null);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer != null) {
             drawer.closeDrawer(GravityCompat.START);
         }
@@ -147,7 +168,7 @@ public class ScannerActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mScannerView = (ZXingScannerView) this.findViewById(R.id.Camera);
+        mScannerView = this.findViewById(R.id.Camera);
         if (mScannerView != null) {
             mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
             mScannerView.startCamera();
@@ -164,7 +185,6 @@ public class ScannerActivity extends AppCompatActivity
         mScannerView.setFlash(false);
         mScannerView.stopCamera();
         invalidateOptionsMenu();
-
     }
 
     @Override
@@ -180,17 +200,24 @@ public class ScannerActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
 
         switch (requestCode) {
             case MY_CAMERA_REQUEST_CODE:
                 // If request is cancelled, the result arrays are empty.
-                if (!(grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    mFirebaseAnalytics.logEvent("cameraPermissionGranted",null);
+
+                } else {
                     Toast.makeText(this, "Camera permission is required", Toast.LENGTH_LONG).show();
                     this.finish();
-                }
 
+                    mFirebaseAnalytics.logEvent("cameraPermissionDenied",null);
+
+                }
         }
     }
 }
