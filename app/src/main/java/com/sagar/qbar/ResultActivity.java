@@ -60,6 +60,11 @@ public class ResultActivity extends AppCompatActivity {
                 public void onClick(View widget) {
                     String s = ((TextView) widget).getText().toString();
                     String url = s.substring(indexBean.getIndexStart(), indexBean.getIndexEnd());
+
+                    if(!(url.toLowerCase().startsWith("https://")||url.toLowerCase().startsWith("http://"))){
+                        url  = "http://"+url;
+                    }
+
                     Intent viewIntent =
                             new Intent("android.intent.action.VIEW",
                                     Uri.parse(url));
