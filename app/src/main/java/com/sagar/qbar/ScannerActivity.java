@@ -1,9 +1,12 @@
 package com.sagar.qbar;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,8 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 //import android.util.Log;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
 import com.google.zxing.Result;
@@ -22,8 +27,9 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
     private ZXingScannerView mScannerView;
-//    public static String TAG = "My tag";
+    //    public static String TAG = "My tag";
     public static final String CONTENT_TAG = "BAR_OR_QR_CODE_RESULT";
     public static final String TYPE_TAG = "CODE_TYPE";
 
@@ -46,6 +52,13 @@ public class ScannerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    MY_CAMERA_REQUEST_CODE);
         }
     }
 
@@ -155,5 +168,21 @@ public class ScannerActivity extends AppCompatActivity
         this.startActivity(intent);
         // If you would like to resume scanning, call this method below:
 //        mScannerView.resumeCameraPreview(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case MY_CAMERA_REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (!(grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Toast.makeText(this, "Camera permission is required", Toast.LENGTH_LONG).show();
+                    this.finish();
+                }
+
+        }
     }
 }

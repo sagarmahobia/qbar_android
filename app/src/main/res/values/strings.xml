@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QBar</string>
+    <string name="app_name">QBar Scanner</string>
     <string name="app_name_full">QBar - Qr and Barcode Scanner</string>
     <string name="title_activity_about">About QBar</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
