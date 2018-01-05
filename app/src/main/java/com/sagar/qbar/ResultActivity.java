@@ -15,8 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.sagar.qbar.utils.BannerAdManager;
 import com.sagar.qbar.utils.IndexBean;
 import com.sagar.qbar.utils.ResultBean;
 import com.sagar.qbar.utils.UrlParser;
@@ -26,19 +28,44 @@ public class ResultActivity extends AppCompatActivity {
     private String result;
     private String type;
     ResultBean resultBean;
+    private AdView mAdView;
+
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        new BannerAdManager(this).createAd();
+
+        mAdView =   this.findViewById(R.id.adViewResultScreen);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(int i) {
+                mAdView.setVisibility(View.GONE);
+                super.onAdFailedToLoad(i);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                mAdView.setVisibility(View.VISIBLE);
+                super.onAdLoaded();
+            }
+        });
+
+        AdRequest adRequest = new AdRequest.Builder().
+                addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
+                .build();
+        mAdView.loadAd(adRequest);
+
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.logEvent("scannedImage", null);

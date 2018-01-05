@@ -1,6 +1,7 @@
 package com.sagar.qbar;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -17,8 +18,12 @@ import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
@@ -34,6 +39,7 @@ public class ScannerActivity extends AppCompatActivity
     public static final String TYPE_TAG = "CODE_TYPE";
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,27 @@ public class ScannerActivity extends AppCompatActivity
             mFirebaseAnalytics.logEvent("permissionRequested", null);
         }
 
+        mAdView = this.findViewById(R.id.adViewScannerScreen);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(int i) {
+                mAdView.setVisibility(View.GONE);
+                super.onAdFailedToLoad(i);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                mAdView.setVisibility(View.VISIBLE);
+                super.onAdLoaded();
+            }
+        });
+
+        AdRequest adRequest = new AdRequest.Builder().
+                addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
+                .build();
+        mAdView.loadAd(adRequest);
+
     }
 
     @Override
@@ -89,6 +116,7 @@ public class ScannerActivity extends AppCompatActivity
         return true;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -103,7 +131,7 @@ public class ScannerActivity extends AppCompatActivity
 
             if (flash) {
                 mScannerView.setFlash(false);
-                mFirebaseAnalytics.logEvent("flashSwitchedOn",null);
+                mFirebaseAnalytics.logEvent("flashSwitchedOn", null);
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_on_black_24dp));
                 }
@@ -111,7 +139,7 @@ public class ScannerActivity extends AppCompatActivity
 
             } else {
                 mScannerView.setFlash(true);
-                mFirebaseAnalytics.logEvent("flashSwitchedOff",null);
+                mFirebaseAnalytics.logEvent("flashSwitchedOff", null);
 
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_off_black_24dp));
@@ -139,7 +167,7 @@ public class ScannerActivity extends AppCompatActivity
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
-            mFirebaseAnalytics.logEvent("appSharerOpened",null);
+            mFirebaseAnalytics.logEvent("appSharerOpened", null);
             //code for analytics
 
 
@@ -155,7 +183,7 @@ public class ScannerActivity extends AppCompatActivity
             intent.setData(Uri.parse("market://search?q=pub:Sagar+Mahobia"));
             startActivity(intent);
 
-            mFirebaseAnalytics.logEvent("visitedOurApps",null);
+            mFirebaseAnalytics.logEvent("visitedOurApps", null);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -209,13 +237,13 @@ public class ScannerActivity extends AppCompatActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    mFirebaseAnalytics.logEvent("cameraPermissionGranted",null);
+                    mFirebaseAnalytics.logEvent("cameraPermissionGranted", null);
 
                 } else {
                     Toast.makeText(this, "Camera permission is required", Toast.LENGTH_LONG).show();
                     this.finish();
 
-                    mFirebaseAnalytics.logEvent("cameraPermissionDenied",null);
+                    mFirebaseAnalytics.logEvent("cameraPermissionDenied", null);
 
                 }
         }
