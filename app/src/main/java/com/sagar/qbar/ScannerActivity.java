@@ -27,6 +27,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
+import com.sagar.qbar.utils.SoundGenerator;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -217,6 +218,8 @@ public class ScannerActivity extends AppCompatActivity
 
     @Override
     public void handleResult(Result rawResult) {
+
+        SoundGenerator.playBeep(50);
 
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(CONTENT_TAG, rawResult.getText());
