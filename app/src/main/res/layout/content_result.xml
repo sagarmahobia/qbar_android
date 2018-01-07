@@ -52,13 +52,13 @@
         </ScrollView>
 
         <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
+            android:id="@+id/adViewResultScreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:foregroundGravity="bottom"
             android:visibility="gone"
             ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/smart_banner_ad_unit_id" />
+            ads:adUnitId="@string/smart_banner_ad_unit_id_result_bottom" />
     </LinearLayout>
 </LinearLayout>
