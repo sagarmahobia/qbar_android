@@ -16,9 +16,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
@@ -33,21 +35,25 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
+
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private ZXingScannerView mScannerView;
-    //    public static String TAG = "My tag";
+
     public static final String CONTENT_TAG = "BAR_OR_QR_CODE_RESULT";
     public static final String TYPE_TAG = "CODE_TYPE";
 
+    private ZXingScannerView mScannerView;
     private FirebaseAnalytics mFirebaseAnalytics;
     private AdView mAdView;
+    private FrameLayout cameraContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open,
@@ -58,14 +64,15 @@ public class ScannerActivity extends AppCompatActivity
         }
         toggle.syncState();
 
-        MobileAds.initialize(this, this.getResources().getString(R.string.app_pub_id));
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         }
+
+        MobileAds.initialize(this, this.getResources().getString(R.string.app_pub_id));
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED) {
@@ -91,11 +98,41 @@ public class ScannerActivity extends AppCompatActivity
             }
         });
 
+        cameraContainer = this.findViewById(R.id.CameraContainer);
+
         AdRequest adRequest = new AdRequest.Builder().
                 addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
                 .build();
         mAdView.loadAd(adRequest);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    Log.d("myTag","OnResumeCalled");
+        mScannerView = new MyScannerView(this);
+
+        cameraContainer.addView(mScannerView);
+        if (mScannerView != null) {
+            mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+            mScannerView.startCamera();
+            mScannerView.stopCameraPreview();
+
+        } else {
+            this.finish();
+//            Log.d(TAG, "null at onResume");
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mScannerView.setFlash(false);
+        mScannerView.stopCameraPreview();
+        mScannerView.stopCamera();
+        cameraContainer.removeAllViews();
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -192,28 +229,6 @@ public class ScannerActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
         return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mScannerView = this.findViewById(R.id.Camera);
-        if (mScannerView != null) {
-            mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
-            mScannerView.startCamera();
-
-        } else {
-            this.finish();
-//            Log.d(TAG, "null at onResume");
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mScannerView.setFlash(false);
-        mScannerView.stopCamera();
-        invalidateOptionsMenu();
     }
 
     @Override

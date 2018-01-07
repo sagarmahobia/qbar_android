@@ -14,20 +14,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <me.dm7.barcodescanner.zxing.ZXingScannerView
-            android:id="@+id/Camera"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-        </me.dm7.barcodescanner.zxing.ZXingScannerView>
+        <FrameLayout
+            android:id="@+id/CameraContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adViewScannerScreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:foregroundGravity="bottom"
             android:visibility="gone"
             ads:adSize="SMART_BANNER"
             ads:adUnitId="@string/smart_banner_ad_unit_id_scanner_bottom" />
