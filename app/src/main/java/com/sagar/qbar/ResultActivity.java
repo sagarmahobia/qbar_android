@@ -11,8 +11,13 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 //import android.util.Log;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -45,7 +50,7 @@ public class ResultActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mAdView =   this.findViewById(R.id.adViewResultScreen);
+        mAdView = this.findViewById(R.id.adViewResultScreen);
 
         mAdView.setAdListener(new AdListener() {
             @Override
@@ -109,9 +114,8 @@ public class ResultActivity extends AppCompatActivity {
 
         SpannableString spannablResult = new SpannableString(result);
 
-
         for (final IndexBean indexBean : resultBean.getIndexBeans()) {
-//            Log.d("My Tag", "" + indexBean.getIndexStart() + " , " + indexBean.getIndexEnd());
+
             spannablResult.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(View widget) {
@@ -139,12 +143,49 @@ public class ResultActivity extends AppCompatActivity {
         if (typeTextView != null) {
             if (type.toLowerCase().contains("qr")) {
                 typeTextView.setText(R.string.QrCodeText);
+
+
             } else if (type.toLowerCase().contains("data")) {
                 typeTextView.setText(R.string.DataMatrixText);
+
+
             } else {
                 typeTextView.setText(R.string.BarcodeText);
+
+
+                FrameLayout frameLayout = this.findViewById(R.id.resultContainer);
+
+                LinearLayout productResultLayout = (LinearLayout) LayoutInflater.from(this).
+                        inflate(R.layout.product_result_layout, frameLayout, false);
+
+                productResultLayout.findViewById(R.id.product_share_button).
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                                sharingIntent.setType("text/plain");
+                                String shareBody = result;
+                                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
+                            }
+                        });
+
+                productResultLayout.findViewById(R.id.product_search_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent viewIntent =
+                                new Intent("android.intent.action.VIEW",
+                                        Uri.parse("http://google.com/search?q=" + result));
+                        startActivity(viewIntent);
+                    }
+                });
+
+                frameLayout.addView(productResultLayout);
             }
         }
+
+
     }
 
     @Override

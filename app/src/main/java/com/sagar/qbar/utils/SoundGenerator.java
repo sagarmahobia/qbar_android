@@ -9,8 +9,8 @@ import android.media.ToneGenerator;
 
 public class SoundGenerator {
 
-    public static void playBeep( int durationInMillis) {
+    public static void playBeep(  ) {
         ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-        toneGen1.startTone(ToneGenerator.TONE_DTMF_C,durationInMillis);
+        toneGen1.startTone(ToneGenerator.TONE_DTMF_C,50);
     }
 }

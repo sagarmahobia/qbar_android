@@ -12,53 +12,60 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/lighGrayBackground"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/type"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/typeTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp">
+            android:layout_height="wrap_content"
+            android:background="@color/lighGrayBackground"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-            <TextView
-                android:id="@+id/resultText"
+            <ImageView
+                android:id="@+id/code_type_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp" />
-        </ScrollView>
+                android:src="@drawable/ic_barcode_black_24dp" />
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adViewResultScreen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:foregroundGravity="bottom"
-            android:visibility="gone"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/smart_banner_ad_unit_id_result_bottom" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/code_type_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/code_scan_timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15 jan 2018 12:35 PM" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/result_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
+
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewResultScreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:foregroundGravity="bottom"
+        android:visibility="visible"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/smart_banner_ad_unit_id_result_bottom" />
 </LinearLayout>

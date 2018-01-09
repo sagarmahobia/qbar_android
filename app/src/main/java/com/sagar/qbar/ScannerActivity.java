@@ -234,14 +234,12 @@ public class ScannerActivity extends AppCompatActivity
     @Override
     public void handleResult(Result rawResult) {
 
-        SoundGenerator.playBeep(50);
-
+        SoundGenerator.playBeep();
+    Log.d("myTag",rawResult.getBarcodeFormat().toString());
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(CONTENT_TAG, rawResult.getText());
         intent.putExtra(TYPE_TAG, rawResult.getBarcodeFormat().toString());
         this.startActivity(intent);
-        // If you would like to resume scanning, call this method below:
-//        mScannerView.resumeCameraPreview(this);
     }
 
     @Override
