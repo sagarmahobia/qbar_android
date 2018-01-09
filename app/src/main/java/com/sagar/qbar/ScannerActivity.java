@@ -29,6 +29,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
+import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.SoundGenerator;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -38,8 +39,9 @@ public class ScannerActivity extends AppCompatActivity
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 
-    public static final String CONTENT_TAG = "BAR_OR_QR_CODE_RESULT";
-    public static final String TYPE_TAG = "CODE_TYPE";
+//    public static final String CONTENT_TAG = "BAR_OR_QR_CODE_RESULT";
+//    public static final String TYPE_TAG = "CODE_TYPE";
+//
 
     private ZXingScannerView mScannerView;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -110,7 +112,7 @@ public class ScannerActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-    Log.d("myTag","OnResumeCalled");
+        Log.d("myTag", "OnResumeCalled");
         mScannerView = new MyScannerView(this);
 
         cameraContainer.addView(mScannerView);
@@ -235,10 +237,12 @@ public class ScannerActivity extends AppCompatActivity
     public void handleResult(Result rawResult) {
 
         SoundGenerator.playBeep();
-    Log.d("myTag",rawResult.getBarcodeFormat().toString());
+
+        ResultWrapper resultWrapper = new ResultWrapper(rawResult.getBarcodeFormat(), rawResult.getText());
+
         Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra(CONTENT_TAG, rawResult.getText());
-        intent.putExtra(TYPE_TAG, rawResult.getBarcodeFormat().toString());
+        intent.putExtra(ResultWrapper.RESULT_TAG, resultWrapper);
+
         this.startActivity(intent);
     }
 
