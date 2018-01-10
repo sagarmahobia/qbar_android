@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/resultText"
+        android:id="@+id/linkResultText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="https://hnywish.com"
+        android:padding="15dp"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp" />
@@ -18,45 +16,41 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <Button
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_open_in_new_black_24dp"
-            android:gravity="center"
-            android:text="Open Link"
-            android:textSize="12dp">
-
-        </Button>
-
-        <Button
-            android:id="@+id/product_search_button"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_search_black_24dp"
-            android:gravity="center"
-            android:text="Web Search"
-            android:textSize="12dp">
-
-        </Button>
-
-        <Button
-            android:id="@+id/product_share_button"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_share_black_24dp"
+            android:theme="@style/MyButton"
+            android:id="@+id/open_link_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Share"
-            android:textSize="12dp">
+            android:text="Open Link">
+        </Button>
+
+        <Button
+            android:theme="@style/MyButton"
+            android:id="@+id/link_search_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Web Search">
+
+        </Button>
+
+        <Button
+            android:theme="@style/MyButton"
+            android:id="@+id/link_share_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Share">
 
         </Button>
     </LinearLayout>
