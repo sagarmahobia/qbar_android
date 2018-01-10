@@ -4,15 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/linkResultText"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
+        <TextView
+            android:id="@+id/linkResultText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,37 +25,36 @@
         android:orientation="vertical">
 
         <Button
-            android:theme="@style/MyButton"
             android:id="@+id/open_link_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Open Link">
-        </Button>
+            android:text="Open Link"
+            android:theme="@style/MyButton"></Button>
 
         <Button
-            android:theme="@style/MyButton"
             android:id="@+id/link_search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Web Search">
+            android:text="Web Search"
+            android:theme="@style/MyButton">
 
         </Button>
 
         <Button
-            android:theme="@style/MyButton"
             android:id="@+id/link_share_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Share">
+            android:text="Share"
+            android:theme="@style/MyButton">
 
         </Button>
     </LinearLayout>
