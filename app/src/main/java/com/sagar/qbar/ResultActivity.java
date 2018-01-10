@@ -1,16 +1,13 @@
 package com.sagar.qbar;
 
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,10 +25,6 @@ import com.sagar.qbar.utils.ResultType;
 import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.TimeAndDateUtil;
 import com.sagar.qbar.utils.UrlUtil;
-
-import org.w3c.dom.Text;
-
-import java.net.URL;
 
 public class ResultActivity extends AppCompatActivity {
     private String result;
@@ -146,7 +139,6 @@ public class ResultActivity extends AppCompatActivity {
 
                 resultContainerLayout.addView(linkResultLayout);
 
-                Log.d("myTag", "Url: - " + result);
             } else {
                 imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_text_black));
                 codeTypeTextView.setText("Text");
@@ -162,7 +154,6 @@ public class ResultActivity extends AppCompatActivity {
                 resultContainerLayout.addView(textResultLayout);
 
 
-                Log.d("myTag", "Text: - " + result);
             }
 
         } else if (resultType == ResultType.PRODUCT) {

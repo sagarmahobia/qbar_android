@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -29,10 +28,10 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
+import com.sagar.qbar.onclickutil.OpenUrlUtil;
+import com.sagar.qbar.onclickutil.ShareTextUtil;
 import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.SoundGenerator;
-
-import java.util.Date;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -41,9 +40,6 @@ public class ScannerActivity extends AppCompatActivity
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 
-//    public static final String CONTENT_TAG = "BAR_OR_QR_CODE_RESULT";
-//    public static final String TYPE_TAG = "CODE_TYPE";
-//
 
     private ZXingScannerView mScannerView;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -125,7 +121,6 @@ public class ScannerActivity extends AppCompatActivity
 
         } else {
             this.finish();
-//            Log.d(TAG, "null at onResume");
         }
     }
 
@@ -201,17 +196,12 @@ public class ScannerActivity extends AppCompatActivity
 
         if (id == R.id.nav_share) {
 
-
-            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
             String shareBody = "I'm using QBar - Qr and Barcode Scanner app, the fastest QR and Barcode reader. Try it NOW! " +
                     "https://play.google.com/store/apps/details?id=com.sagar.qbar";
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
+            ShareTextUtil.share(this, shareBody);
 
             mFirebaseAnalytics.logEvent("appSharerOpened", null);
-            //code for analytics
-
 
         } else if (id == R.id.about) {
 
@@ -221,9 +211,8 @@ public class ScannerActivity extends AppCompatActivity
 
 
         } else if (id == R.id.ourApps) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://search?q=pub:Sagar+Mahobia"));
-            startActivity(intent);
+
+            OpenUrlUtil.openUrl("market://search?q=pub:Sagar+Mahobia",this);
 
             mFirebaseAnalytics.logEvent("visitedOurApps", null);
         }
