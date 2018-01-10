@@ -43,7 +43,7 @@ public enum ResultType {
                 return PRODUCT;
 
         }
-        return null;
+        return LINK_OR_TEXT;
     }
 
     public static ResultType getResultType(int id){

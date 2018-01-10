@@ -32,6 +32,8 @@ import com.google.zxing.Result;
 import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.SoundGenerator;
 
+import java.util.Date;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends AppCompatActivity
@@ -238,7 +240,9 @@ public class ScannerActivity extends AppCompatActivity
 
         SoundGenerator.playBeep();
 
-        ResultWrapper resultWrapper = new ResultWrapper(rawResult.getBarcodeFormat(), rawResult.getText());
+        ResultWrapper resultWrapper = new ResultWrapper(rawResult.getBarcodeFormat(),
+                rawResult.getText(),
+                rawResult.getTimestamp());
 
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultWrapper.RESULT_TAG, resultWrapper);

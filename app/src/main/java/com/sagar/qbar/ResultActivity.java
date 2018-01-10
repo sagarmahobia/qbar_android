@@ -1,25 +1,42 @@
 package com.sagar.qbar;
 
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.BarcodeFormat;
+import com.sagar.qbar.onclickutil.OpenUrlUtil;
+import com.sagar.qbar.onclickutil.SearchUtil;
+import com.sagar.qbar.onclickutil.ShareTextUtil;
 import com.sagar.qbar.utils.ResultType;
 import com.sagar.qbar.utils.ResultWrapper;
+import com.sagar.qbar.utils.TimeAndDateUtil;
 import com.sagar.qbar.utils.UrlUtil;
+
+import org.w3c.dom.Text;
+
+import java.net.URL;
 
 public class ResultActivity extends AppCompatActivity {
     private String result;
     private BarcodeFormat type;
+    long timestamp;
     private AdView mAdView;
 
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -67,7 +84,7 @@ public class ResultActivity extends AppCompatActivity {
 
         result = resultWrapper.getText();
         type = resultWrapper.getBarcodeFormat();
-
+        timestamp = resultWrapper.getTimestamp();
 
     }
 
@@ -76,15 +93,100 @@ public class ResultActivity extends AppCompatActivity {
         super.onResume();
         ResultType resultType = ResultType.getResultType(type);
 
+        FrameLayout resultContainerLayout = findViewById(R.id.result_container);
+
+        ImageView imageView = findViewById(R.id.code_type_icon);
+        TextView codeTypeTextView = findViewById(R.id.code_type_text);
+        TextView timestampTextView = findViewById(R.id.code_scan_timestamp);
+
+
+        timestampTextView.setText(TimeAndDateUtil.getTimeFromTimestamp(timestamp, getResources().getConfiguration()));
+
+
+        View.OnClickListener shareButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareTextUtil.share(ResultActivity.this, result);
+            }
+        };
+
+        View.OnClickListener searchButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchUtil.searchText(ResultActivity.this, result);
+            }
+        };
+
+
         if (resultType == ResultType.LINK_OR_TEXT) {
             if (UrlUtil.checkUrl(result)) {
+
+                imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_link_black_24dp));
+                codeTypeTextView.setText("Weblink");
+
+                LinearLayout linkResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.link_result_layout, resultContainerLayout, false);
+
+                TextView linkResultText = linkResultLayout.findViewById(R.id.linkResultText);
+
+                linkResultText.setText(result);
+
+                View.OnClickListener openLinkListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        OpenUrlUtil.openUrl(UrlUtil.checkAndGetUrlWithProtocol(result), ResultActivity.this);
+                    }
+                };
+                linkResultText.setOnClickListener(openLinkListener);
+
+                linkResultLayout.findViewById(R.id.open_link_button).setOnClickListener(openLinkListener);
+
+                linkResultLayout.findViewById(R.id.link_share_button).setOnClickListener(shareButtonListener);
+
+                linkResultLayout.findViewById(R.id.link_search_button).setOnClickListener(searchButtonListener);
+
+                resultContainerLayout.addView(linkResultLayout);
+
                 Log.d("myTag", "Url: - " + result);
             } else {
+                imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_text_black));
+                codeTypeTextView.setText("Text");
+
+                LinearLayout textResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.text_result_layout, resultContainerLayout, false);
+
+                TextView textResultTextView = textResultLayout.findViewById(R.id.textResultText);
+                textResultTextView.setText(result);
+
+                textResultLayout.findViewById(R.id.text_share_button).setOnClickListener(shareButtonListener);
+                textResultLayout.findViewById(R.id.text_search_button).setOnClickListener(searchButtonListener);
+
+                resultContainerLayout.addView(textResultLayout);
+
+
                 Log.d("myTag", "Text: - " + result);
             }
 
         } else if (resultType == ResultType.PRODUCT) {
-            Log.d("myTag", "product " + result);
+
+
+            imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_barcode_black_24dp));
+
+            codeTypeTextView.setText("Product");
+
+
+            LinearLayout productResultLayout = (LinearLayout) LayoutInflater.from(getApplicationContext())
+                    .inflate(R.layout.product_result_layout, resultContainerLayout, false);
+
+            TextView resultText = productResultLayout.findViewById(R.id.productResultText);
+            resultText.setText(result);
+
+
+            productResultLayout.findViewById(R.id.product_search_button).setOnClickListener(searchButtonListener);
+
+            productResultLayout.findViewById(R.id.product_share_button).setOnClickListener(shareButtonListener);
+
+            resultContainerLayout.addView(productResultLayout);
+
+
         }
 
     }
