@@ -38,5 +38,9 @@
         <item name="android:gravity">center</item>
     </style>
 
-
+    <style name="MyButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">#ffffff</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
 </resources>
