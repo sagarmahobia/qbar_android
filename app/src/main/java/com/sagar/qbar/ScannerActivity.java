@@ -40,7 +40,7 @@ public class ScannerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-
+    public static final String FROM_SCANNER = "FROM_SCANNER";
 
     private ZXingScannerView mScannerView;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -241,6 +241,7 @@ public class ScannerActivity extends AppCompatActivity
 
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultWrapper.RESULT_TAG, resultWrapper);
+        intent.putExtra(FROM_SCANNER, true);
         HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);
         historyDbHelper.storeResult(resultWrapper);
         this.startActivity(intent);

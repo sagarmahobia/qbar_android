@@ -8,6 +8,7 @@
     <string name="smart_banner_ad_unit_id_scanner_bottom">ca-app-pub-5244380836127327/8098294172</string>
     <string name="app_pub_id">ca-app-pub-5244380836127327~3321417095</string>
     <string name="action_flash">Toggle Flash</string>
+    <string name="action_history">Open History</string>
     <string name="app_name_short">QBar</string>
     <string name="app_name_part">Qr and Barcode Scanner</string>
     <string name="qbar_logo">QBar Logo</string>

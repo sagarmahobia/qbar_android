@@ -1,11 +1,16 @@
 package com.sagar.qbar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -26,12 +31,15 @@ import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.TimeAndDateUtil;
 import com.sagar.qbar.utils.UrlUtil;
 
+import java.util.Locale;
+import java.util.Scanner;
+
 public class ResultActivity extends AppCompatActivity {
     private String result;
     private ResultType type;
     long timestamp;
     private AdView mAdView;
-
+    private boolean fromScannerActivity;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -46,6 +54,8 @@ public class ResultActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        fromScannerActivity = getIntent().getBooleanExtra(ScannerActivity.FROM_SCANNER, false);
 
         mAdView = this.findViewById(R.id.adViewResultScreen);
 
@@ -186,12 +196,28 @@ public class ResultActivity extends AppCompatActivity {
         finish();
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
             this.onBackPressed();
+        } else if (id == R.id.action_open_history) {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+        if (fromScannerActivity) {
+            getMenuInflater().inflate(R.menu.result_activity_menu, menu);
+        }
+        return true;
     }
 }
