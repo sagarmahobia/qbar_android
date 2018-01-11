@@ -4,8 +4,9 @@
     <string name="title_activity_about">About QBar</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="smart_banner_ad_unit_id_result_bottom">ca-app-pub-5244380836127327/6274883492</string>
+    <string name="smart_banner_ad_unit_id_result_bottom">ca-app-pub-5244380836127327/2975653959</string>
     <string name="smart_banner_ad_unit_id_scanner_bottom">ca-app-pub-5244380836127327/8098294172</string>
+    <string name="smart_banner_ad_unit_id_history_bottom">ca-app-pub-5244380836127327/7449073824</string>
     <string name="app_pub_id">ca-app-pub-5244380836127327~3321417095</string>
     <string name="action_flash">Toggle Flash</string>
     <string name="action_history">Open History</string>

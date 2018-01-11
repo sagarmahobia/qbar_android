@@ -2,13 +2,10 @@ package com.sagar.qbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +19,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.zxing.BarcodeFormat;
 import com.sagar.qbar.onclickutil.OpenUrlUtil;
 import com.sagar.qbar.onclickutil.SearchUtil;
 import com.sagar.qbar.onclickutil.ShareTextUtil;
@@ -30,9 +26,6 @@ import com.sagar.qbar.utils.ResultType;
 import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.TimeAndDateUtil;
 import com.sagar.qbar.utils.UrlUtil;
-
-import java.util.Locale;
-import java.util.Scanner;
 
 public class ResultActivity extends AppCompatActivity {
     private String result;

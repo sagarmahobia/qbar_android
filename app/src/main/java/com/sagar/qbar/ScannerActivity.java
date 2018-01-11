@@ -71,7 +71,6 @@ public class ScannerActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         }
 
-        MobileAds.initialize(this, this.getResources().getString(R.string.app_pub_id));
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
