@@ -32,21 +32,8 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
 
     @Override
     public View newView(Context context, final Cursor cursor, ViewGroup parent) {
-
-        final int id = cursor.getInt(cursor.getColumnIndex(HistoryDbHelper.ID));
-
-        LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(context).
+        return LayoutInflater.from(context).
                 inflate(R.layout.history_list_item_layout, parent, false);
-
-        linearLayout.findViewById(R.id.list_item_delete_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dbHelper.deleteHistory(id);
-                ResultCursorAdapter.this.changeCursor(dbHelper.getHistoriesCursor());
-            }
-        });
-
-        return linearLayout;
     }
 
     @Override
@@ -70,6 +57,19 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
                 viewById.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_text_black));
                 break;
         }
+
+
+        final int id = cursor.getInt(cursor.getColumnIndex(HistoryDbHelper.ID));
+
+
+        layout.findViewById(R.id.list_item_delete_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbHelper.deleteHistory(id);
+                ResultCursorAdapter.this.changeCursor(dbHelper.getHistoriesCursor());
+            }
+        });
+
 
     }
 
