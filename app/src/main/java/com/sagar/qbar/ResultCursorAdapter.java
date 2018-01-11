@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sagar.qbar.utils.ResultType;
 import com.sagar.qbar.utils.ResultWrapper;
 
 /**
@@ -54,17 +55,18 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
         TextView resultText = layout.findViewById(R.id.list_item_result_text);
         resultText.setText(cursor.getString(cursor.getColumnIndex(HistoryDbHelper.DATA)));
 
-        int resultType = cursor.getInt(cursor.getColumnIndex(HistoryDbHelper.RESULT_TYPE));
+        ResultType resultType = ResultType.getResultTypeFromId(cursor.getInt(cursor.getColumnIndex(HistoryDbHelper.RESULT_TYPE)));
         ImageView viewById = layout.findViewById(R.id.list_item_code_type_icon);
 
+
         switch (resultType) {
-            case 1:
+            case PRODUCT:
                 viewById.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_barcode_black_24dp));
                 break;
-            case 2:
+            case LINK:
                 viewById.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_link_black_24dp));
                 break;
-            case 3:
+            case TEXT:
                 viewById.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_text_black));
                 break;
         }
@@ -76,8 +78,7 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ResultWrapper resultWrapper = dbHelper.getResultWrapper(id);
 
-        Intent intent
-                = new Intent(context, ResultActivity.class);
+        Intent intent = new Intent(context, ResultActivity.class);
         intent.putExtra(ResultWrapper.RESULT_TAG, resultWrapper);
         context.startActivity(intent);
     }

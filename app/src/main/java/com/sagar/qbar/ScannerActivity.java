@@ -235,7 +235,7 @@ public class ScannerActivity extends AppCompatActivity
 
         ResultWrapper resultWrapper = new ResultWrapper(
 
-                ResultType.getResultType(rawResult.getBarcodeFormat()),
+                ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText()),
                 rawResult.getText(),
                 rawResult.getTimestamp());
 

@@ -4,16 +4,26 @@ import com.google.zxing.BarcodeFormat;
 
 public enum ResultType {
 
-    PRODUCT(),
-    LINK_OR_TEXT();
+    PRODUCT(1),
+    LINK(2),
+    TEXT(3);
 
+    private int id;
+
+    ResultType(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     /**
      * Created by SAGAR MAHOBIA on 10-Jan-18. at 21:33
      */
 
 
-    public static ResultType getResultType(BarcodeFormat barcodeFormat) {
+    public static ResultType getResultType(BarcodeFormat barcodeFormat, String resultText) {
 
         switch (barcodeFormat) {
             case DATA_MATRIX:
@@ -25,7 +35,11 @@ public enum ResultType {
             case CODE_93:
             case CODE_128:
             case AZTEC:
-                return LINK_OR_TEXT;
+                if (UrlUtil.checkUrl(resultText)) {
+                    return LINK;
+                }
+                return TEXT;
+
 
             case EAN_8:
             case EAN_13:
@@ -38,8 +52,19 @@ public enum ResultType {
                 return PRODUCT;
 
         }
-        return LINK_OR_TEXT;
+        return TEXT;
     }
 
-
+    public static ResultType getResultTypeFromId(int id) {
+        switch (id) {
+            case 1:
+                return PRODUCT;
+            case 2:
+                return LINK;
+            case 3:
+                return TEXT;
+        }
+        return TEXT;
+    }
 }
+

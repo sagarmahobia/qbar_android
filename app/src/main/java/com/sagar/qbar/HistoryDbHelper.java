@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.sagar.qbar.utils.ResultType;
 import com.sagar.qbar.utils.ResultWrapper;
-import com.sagar.qbar.utils.UrlUtil;
 
 /**
  * Created by SAGAR MAHOBIA on 10-Jan-18. at 22:32
@@ -34,7 +33,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
 
     static final String ID = "_id";
     static final String DATA = "result_data";
-    static final String TIMESTAMPS = "timestamp";
+    private static final String TIMESTAMPS = "timestamp";
     static final String RESULT_TYPE = "result_type";
 
     private static final String TABLE_NAME = "results";
@@ -74,19 +73,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
         values.put(DATA, resultWrapper.getText());
         values.put(TIMESTAMPS, resultWrapper.getTimestamp());
 
-        int id;
-        if (resultWrapper.getResultType() == ResultType.PRODUCT) {
-            id = 1;
-        } else {
-            if (UrlUtil.checkUrl(resultWrapper.getText())) {
-                id = 2;
-            } else {
-                id = 3;
-            }
-        }
-
-
-        values.put(RESULT_TYPE, id);
+        values.put(RESULT_TYPE, resultWrapper.getResultType().getId());
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_NAME, null, values);
@@ -113,7 +100,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
 
-        int contentTypeId = cursor.getInt(cursor.getColumnIndex(ID));
+        int resultTypeId = cursor.getInt(cursor.getColumnIndex(RESULT_TYPE));
         String text = cursor.getString(cursor.getColumnIndex(DATA));
         long timestamp = cursor.getLong(cursor.getColumnIndex(TIMESTAMPS));
 
@@ -122,14 +109,8 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
         database.close();
 
 
-        ResultType resultType;
+        ResultType resultType = ResultType.getResultTypeFromId(resultTypeId);
 
-        if (contentTypeId == 1) {
-            resultType = ResultType.PRODUCT;
-
-        } else {
-            resultType = ResultType.LINK_OR_TEXT;
-        }
         return new ResultWrapper(resultType, text, timestamp);
 
     }

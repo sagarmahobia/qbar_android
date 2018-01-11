@@ -111,50 +111,47 @@ public class ResultActivity extends AppCompatActivity {
         };
 
 
-        if (type == ResultType.LINK_OR_TEXT) {
-            if (UrlUtil.checkUrl(result)) {
+        if (type == ResultType.LINK) {
 
-                imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_link_black_24dp));
-                codeTypeTextView.setText("Weblink");
+            imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_link_black_24dp));
+            codeTypeTextView.setText("Weblink");
 
-                LinearLayout linkResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.link_result_layout, resultContainerLayout, false);
+            LinearLayout linkResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.link_result_layout, resultContainerLayout, false);
 
-                TextView linkResultText = linkResultLayout.findViewById(R.id.linkResultText);
+            TextView linkResultText = linkResultLayout.findViewById(R.id.linkResultText);
 
-                linkResultText.setText(result);
+            linkResultText.setText(result);
 
-                View.OnClickListener openLinkListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        OpenUrlUtil.openUrl(UrlUtil.checkAndGetUrlWithProtocol(result), ResultActivity.this);
-                    }
-                };
-                linkResultText.setOnClickListener(openLinkListener);
+            View.OnClickListener openLinkListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OpenUrlUtil.openUrl(UrlUtil.checkAndGetUrlWithProtocol(result), ResultActivity.this);
+                }
+            };
+            linkResultText.setOnClickListener(openLinkListener);
 
-                linkResultLayout.findViewById(R.id.open_link_button).setOnClickListener(openLinkListener);
+            linkResultLayout.findViewById(R.id.open_link_button).setOnClickListener(openLinkListener);
 
-                linkResultLayout.findViewById(R.id.link_share_button).setOnClickListener(shareButtonListener);
+            linkResultLayout.findViewById(R.id.link_share_button).setOnClickListener(shareButtonListener);
 
-                linkResultLayout.findViewById(R.id.link_search_button).setOnClickListener(searchButtonListener);
+            linkResultLayout.findViewById(R.id.link_search_button).setOnClickListener(searchButtonListener);
 
-                resultContainerLayout.addView(linkResultLayout);
+            resultContainerLayout.addView(linkResultLayout);
 
-            } else {
-                imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_text_black));
-                codeTypeTextView.setText("Text");
+        } else if (type == ResultType.TEXT) {
+            imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_text_black));
+            codeTypeTextView.setText("Text");
 
-                LinearLayout textResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.text_result_layout, resultContainerLayout, false);
+            LinearLayout textResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.text_result_layout, resultContainerLayout, false);
 
-                TextView textResultTextView = textResultLayout.findViewById(R.id.textResultText);
-                textResultTextView.setText(result);
+            TextView textResultTextView = textResultLayout.findViewById(R.id.textResultText);
+            textResultTextView.setText(result);
 
-                textResultLayout.findViewById(R.id.text_share_button).setOnClickListener(shareButtonListener);
-                textResultLayout.findViewById(R.id.text_search_button).setOnClickListener(searchButtonListener);
+            textResultLayout.findViewById(R.id.text_share_button).setOnClickListener(shareButtonListener);
+            textResultLayout.findViewById(R.id.text_search_button).setOnClickListener(searchButtonListener);
 
-                resultContainerLayout.addView(textResultLayout);
+            resultContainerLayout.addView(textResultLayout);
 
-
-            }
 
         } else if (type == ResultType.PRODUCT) {
 

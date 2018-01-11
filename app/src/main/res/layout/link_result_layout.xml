@@ -21,7 +21,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <Button
@@ -32,7 +32,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Open Link"
-            android:theme="@style/MyButton"></Button>
+            android:theme="@style/MyButton" />
 
         <Button
             android:id="@+id/link_search_button"
@@ -42,9 +42,8 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Web Search"
-            android:theme="@style/MyButton">
+            android:theme="@style/MyButton" />
 
-        </Button>
 
         <Button
             android:id="@+id/link_share_button"
@@ -54,9 +53,9 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Share"
-            android:theme="@style/MyButton">
+            android:theme="@style/MyButton" />
 
-        </Button>
+
     </LinearLayout>
 
 </LinearLayout>
