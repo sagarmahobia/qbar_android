@@ -28,7 +28,7 @@ import com.sagar.qbar.utils.UrlUtil;
 
 public class ResultActivity extends AppCompatActivity {
     private String result;
-    private BarcodeFormat type;
+    private ResultType type;
     long timestamp;
     private AdView mAdView;
 
@@ -76,7 +76,7 @@ public class ResultActivity extends AppCompatActivity {
 
 
         result = resultWrapper.getText();
-        type = resultWrapper.getBarcodeFormat();
+        type = resultWrapper.getResultType();
         timestamp = resultWrapper.getTimestamp();
 
     }
@@ -84,7 +84,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ResultType resultType = ResultType.getResultType(type);
+
 
         FrameLayout resultContainerLayout = findViewById(R.id.result_container);
 
@@ -111,7 +111,7 @@ public class ResultActivity extends AppCompatActivity {
         };
 
 
-        if (resultType == ResultType.LINK_OR_TEXT) {
+        if (type == ResultType.LINK_OR_TEXT) {
             if (UrlUtil.checkUrl(result)) {
 
                 imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_link_black_24dp));
@@ -156,7 +156,7 @@ public class ResultActivity extends AppCompatActivity {
 
             }
 
-        } else if (resultType == ResultType.PRODUCT) {
+        } else if (type == ResultType.PRODUCT) {
 
 
             imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_barcode_black_24dp));

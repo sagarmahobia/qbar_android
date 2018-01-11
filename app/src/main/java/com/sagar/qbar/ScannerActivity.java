@@ -30,6 +30,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
 import com.sagar.qbar.onclickutil.OpenUrlUtil;
 import com.sagar.qbar.onclickutil.ShareTextUtil;
+import com.sagar.qbar.utils.ResultType;
 import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.SoundGenerator;
 
@@ -212,9 +213,12 @@ public class ScannerActivity extends AppCompatActivity
 
         } else if (id == R.id.ourApps) {
 
-            OpenUrlUtil.openUrl("market://search?q=pub:Sagar+Mahobia",this);
+            OpenUrlUtil.openUrl("market://search?q=pub:Sagar+Mahobia", this);
 
             mFirebaseAnalytics.logEvent("visitedOurApps", null);
+        } else if (id == R.id.history) {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            this.startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -229,13 +233,16 @@ public class ScannerActivity extends AppCompatActivity
 
         SoundGenerator.playBeep();
 
-        ResultWrapper resultWrapper = new ResultWrapper(rawResult.getBarcodeFormat(),
+        ResultWrapper resultWrapper = new ResultWrapper(
+
+                ResultType.getResultType(rawResult.getBarcodeFormat()),
                 rawResult.getText(),
                 rawResult.getTimestamp());
 
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultWrapper.RESULT_TAG, resultWrapper);
-
+        HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);
+        historyDbHelper.storeResult(resultWrapper);
         this.startActivity(intent);
     }
 

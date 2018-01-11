@@ -23,4 +23,5 @@
     <string name="version_2_1_february_1999">Version 2.1, February 1999</string>
     <string name="type">Type: </string>
     <string name="qr_and_barcode_scanner">Qr and Barcode scanner</string>
+    <string name="title_activity_history">HistoryActivity</string>
 </resources>

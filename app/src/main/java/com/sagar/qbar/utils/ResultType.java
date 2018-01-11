@@ -4,18 +4,14 @@ import com.google.zxing.BarcodeFormat;
 
 public enum ResultType {
 
-    PRODUCT(1),
-    LINK_OR_TEXT(3);
+    PRODUCT(),
+    LINK_OR_TEXT();
 
 
     /**
      * Created by SAGAR MAHOBIA on 10-Jan-18. at 21:33
      */
-    int id;
 
-    ResultType(int id) {
-        this.id = id;
-    }
 
     public static ResultType getResultType(BarcodeFormat barcodeFormat) {
 
@@ -45,15 +41,5 @@ public enum ResultType {
         return LINK_OR_TEXT;
     }
 
-    public static ResultType getResultType(int id){
 
-        switch (id)
-        {
-            case 1:
-                return PRODUCT;
-            case 2:
-                return LINK_OR_TEXT;
-        }
-        return null;
-    }
 }
