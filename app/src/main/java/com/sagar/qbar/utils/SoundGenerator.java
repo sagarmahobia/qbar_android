@@ -3,8 +3,6 @@ package com.sagar.qbar.utils;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 
-import com.google.zxing.BarcodeFormat;
-
 /**
  * Created by SAGAR MAHOBIA on 06-Jan-18.
  */

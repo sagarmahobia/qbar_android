@@ -11,8 +11,9 @@
     tools:showIn="@layout/activity_result">
 
     <LinearLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical">
 
 
@@ -27,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:contentDescription="Product Type Drawable"
+                android:contentDescription="@string/product_type_drawable"
                 android:paddingBottom="12dp"
                 android:paddingEnd="5dp"
                 android:paddingStart="10dp"
@@ -50,9 +51,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:padding="3dp"
-                    android:textStyle="bold"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/code_scan_timestamp"
@@ -79,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:foregroundGravity="bottom"
-        android:visibility="visible"
+        android:visibility="gone"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/smart_banner_ad_unit_id_result_bottom" />
 </LinearLayout>

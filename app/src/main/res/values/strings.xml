@@ -4,10 +4,12 @@
     <string name="title_activity_about">About QBar</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="smart_banner_ad_unit_id_result_bottom">ca-app-pub-5244380836127327/6274883492</string>
+    <string name="smart_banner_ad_unit_id_result_bottom">ca-app-pub-5244380836127327/2975653959</string>
     <string name="smart_banner_ad_unit_id_scanner_bottom">ca-app-pub-5244380836127327/8098294172</string>
+    <string name="smart_banner_ad_unit_id_history_bottom">ca-app-pub-5244380836127327/7449073824</string>
     <string name="app_pub_id">ca-app-pub-5244380836127327~3321417095</string>
     <string name="action_flash">Toggle Flash</string>
+    <string name="action_history">Open History</string>
     <string name="app_name_short">QBar</string>
     <string name="app_name_part">Qr and Barcode Scanner</string>
     <string name="qbar_logo">QBar Logo</string>
@@ -23,4 +25,14 @@
     <string name="version_2_1_february_1999">Version 2.1, February 1999</string>
     <string name="type">Type: </string>
     <string name="qr_and_barcode_scanner">Qr and Barcode scanner</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="no_scan_history">No Scan History</string>
+    <string name="clear_all">Clear All</string>
+    <string name="product_type_drawable">Product Type Drawable</string>
+    <string name="delete_drawable">delete_drawable</string>
+    <string name="open_link_text">Open Link</string>
+    <string name="web_search_text">Web Search</string>
+    <string name="share_text">Share</string>
+    <string name="search_product">Search Product</string>
+    <string name="share_product">Share Product</string> 
 </resources>

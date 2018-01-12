@@ -1,7 +1,5 @@
 package com.sagar.qbar.utils;
 
-import com.google.zxing.BarcodeFormat;
-
 import java.io.Serializable;
 
 /**
@@ -11,12 +9,13 @@ import java.io.Serializable;
 public class ResultWrapper implements Serializable {
 
     public static final String RESULT_TAG = "scanned_result";
-    private BarcodeFormat barcodeFormat;
+    private ResultType resultType;
     private String text;
     private long timestamp;
 
-    public ResultWrapper(BarcodeFormat barcodeFormat, String text, long timestamp) {
-        this.barcodeFormat = barcodeFormat;
+
+    public ResultWrapper(ResultType resultType, String text, long timestamp) {
+        this.resultType = resultType;
         this.text = text;
         this.timestamp = timestamp;
     }
@@ -30,7 +29,7 @@ public class ResultWrapper implements Serializable {
         return timestamp;
     }
 
-    public BarcodeFormat getBarcodeFormat() {
-        return this.barcodeFormat;
+    public ResultType getResultType() {
+        return this.resultType;
     }
 }

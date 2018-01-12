@@ -25,11 +25,11 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
 import com.sagar.qbar.onclickutil.OpenUrlUtil;
 import com.sagar.qbar.onclickutil.ShareTextUtil;
+import com.sagar.qbar.utils.ResultType;
 import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.SoundGenerator;
 
@@ -39,7 +39,7 @@ public class ScannerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-
+    public static final String FROM_SCANNER = "FROM_SCANNER";
 
     private ZXingScannerView mScannerView;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -70,7 +70,6 @@ public class ScannerActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         }
 
-        MobileAds.initialize(this, this.getResources().getString(R.string.app_pub_id));
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -168,7 +167,8 @@ public class ScannerActivity extends AppCompatActivity
 
             if (flash) {
                 mScannerView.setFlash(false);
-                mFirebaseAnalytics.logEvent("flashSwitchedOn", null);
+                mFirebaseAnalytics.logEvent("flashSwitchedOff", null);
+
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_on_black_24dp));
                 }
@@ -176,7 +176,7 @@ public class ScannerActivity extends AppCompatActivity
 
             } else {
                 mScannerView.setFlash(true);
-                mFirebaseAnalytics.logEvent("flashSwitchedOff", null);
+                mFirebaseAnalytics.logEvent("flashSwitchedOn", null);
 
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_off_black_24dp));
@@ -212,9 +212,14 @@ public class ScannerActivity extends AppCompatActivity
 
         } else if (id == R.id.ourApps) {
 
-            OpenUrlUtil.openUrl("market://search?q=pub:Sagar+Mahobia",this);
+            OpenUrlUtil.openUrl("market://search?q=pub:Sagar+Mahobia", this);
 
             mFirebaseAnalytics.logEvent("visitedOurApps", null);
+        } else if (id == R.id.history) {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            this.startActivity(intent);
+            this.mFirebaseAnalytics.logEvent("openedHistoryActivityFromScanner", null);
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -229,14 +234,26 @@ public class ScannerActivity extends AppCompatActivity
 
         SoundGenerator.playBeep();
 
-        ResultWrapper resultWrapper = new ResultWrapper(rawResult.getBarcodeFormat(),
+        Toast.makeText(this, "Scanned Successfully", Toast.LENGTH_SHORT).show();
+
+        ResultWrapper resultWrapper = new ResultWrapper(
+
+                ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText()),
                 rawResult.getText(),
                 rawResult.getTimestamp());
 
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultWrapper.RESULT_TAG, resultWrapper);
-
+        intent.putExtra(FROM_SCANNER, true);
+        HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);
+        historyDbHelper.storeResult(resultWrapper);
         this.startActivity(intent);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("CodeFormate", rawResult.getBarcodeFormat().toString());
+        this.mFirebaseAnalytics.logEvent("scannedResultType", bundle);
+
+
     }
 
     @Override
