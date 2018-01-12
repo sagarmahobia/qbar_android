@@ -1,124 +1,197 @@
 package com.sagar.qbar;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-//import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.sagar.qbar.utils.BannerAdManager;
-import com.sagar.qbar.utils.IndexBean;
-import com.sagar.qbar.utils.ResultBean;
-import com.sagar.qbar.utils.UrlParser;
-
+import com.sagar.qbar.onclickutil.OpenUrlUtil;
+import com.sagar.qbar.onclickutil.SearchUtil;
+import com.sagar.qbar.onclickutil.ShareTextUtil;
+import com.sagar.qbar.utils.ResultType;
+import com.sagar.qbar.utils.ResultWrapper;
+import com.sagar.qbar.utils.TimeAndDateUtil;
+import com.sagar.qbar.utils.UrlUtil;
 
 public class ResultActivity extends AppCompatActivity {
     private String result;
-    private String type;
-    ResultBean resultBean;
+    private ResultType type;
+    long timestamp;
+    private AdView mAdView;
+    private boolean fromScannerActivity;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        new BannerAdManager(this).createAd();
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mFirebaseAnalytics.logEvent("scannedImage", null);
+        fromScannerActivity = getIntent().getBooleanExtra(ScannerActivity.FROM_SCANNER, false);
 
-        result = this.getIntent().getStringExtra(ScannerActivity.CONTENT_TAG);
-        type = this.getIntent().getStringExtra(ScannerActivity.TYPE_TAG);
+        mAdView = this.findViewById(R.id.adViewResultScreen);
 
-        UrlParser urlParser = new UrlParser(result);
-        resultBean = urlParser.getResultBean();
-
-        if (type.toLowerCase().contains("qr")) {
-            mFirebaseAnalytics.logEvent("scannedQrCode", null);
-
-            if (resultBean.getIndexBeans().size() > 0) {
-
-                mFirebaseAnalytics.logEvent("scannedQrCodeWithUrl", null);
-
-            } else {
-
-                mFirebaseAnalytics.logEvent("scannedQrCodeWithTextOnly", null);
-
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(int i) {
+                mAdView.setVisibility(View.GONE);
+                super.onAdFailedToLoad(i);
             }
 
-        } else if (type.toLowerCase().contains("data")) {
-            mFirebaseAnalytics.logEvent("scannedDataMatrixCode", null);
+            @Override
+            public void onAdLoaded() {
+                mAdView.setVisibility(View.VISIBLE);
+                super.onAdLoaded();
+            }
+        });
+
+        AdRequest adRequest = new AdRequest.Builder().
+                addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
+                .build();
+        mAdView.loadAd(adRequest);
+
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        if (fromScannerActivity) {
+            mFirebaseAnalytics.logEvent("scannedImage", null);
         } else {
-            mFirebaseAnalytics.logEvent("scannedOtherCode", null);
+            mFirebaseAnalytics.logEvent("openedResultFromHistory", null);
+
         }
+        ResultWrapper resultWrapper = (ResultWrapper) this.getIntent().getSerializableExtra(ResultWrapper.RESULT_TAG);
+
+
+        result = resultWrapper.getText();
+        type = resultWrapper.getResultType();
+        timestamp = resultWrapper.getTimestamp();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        TextView textView = this.findViewById(R.id.resultText);
-        TextView typeTextView = this.findViewById(R.id.typeTextView);
-
-        if (textView != null) {
-            textView.setMovementMethod(LinkMovementMethod.getInstance());
-        }
-
-        SpannableString spannablResult = new SpannableString(result);
 
 
-        for (final IndexBean indexBean : resultBean.getIndexBeans()) {
-//            Log.d("My Tag", "" + indexBean.getIndexStart() + " , " + indexBean.getIndexEnd());
-            spannablResult.setSpan(new ClickableSpan() {
-                @Override
-                public void onClick(View widget) {
-                    String s = ((TextView) widget).getText().toString();
-                    String url = s.substring(indexBean.getIndexStart(), indexBean.getIndexEnd());
+        FrameLayout resultContainerLayout = findViewById(R.id.result_container);
 
-                    if (!(url.toLowerCase().startsWith("https://") || url.toLowerCase().startsWith("http://"))) {
-                        url = "http://" + url;
-                    }
+        ImageView imageView = findViewById(R.id.code_type_icon);
+        TextView codeTypeTextView = findViewById(R.id.code_type_text);
+        TextView timestampTextView = findViewById(R.id.code_scan_timestamp);
 
-                    Intent viewIntent =
-                            new Intent("android.intent.action.VIEW",
-                                    Uri.parse(url));
 
-                    mFirebaseAnalytics.logEvent("openedScannedUrl", null);
-                    startActivity(viewIntent);
-                }
-            }, indexBean.getIndexStart(), indexBean.getIndexEnd(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        }
-        if (textView != null) {
+        timestampTextView.setText(TimeAndDateUtil.getTimeFromTimestamp(timestamp, getResources().getConfiguration()));
 
-            textView.setText(spannablResult);
 
-        }
-        if (typeTextView != null) {
-            if (type.toLowerCase().contains("qr")) {
-                typeTextView.setText(R.string.QrCodeText);
-            } else if (type.toLowerCase().contains("data")) {
-                typeTextView.setText(R.string.DataMatrixText);
-            } else {
-                typeTextView.setText(R.string.BarcodeText);
+        View.OnClickListener shareButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareTextUtil.share(ResultActivity.this, result);
+                ResultActivity.this.mFirebaseAnalytics.logEvent("sharedFromResult", null);
+
             }
+        };
+
+        View.OnClickListener searchButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchUtil.searchText(ResultActivity.this, result);
+                ResultActivity.this.mFirebaseAnalytics.logEvent("searchedFromResult", null);
+
+            }
+        };
+
+
+        if (type == ResultType.LINK) {
+
+            imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_link_black_24dp));
+            codeTypeTextView.setText("Weblink");
+
+            LinearLayout linkResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.link_result_layout, resultContainerLayout, false);
+
+            TextView linkResultText = linkResultLayout.findViewById(R.id.linkResultText);
+
+            linkResultText.setText(result);
+
+            View.OnClickListener openLinkListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OpenUrlUtil.openUrl(UrlUtil.checkAndGetUrlWithProtocol(result), ResultActivity.this);
+                    ResultActivity.this.mFirebaseAnalytics.logEvent("openedLinkFromResult", null);
+                }
+            };
+            linkResultText.setOnClickListener(openLinkListener);
+
+            linkResultLayout.findViewById(R.id.open_link_button).setOnClickListener(openLinkListener);
+
+            linkResultLayout.findViewById(R.id.link_share_button).setOnClickListener(shareButtonListener);
+
+            linkResultLayout.findViewById(R.id.link_search_button).setOnClickListener(searchButtonListener);
+
+            resultContainerLayout.addView(linkResultLayout);
+
+
+        } else if (type == ResultType.TEXT) {
+            imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_text_black));
+            codeTypeTextView.setText("Text");
+
+            LinearLayout textResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.text_result_layout, resultContainerLayout, false);
+
+            TextView textResultTextView = textResultLayout.findViewById(R.id.textResultText);
+            textResultTextView.setText(result);
+
+            textResultLayout.findViewById(R.id.text_share_button).setOnClickListener(shareButtonListener);
+            textResultLayout.findViewById(R.id.text_search_button).setOnClickListener(searchButtonListener);
+
+            resultContainerLayout.addView(textResultLayout);
+
+
+        } else if (type == ResultType.PRODUCT) {
+
+
+            imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_barcode_black_24dp));
+
+            codeTypeTextView.setText("Product");
+
+
+            LinearLayout productResultLayout = (LinearLayout) LayoutInflater.from(getApplicationContext())
+                    .inflate(R.layout.product_result_layout, resultContainerLayout, false);
+
+            TextView resultText = productResultLayout.findViewById(R.id.productResultText);
+            resultText.setText(result);
+
+
+            productResultLayout.findViewById(R.id.product_search_button).setOnClickListener(searchButtonListener);
+
+            productResultLayout.findViewById(R.id.product_share_button).setOnClickListener(shareButtonListener);
+
+            resultContainerLayout.addView(productResultLayout);
+
+
         }
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -126,12 +199,30 @@ public class ResultActivity extends AppCompatActivity {
         finish();
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
             this.onBackPressed();
+        } else if (id == R.id.action_open_history) {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            startActivity(intent);
+            ResultActivity.this.mFirebaseAnalytics.logEvent("openedHistoryFromResult", null);
+
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+        if (fromScannerActivity) {
+            getMenuInflater().inflate(R.menu.result_activity_menu, menu);
+        }
+        return true;
     }
 }

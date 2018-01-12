@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,9 +8,25 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.sagar.qbar.ScannerActivity"
     tools:showIn="@layout/app_bar_scanner">
-    <me.dm7.barcodescanner.zxing.ZXingScannerView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/Camera">
-    </me.dm7.barcodescanner.zxing.ZXingScannerView>
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <FrameLayout
+            android:id="@+id/CameraContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adViewScannerScreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/smart_banner_ad_unit_id_scanner_bottom" />
+    </LinearLayout>
 </RelativeLayout>

@@ -16,13 +16,16 @@ public class AboutPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_about_page);
         ActionBar actionBar = getSupportActionBar();
-        ImageView image = findViewById(R.id.about_logo_image);
-        new ImageDecodeTask(this, image, R.raw.logo).execute();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        ImageView image = findViewById(R.id.about_logo_image);
+        new ImageDecodeTask(this, image, R.raw.logo).execute();
+
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.logEvent("aboutPageVisited", null);
 
@@ -44,17 +47,17 @@ public class AboutPageActivity extends AppCompatActivity {
         }
 
 
-        TextView ZxingProjectLink = findViewById(R.id.projectLinkZxing);
-        if (ZxingProjectLink != null) {
-            ZxingProjectLink.setText(MyHtml.fromHtml("<a href=\"https://github.com/zxing/zxing\">https://github.com/zxing/zxing</a>"));
-            ZxingProjectLink.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView zxingProjectLink = findViewById(R.id.projectLinkZxing);
+        if (zxingProjectLink != null) {
+            zxingProjectLink.setText(MyHtml.fromHtml("<a href=\"https://github.com/zxing/zxing\">https://github.com/zxing/zxing</a>"));
+            zxingProjectLink.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
 
-        TextView ZBarProjectLink = findViewById(R.id.projectLinkZbar);
-        if (ZBarProjectLink != null) {
-            ZBarProjectLink.setText(MyHtml.fromHtml("<a href=\"http://sourceforge.net/projects/zbar/files/AndroidSDK/\"> http://sourceforge.net/projects/zbar/files/AndroidSDK/</a>"));
-            ZBarProjectLink.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView zBarProjectLink = findViewById(R.id.projectLinkZbar);
+        if (zBarProjectLink != null) {
+            zBarProjectLink.setText(MyHtml.fromHtml("<a href=\"http://sourceforge.net/projects/zbar/files/AndroidSDK/\"> http://sourceforge.net/projects/zbar/files/AndroidSDK/</a>"));
+            zBarProjectLink.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
     }

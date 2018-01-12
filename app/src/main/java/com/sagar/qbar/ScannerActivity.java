@@ -1,9 +1,9 @@
 package com.sagar.qbar;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,32 +15,45 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
+import com.sagar.qbar.onclickutil.OpenUrlUtil;
+import com.sagar.qbar.onclickutil.ShareTextUtil;
+import com.sagar.qbar.utils.ResultType;
+import com.sagar.qbar.utils.ResultWrapper;
+import com.sagar.qbar.utils.SoundGenerator;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
-    private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private ZXingScannerView mScannerView;
-    //    public static String TAG = "My tag";
-    public static final String CONTENT_TAG = "BAR_OR_QR_CODE_RESULT";
-    public static final String TYPE_TAG = "CODE_TYPE";
 
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
+    public static final String FROM_SCANNER = "FROM_SCANNER";
+
+    private ZXingScannerView mScannerView;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private AdView mAdView;
+    private FrameLayout cameraContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open,
@@ -51,14 +64,14 @@ public class ScannerActivity extends AppCompatActivity
         }
         toggle.syncState();
 
-        MobileAds.initialize(this, this.getResources().getString(R.string.app_pub_id));
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         }
+
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED) {
@@ -68,6 +81,56 @@ public class ScannerActivity extends AppCompatActivity
             mFirebaseAnalytics.logEvent("permissionRequested", null);
         }
 
+        mAdView = this.findViewById(R.id.adViewScannerScreen);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(int i) {
+                mAdView.setVisibility(View.GONE);
+                super.onAdFailedToLoad(i);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                mAdView.setVisibility(View.VISIBLE);
+                super.onAdLoaded();
+            }
+        });
+
+        cameraContainer = this.findViewById(R.id.CameraContainer);
+
+        AdRequest adRequest = new AdRequest.Builder().
+                addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
+                .build();
+        mAdView.loadAd(adRequest);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("myTag", "OnResumeCalled");
+        mScannerView = new MyScannerView(this);
+
+        cameraContainer.addView(mScannerView);
+        if (mScannerView != null) {
+            mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+            mScannerView.startCamera();
+            mScannerView.stopCameraPreview();
+
+        } else {
+            this.finish();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mScannerView.setFlash(false);
+        mScannerView.stopCameraPreview();
+        mScannerView.stopCamera();
+        cameraContainer.removeAllViews();
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -89,6 +152,7 @@ public class ScannerActivity extends AppCompatActivity
         return true;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -103,7 +167,8 @@ public class ScannerActivity extends AppCompatActivity
 
             if (flash) {
                 mScannerView.setFlash(false);
-                mFirebaseAnalytics.logEvent("flashSwitchedOn",null);
+                mFirebaseAnalytics.logEvent("flashSwitchedOff", null);
+
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_on_black_24dp));
                 }
@@ -111,7 +176,7 @@ public class ScannerActivity extends AppCompatActivity
 
             } else {
                 mScannerView.setFlash(true);
-                mFirebaseAnalytics.logEvent("flashSwitchedOff",null);
+                mFirebaseAnalytics.logEvent("flashSwitchedOn", null);
 
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_off_black_24dp));
@@ -131,17 +196,12 @@ public class ScannerActivity extends AppCompatActivity
 
         if (id == R.id.nav_share) {
 
-
-            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
             String shareBody = "I'm using QBar - Qr and Barcode Scanner app, the fastest QR and Barcode reader. Try it NOW! " +
                     "https://play.google.com/store/apps/details?id=com.sagar.qbar";
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-            startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
-            mFirebaseAnalytics.logEvent("appSharerOpened",null);
-            //code for analytics
+            ShareTextUtil.share(this, shareBody);
 
+            mFirebaseAnalytics.logEvent("appSharerOpened", null);
 
         } else if (id == R.id.about) {
 
@@ -151,11 +211,15 @@ public class ScannerActivity extends AppCompatActivity
 
 
         } else if (id == R.id.ourApps) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://search?q=pub:Sagar+Mahobia"));
-            startActivity(intent);
 
-            mFirebaseAnalytics.logEvent("visitedOurApps",null);
+            OpenUrlUtil.openUrl("market://search?q=pub:Sagar+Mahobia", this);
+
+            mFirebaseAnalytics.logEvent("visitedOurApps", null);
+        } else if (id == R.id.history) {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            this.startActivity(intent);
+            this.mFirebaseAnalytics.logEvent("openedHistoryActivityFromScanner", null);
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -166,36 +230,30 @@ public class ScannerActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mScannerView = this.findViewById(R.id.Camera);
-        if (mScannerView != null) {
-            mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
-            mScannerView.startCamera();
-
-        } else {
-            this.finish();
-//            Log.d(TAG, "null at onResume");
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mScannerView.setFlash(false);
-        mScannerView.stopCamera();
-        invalidateOptionsMenu();
-    }
-
-    @Override
     public void handleResult(Result rawResult) {
 
+        SoundGenerator.playBeep();
+
+        Toast.makeText(this, "Scanned Successfully", Toast.LENGTH_SHORT).show();
+
+        ResultWrapper resultWrapper = new ResultWrapper(
+
+                ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText()),
+                rawResult.getText(),
+                rawResult.getTimestamp());
+
         Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra(CONTENT_TAG, rawResult.getText());
-        intent.putExtra(TYPE_TAG, rawResult.getBarcodeFormat().toString());
+        intent.putExtra(ResultWrapper.RESULT_TAG, resultWrapper);
+        intent.putExtra(FROM_SCANNER, true);
+        HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);
+        historyDbHelper.storeResult(resultWrapper);
         this.startActivity(intent);
-        // If you would like to resume scanning, call this method below:
-//        mScannerView.resumeCameraPreview(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("CodeFormate", rawResult.getBarcodeFormat().toString());
+        this.mFirebaseAnalytics.logEvent("scannedResultType", bundle);
+
+
     }
 
     @Override
@@ -209,13 +267,13 @@ public class ScannerActivity extends AppCompatActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    mFirebaseAnalytics.logEvent("cameraPermissionGranted",null);
+                    mFirebaseAnalytics.logEvent("cameraPermissionGranted", null);
 
                 } else {
                     Toast.makeText(this, "Camera permission is required", Toast.LENGTH_LONG).show();
                     this.finish();
 
-                    mFirebaseAnalytics.logEvent("cameraPermissionDenied",null);
+                    mFirebaseAnalytics.logEvent("cameraPermissionDenied", null);
 
                 }
         }
