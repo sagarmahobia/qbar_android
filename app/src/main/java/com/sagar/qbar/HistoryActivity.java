@@ -1,15 +1,16 @@
 package com.sagar.qbar;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -29,6 +30,24 @@ public class HistoryActivity extends AppCompatActivity {
 
         HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);
         Cursor historiesCursor = historyDbHelper.getHistoriesCursor();
+
+        Button button = findViewById(R.id.clear_all_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HistoryDbHelper dbHelper = new HistoryDbHelper(HistoryActivity.this);
+
+                dbHelper.deleteAll();
+                Toast.makeText(HistoryActivity.this, "History Cleared", Toast.LENGTH_SHORT).show();
+                HistoryActivity.this.finish();
+
+            }
+        });
+        if (historiesCursor.getCount() > 0) {
+            button.setVisibility(View.VISIBLE);
+        }else {
+            findViewById(R.id.no_history_text_view).setVisibility(View.VISIBLE);
+        }
 
         ResultCursorAdapter resultCursorAdapter = new ResultCursorAdapter(this, historiesCursor, historyDbHelper);
         historyListView.setAdapter(resultCursorAdapter);
@@ -52,6 +71,5 @@ public class HistoryActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }

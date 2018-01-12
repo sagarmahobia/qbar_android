@@ -12,6 +12,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sagar.qbar.utils.ResultType;
 import com.sagar.qbar.utils.ResultWrapper;
@@ -22,11 +23,11 @@ import com.sagar.qbar.utils.ResultWrapper;
 
 public class ResultCursorAdapter extends CursorAdapter implements AdapterView.OnItemClickListener {
     private HistoryDbHelper dbHelper;
-    private Context context;
+    private HistoryActivity activity;
 
-    ResultCursorAdapter(Context context, Cursor c, HistoryDbHelper dbHelper) {
-        super(context, c, 0);
-        this.context = context;
+    ResultCursorAdapter(HistoryActivity activity, Cursor c, HistoryDbHelper dbHelper) {
+        super(activity, c, 0);
+        this.activity = activity;
         this.dbHelper = dbHelper;
     }
 
@@ -37,7 +38,7 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, final Cursor cursor) {
         LinearLayout layout = (LinearLayout) view;
         TextView resultText = layout.findViewById(R.id.list_item_result_text);
         resultText.setText(cursor.getString(cursor.getColumnIndex(HistoryDbHelper.DATA)));
@@ -66,7 +67,17 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
             @Override
             public void onClick(View v) {
                 dbHelper.deleteHistory(id);
-                ResultCursorAdapter.this.changeCursor(dbHelper.getHistoriesCursor());
+                Cursor historiesCursor = dbHelper.getHistoriesCursor();
+                if (historiesCursor != null && historiesCursor.getCount() > 0) {
+                    ResultCursorAdapter.this.changeCursor(historiesCursor);
+                } else {
+                    cursor.close();
+                    dbHelper.close();
+                    activity.finish();
+                    Toast.makeText(activity, "All history cleared", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
 
@@ -78,8 +89,8 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ResultWrapper resultWrapper = dbHelper.getResultWrapper(id);
 
-        Intent intent = new Intent(context, ResultActivity.class);
+        Intent intent = new Intent(activity, ResultActivity.class);
         intent.putExtra(ResultWrapper.RESULT_TAG, resultWrapper);
-        context.startActivity(intent);
+        activity.startActivity(intent);
     }
 }

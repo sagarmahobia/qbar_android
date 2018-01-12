@@ -51,6 +51,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
 
     private static final String SQL_FOR_DELETE_RESULT_ROW = "delete from results where _id = ?";
 
+    private static final String SQL_FOR_DELETING_ALL = "delete from results where 1";
 
     HistoryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -112,6 +113,16 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
         ResultType resultType = ResultType.getResultTypeFromId(resultTypeId);
 
         return new ResultWrapper(resultType, text, timestamp);
+
+    }
+
+    public void deleteAll(){
+        SQLiteDatabase database = getWritableDatabase();
+
+        database.execSQL(SQL_FOR_DELETING_ALL);
+
+        database.close();
+
 
     }
 }

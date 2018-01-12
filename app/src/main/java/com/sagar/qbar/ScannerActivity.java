@@ -168,7 +168,8 @@ public class ScannerActivity extends AppCompatActivity
 
             if (flash) {
                 mScannerView.setFlash(false);
-                mFirebaseAnalytics.logEvent("flashSwitchedOn", null);
+                mFirebaseAnalytics.logEvent("flashSwitchedOff", null);
+
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_on_black_24dp));
                 }
@@ -176,7 +177,7 @@ public class ScannerActivity extends AppCompatActivity
 
             } else {
                 mScannerView.setFlash(true);
-                mFirebaseAnalytics.logEvent("flashSwitchedOff", null);
+                mFirebaseAnalytics.logEvent("flashSwitchedOn", null);
 
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_off_black_24dp));
@@ -232,6 +233,8 @@ public class ScannerActivity extends AppCompatActivity
 
         SoundGenerator.playBeep();
 
+        Toast.makeText(this, "Scanned Successfully", Toast.LENGTH_SHORT).show();
+
         ResultWrapper resultWrapper = new ResultWrapper(
 
                 ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText()),
@@ -244,6 +247,7 @@ public class ScannerActivity extends AppCompatActivity
         HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);
         historyDbHelper.storeResult(resultWrapper);
         this.startActivity(intent);
+
     }
 
     @Override
