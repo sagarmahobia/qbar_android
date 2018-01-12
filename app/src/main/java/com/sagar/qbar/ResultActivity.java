@@ -73,8 +73,12 @@ public class ResultActivity extends AppCompatActivity {
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mFirebaseAnalytics.logEvent("scannedImage", null);
+        if (fromScannerActivity) {
+            mFirebaseAnalytics.logEvent("scannedImage", null);
+        } else {
+            mFirebaseAnalytics.logEvent("openedResultFromHistory", null);
 
+        }
         ResultWrapper resultWrapper = (ResultWrapper) this.getIntent().getSerializableExtra(ResultWrapper.RESULT_TAG);
 
 
@@ -103,6 +107,8 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ShareTextUtil.share(ResultActivity.this, result);
+                ResultActivity.this.mFirebaseAnalytics.logEvent("sharedFromResult", null);
+
             }
         };
 
@@ -110,6 +116,8 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SearchUtil.searchText(ResultActivity.this, result);
+                ResultActivity.this.mFirebaseAnalytics.logEvent("searchedFromResult", null);
+
             }
         };
 
@@ -129,6 +137,7 @@ public class ResultActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     OpenUrlUtil.openUrl(UrlUtil.checkAndGetUrlWithProtocol(result), ResultActivity.this);
+                    ResultActivity.this.mFirebaseAnalytics.logEvent("openedLinkFromResult", null);
                 }
             };
             linkResultText.setOnClickListener(openLinkListener);
@@ -140,6 +149,7 @@ public class ResultActivity extends AppCompatActivity {
             linkResultLayout.findViewById(R.id.link_search_button).setOnClickListener(searchButtonListener);
 
             resultContainerLayout.addView(linkResultLayout);
+
 
         } else if (type == ResultType.TEXT) {
             imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_text_black));
@@ -199,6 +209,8 @@ public class ResultActivity extends AppCompatActivity {
         } else if (id == R.id.action_open_history) {
             Intent intent = new Intent(this, HistoryActivity.class);
             startActivity(intent);
+            ResultActivity.this.mFirebaseAnalytics.logEvent("openedHistoryFromResult", null);
+
         }
 
         return super.onOptionsItemSelected(item);

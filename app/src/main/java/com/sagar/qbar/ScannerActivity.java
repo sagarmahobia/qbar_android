@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
 import com.sagar.qbar.onclickutil.OpenUrlUtil;
@@ -219,6 +218,8 @@ public class ScannerActivity extends AppCompatActivity
         } else if (id == R.id.history) {
             Intent intent = new Intent(this, HistoryActivity.class);
             this.startActivity(intent);
+            this.mFirebaseAnalytics.logEvent("openedHistoryActivityFromScanner", null);
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -247,6 +248,11 @@ public class ScannerActivity extends AppCompatActivity
         HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);
         historyDbHelper.storeResult(resultWrapper);
         this.startActivity(intent);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("CodeFormate", rawResult.getBarcodeFormat().toString());
+        this.mFirebaseAnalytics.logEvent("scannedResultType", bundle);
+
 
     }
 

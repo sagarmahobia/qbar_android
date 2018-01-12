@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sagar.qbar.utils.ResultType;
 import com.sagar.qbar.utils.ResultWrapper;
 
@@ -76,7 +77,7 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
                     activity.finish();
                     Toast.makeText(activity, "All history cleared", Toast.LENGTH_SHORT).show();
                 }
-
+                FirebaseAnalytics.getInstance(context).logEvent("deletedItemFromHistory", null);
 
             }
         });

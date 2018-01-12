@@ -13,9 +13,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class HistoryActivity extends AppCompatActivity {
     private AdView mAdView;
+    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +41,15 @@ public class HistoryActivity extends AppCompatActivity {
 
                 dbHelper.deleteAll();
                 Toast.makeText(HistoryActivity.this, "History Cleared", Toast.LENGTH_SHORT).show();
+                FirebaseAnalytics.getInstance(HistoryActivity.this).logEvent("ClearedHistory", null);
+
                 HistoryActivity.this.finish();
 
             }
         });
         if (historiesCursor.getCount() > 0) {
             button.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             findViewById(R.id.no_history_text_view).setVisibility(View.VISIBLE);
         }
 
@@ -60,7 +64,8 @@ public class HistoryActivity extends AppCompatActivity {
                 addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
                 .build();
         mAdView.loadAd(adRequest);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.logEvent("openedHistoryActivity", null);
     }
 
 

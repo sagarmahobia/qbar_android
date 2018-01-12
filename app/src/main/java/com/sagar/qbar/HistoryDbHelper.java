@@ -53,8 +53,11 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
 
     private static final String SQL_FOR_DELETING_ALL = "delete from results where 1";
 
+
+
     HistoryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
 
     }
 
@@ -92,6 +95,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
         database.execSQL(SQL_FOR_DELETE_RESULT_ROW.replace("?", String.valueOf(id)));
 
         database.close();
+
     }
 
     ResultWrapper getResultWrapper(long id) {
@@ -116,13 +120,12 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         SQLiteDatabase database = getWritableDatabase();
 
         database.execSQL(SQL_FOR_DELETING_ALL);
 
         database.close();
-
 
     }
 }
