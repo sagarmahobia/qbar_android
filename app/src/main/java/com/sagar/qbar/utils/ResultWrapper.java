@@ -1,7 +1,5 @@
 package com.sagar.qbar.utils;
 
-import com.google.zxing.BarcodeFormat;
-
 import java.io.Serializable;
 
 /**

@@ -31,7 +31,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Open Link"
+            android:text="@string/open_link_text"
             android:theme="@style/MyButton" />
 
         <Button
@@ -41,7 +41,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Web Search"
+            android:text="@string/web_search_text"
             android:theme="@style/MyButton" />
 
 
@@ -52,7 +52,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Share"
+            android:text="@string/share_text"
             android:theme="@style/MyButton" />
 
 

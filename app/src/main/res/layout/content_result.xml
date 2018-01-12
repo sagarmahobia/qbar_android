@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:contentDescription="Product Type Drawable"
+                android:contentDescription="@string/product_type_drawable"
                 android:paddingBottom="12dp"
                 android:paddingEnd="5dp"
                 android:paddingStart="10dp"

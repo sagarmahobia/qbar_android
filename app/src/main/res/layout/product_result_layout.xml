@@ -27,7 +27,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Search Product"
+            android:text="@string/search_product"
             android:textSize="14sp">
 
         </Button>
@@ -40,7 +40,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Share Product"
+            android:text="@string/share_product"
             android:textSize="14sp">
 
         </Button>

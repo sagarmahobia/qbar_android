@@ -5,6 +5,7 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:contentDescription="@string/product_type_drawable"
         android:id="@+id/list_item_code_type_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,8 +17,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
-        android:text="FD KNF NRW KRN" />
+        android:layout_weight="1" />
 
     <ImageView
         android:id="@+id/list_item_delete_button"
@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:src="@drawable/ic_delete_black_24dp" />
+        android:src="@drawable/ic_delete_black_24dp"
+        android:contentDescription="@string/delete_drawable" />
 
 </LinearLayout>

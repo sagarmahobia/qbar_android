@@ -26,4 +26,13 @@
     <string name="type">Type: </string>
     <string name="qr_and_barcode_scanner">Qr and Barcode scanner</string>
     <string name="title_activity_history">HistoryActivity</string>
+    <string name="no_scan_history">No Scan History</string>
+    <string name="clear_all">Clear All</string>
+    <string name="product_type_drawable">Product Type Drawable</string>
+    <string name="delete_drawable">delete_drawable</string>
+    <string name="open_link_text">Open Link</string>
+    <string name="web_search_text">Web Search</string>
+    <string name="share_text">Share</string>
+    <string name="search_product">Search Product</string>
+    <string name="share_product">Share Product</string> 
 </resources>

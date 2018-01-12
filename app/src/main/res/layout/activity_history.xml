@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="10dp"
-        android:text="No Scan History"
+        android:text="@string/no_scan_history"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:visibility="gone" />
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Clear All"
+                android:text="@string/clear_all"
                 android:theme="@style/MyButton"
                 android:visibility="gone" />
         </LinearLayout>

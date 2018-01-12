@@ -1,10 +1,7 @@
 package com.sagar.qbar.utils;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.res.Configuration;
-import android.text.Html;
-import android.text.Spanned;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
