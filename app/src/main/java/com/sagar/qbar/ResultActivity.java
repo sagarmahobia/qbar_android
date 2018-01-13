@@ -100,7 +100,7 @@ public class ResultActivity extends AppCompatActivity {
         TextView timestampTextView = findViewById(R.id.code_scan_timestamp);
 
 
-        timestampTextView.setText(TimeAndDateUtil.getTimeFromTimestamp(timestamp, getResources().getConfiguration()));
+        timestampTextView.setText(TimeAndDateUtil.getTimeFromTimestamp(timestamp, this));
 
 
         View.OnClickListener shareButtonListener = new View.OnClickListener() {
