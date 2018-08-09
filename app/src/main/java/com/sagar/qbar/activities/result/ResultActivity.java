@@ -1,4 +1,4 @@
-package com.sagar.qbar;
+package com.sagar.qbar.activities.result;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,11 +19,14 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.sagar.qbar.R;
+import com.sagar.qbar.activities.history.HistoryActivity;
+import com.sagar.qbar.activities.scanner.ScannerActivity;
+import com.sagar.qbar.enums.ResultType;
+import com.sagar.qbar.models.ResultWrapper;
 import com.sagar.qbar.onclickutil.OpenUrlUtil;
 import com.sagar.qbar.onclickutil.SearchUtil;
 import com.sagar.qbar.onclickutil.ShareTextUtil;
-import com.sagar.qbar.utils.ResultType;
-import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.TimeAndDateUtil;
 import com.sagar.qbar.utils.UrlUtil;
 

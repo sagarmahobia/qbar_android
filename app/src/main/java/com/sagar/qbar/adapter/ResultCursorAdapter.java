@@ -1,4 +1,4 @@
-package com.sagar.qbar;
+package com.sagar.qbar.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.sagar.qbar.utils.ResultType;
-import com.sagar.qbar.utils.ResultWrapper;
+import com.sagar.qbar.R;
+import com.sagar.qbar.activities.history.HistoryActivity;
+import com.sagar.qbar.activities.result.ResultActivity;
+import com.sagar.qbar.database.HistoryDbHelper;
+import com.sagar.qbar.enums.ResultType;
+import com.sagar.qbar.models.ResultWrapper;
 
 /**
  * Created by SAGAR MAHOBIA on 10-Jan-18. at 23:55
@@ -26,7 +30,7 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
     private HistoryDbHelper dbHelper;
     private HistoryActivity activity;
 
-    ResultCursorAdapter(HistoryActivity activity, Cursor c, HistoryDbHelper dbHelper) {
+    public ResultCursorAdapter(HistoryActivity activity, Cursor c, HistoryDbHelper dbHelper) {
         super(activity, c, 0);
         this.activity = activity;
         this.dbHelper = dbHelper;

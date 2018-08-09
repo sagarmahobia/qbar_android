@@ -1,4 +1,4 @@
-package com.sagar.qbar;
+package com.sagar.qbar.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.sagar.qbar.utils.ResultType;
-import com.sagar.qbar.utils.ResultWrapper;
+import com.sagar.qbar.enums.ResultType;
+import com.sagar.qbar.models.ResultWrapper;
 
 /**
  * Created by SAGAR MAHOBIA on 10-Jan-18. at 22:32
@@ -31,10 +31,10 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
 
     private static int DATABASE_VERSION = 1;
 
-    static final String ID = "_id";
-    static final String DATA = "result_data";
+    public static final String ID = "_id";
+    public static final String DATA = "result_data";
     private static final String TIMESTAMPS = "timestamp";
-    static final String RESULT_TYPE = "result_type";
+    public static final String RESULT_TYPE = "result_type";
 
     private static final String TABLE_NAME = "results";
 
@@ -54,8 +54,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
     private static final String SQL_FOR_DELETING_ALL = "delete from results where 1";
 
 
-
-    HistoryDbHelper(Context context) {
+    public HistoryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
 
@@ -71,7 +70,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
         //nothing to do..
     }
 
-    void storeResult(ResultWrapper resultWrapper) {
+    public void storeResult(ResultWrapper resultWrapper) {
         ContentValues values = new ContentValues();
 
         values.put(DATA, resultWrapper.getText());
@@ -84,12 +83,12 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    Cursor getHistoriesCursor() {
+    public Cursor getHistoriesCursor() {
         return getReadableDatabase().rawQuery(SQL_FOR_GETTING_ALL_RESULTS, null);
 
     }
 
-    void deleteHistory(int id) {
+    public void deleteHistory(int id) {
         SQLiteDatabase database = getWritableDatabase();
 
         database.execSQL(SQL_FOR_DELETE_RESULT_ROW.replace("?", String.valueOf(id)));
@@ -98,7 +97,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
 
     }
 
-    ResultWrapper getResultWrapper(long id) {
+    public ResultWrapper getResultWrapper(long id) {
 
         SQLiteDatabase database = getWritableDatabase();
         Cursor cursor = database.rawQuery(SQL_FOR_GETTING_RESULT.replace("?", String.valueOf(id)), null);

@@ -1,4 +1,4 @@
-package com.sagar.qbar;
+package com.sagar.qbar.activities.scanner;
 
 import android.content.Context;
 import android.view.ViewGroup;

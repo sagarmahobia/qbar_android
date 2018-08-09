@@ -1,4 +1,4 @@
-package com.sagar.qbar;
+package com.sagar.qbar.activities.history;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.sagar.qbar.R;
+import com.sagar.qbar.adapter.ResultCursorAdapter;
+import com.sagar.qbar.database.HistoryDbHelper;
 
 public class HistoryActivity extends AppCompatActivity {
     private AdView mAdView;

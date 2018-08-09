@@ -1,14 +1,15 @@
-package com.sagar.qbar;
+package com.sagar.qbar.activities.about;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.sagar.qbar.R;
 import com.sagar.qbar.utils.ImageDecodeTask;
 import com.sagar.qbar.utils.MyHtml;
 

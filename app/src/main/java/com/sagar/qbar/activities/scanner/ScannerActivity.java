@@ -1,4 +1,4 @@
-package com.sagar.qbar;
+package com.sagar.qbar.activities.scanner;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -27,10 +27,15 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
+import com.sagar.qbar.R;
+import com.sagar.qbar.activities.about.AboutPageActivity;
+import com.sagar.qbar.activities.history.HistoryActivity;
+import com.sagar.qbar.activities.result.ResultActivity;
+import com.sagar.qbar.database.HistoryDbHelper;
+import com.sagar.qbar.enums.ResultType;
+import com.sagar.qbar.models.ResultWrapper;
 import com.sagar.qbar.onclickutil.OpenUrlUtil;
 import com.sagar.qbar.onclickutil.ShareTextUtil;
-import com.sagar.qbar.utils.ResultType;
-import com.sagar.qbar.utils.ResultWrapper;
 import com.sagar.qbar.utils.SoundGenerator;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
