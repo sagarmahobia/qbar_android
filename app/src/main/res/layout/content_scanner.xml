@@ -16,13 +16,13 @@
         tools:ignore="UselessParent">
 
         <FrameLayout
-            android:id="@+id/CameraContainer"
+            android:id="@+id/camera_container"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <com.google.android.gms.ads.AdView
-            android:id="@+id/adViewScannerScreen"
+            android:id="@+id/ad_view_scanner_screen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"

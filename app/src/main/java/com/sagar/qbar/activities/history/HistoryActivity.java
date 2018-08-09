@@ -8,68 +8,89 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
 import com.sagar.qbar.adapter.ResultCursorAdapter;
 import com.sagar.qbar.database.HistoryDbHelper;
 
-public class HistoryActivity extends AppCompatActivity {
-    private AdView mAdView;
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class HistoryActivity extends AppCompatActivity implements HistoryActivityContract.View {
+
+    @Inject
+    HistoryActivityContract.Presenter presenter;
+
+    @BindView(R.id.history_list_view)
+    ListView historyListView;
+
+    @BindView(R.id.clear_all_button)
+    Button button;
+
+    @BindView(R.id.ad_view_history_bottom)
+    AdView adView;
+
+    @BindView(R.id.no_history_text_view)
+    TextView noHistoryTextView;
+
     FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        ActionBar actionBar = getSupportActionBar();
 
+        ButterKnife.bind(this);
+
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        ListView historyListView = findViewById(R.id.history_list_view);
 
-        HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);
+        DaggerHistoryActivityComponent.builder()
+                .applicationComponent(QbarApplication.get(this).getComponent())
+                .historyActivityModule(new HistoryActivityModule(this))
+                .build().
+                inject(this);
+
+        HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);//todo use dagger
         Cursor historiesCursor = historyDbHelper.getHistoriesCursor();
 
-        Button button = findViewById(R.id.clear_all_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HistoryDbHelper dbHelper = new HistoryDbHelper(HistoryActivity.this);
+        button.setOnClickListener(v -> {
+            HistoryDbHelper dbHelper = new HistoryDbHelper(HistoryActivity.this);
 
-                dbHelper.deleteAll();
-                Toast.makeText(HistoryActivity.this, "History Cleared", Toast.LENGTH_SHORT).show();
-                FirebaseAnalytics.getInstance(HistoryActivity.this).logEvent("ClearedHistory", null);
+            dbHelper.deleteAll();
+            Toast.makeText(HistoryActivity.this, "History Cleared", Toast.LENGTH_SHORT).show();
+            FirebaseAnalytics.getInstance(HistoryActivity.this).logEvent("ClearedHistory", null);
 
-                HistoryActivity.this.finish();
+            HistoryActivity.this.finish();
 
-            }
         });
         if (historiesCursor.getCount() > 0) {
             button.setVisibility(View.VISIBLE);
         } else {
-            findViewById(R.id.no_history_text_view).setVisibility(View.VISIBLE);
+            noHistoryTextView.setVisibility(View.VISIBLE);
         }
 
         ResultCursorAdapter resultCursorAdapter = new ResultCursorAdapter(this, historiesCursor, historyDbHelper);
         historyListView.setAdapter(resultCursorAdapter);
         historyListView.setOnItemClickListener(resultCursorAdapter);
 
-
-        mAdView = this.findViewById(R.id.adViewHistoryBottom);
-
-        AdRequest adRequest = new AdRequest.Builder().
+        AdRequest adRequest = new AdRequest.Builder().//todo use dagger
                 addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
                 .build();
-        mAdView.loadAd(adRequest);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mFirebaseAnalytics.logEvent("openedHistoryActivity", null);
+        adView.loadAd(adRequest);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);//todo use dagger
+        mFirebaseAnalytics.logEvent("openedHistoryActivity", null);//todo remove
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

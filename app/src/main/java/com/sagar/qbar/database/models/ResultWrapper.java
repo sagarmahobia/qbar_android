@@ -1,6 +1,5 @@
-package com.sagar.qbar.models;
+package com.sagar.qbar.database.models;
 
-import com.sagar.qbar.enums.ResultType;
 
 import java.io.Serializable;
 

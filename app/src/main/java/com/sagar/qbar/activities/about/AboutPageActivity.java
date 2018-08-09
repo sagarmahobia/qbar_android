@@ -25,17 +25,16 @@ public class AboutPageActivity extends AppCompatActivity {
         }
 
         ImageView image = findViewById(R.id.about_logo_image);
-        new ImageDecodeTask(this, image, R.raw.logo).execute();
+        new ImageDecodeTask(this, image, R.raw.logo).execute();///todo remove
 
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mFirebaseAnalytics.logEvent("aboutPageVisited", null);
+        mFirebaseAnalytics.logEvent("aboutPageVisited", null);//todo remove
 
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
     }
 
     @Override

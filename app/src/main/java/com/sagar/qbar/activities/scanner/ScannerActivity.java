@@ -27,73 +27,82 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
+import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
 import com.sagar.qbar.activities.about.AboutPageActivity;
 import com.sagar.qbar.activities.history.HistoryActivity;
 import com.sagar.qbar.activities.result.ResultActivity;
 import com.sagar.qbar.database.HistoryDbHelper;
-import com.sagar.qbar.enums.ResultType;
-import com.sagar.qbar.models.ResultWrapper;
+import com.sagar.qbar.database.models.ResultType;
+import com.sagar.qbar.database.models.ResultWrapper;
 import com.sagar.qbar.onclickutil.OpenUrlUtil;
 import com.sagar.qbar.onclickutil.ShareTextUtil;
 import com.sagar.qbar.utils.SoundGenerator;
+import com.sagar.qbar.views.MyScannerView;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
+        implements ScannerActivityContract.View, NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
+
+    @Inject
+    ScannerActivityContract.Presenter presenter;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.ad_view_scanner_screen)
+    AdView mAdView;
+
+    @BindView(R.id.camera_container)
+    FrameLayout cameraContainer;
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     public static final String FROM_SCANNER = "FROM_SCANNER";
 
     private ZXingScannerView mScannerView;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private AdView mAdView;
-    private FrameLayout cameraContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
-
-        if (drawer != null) {
-            drawer.addDrawerListener(toggle);
-        }
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         NavigationView navigationView = findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            navigationView.setNavigationItemSelectedListener(this);
-        }
+        navigationView.setNavigationItemSelectedListener(this);
+
+        DaggerScannerActivityComponent.builder()
+                .applicationComponent(QbarApplication.get(this).getComponent())
+                .scannerActivityModule(new ScannerActivityModule(this))
+                .build().inject(this);
 
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);//todo use dagger
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED) {
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
                     MY_CAMERA_REQUEST_CODE);
-            mFirebaseAnalytics.logEvent("permissionRequested", null);
+            mFirebaseAnalytics.logEvent("permissionRequested", null);//todo remove
         }
 
-        mAdView = this.findViewById(R.id.adViewScannerScreen);
-
         mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdFailedToLoad(int i) {
-                mAdView.setVisibility(View.GONE);
-                super.onAdFailedToLoad(i);
-            }
 
             @Override
             public void onAdLoaded() {
@@ -102,11 +111,9 @@ public class ScannerActivity extends AppCompatActivity
             }
         });
 
-        cameraContainer = this.findViewById(R.id.CameraContainer);
-
         AdRequest adRequest = new AdRequest.Builder().
                 addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
-                .build();
+                .build();//todo use dagger
         mAdView.loadAd(adRequest);
 
     }
@@ -141,12 +148,11 @@ public class ScannerActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        assert drawer != null;
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            mFirebaseAnalytics.logEvent("appClosedUsingBackButton", null);
+            mFirebaseAnalytics.logEvent("appClosedUsingBackButton", null);//todo remove
         }
     }
 

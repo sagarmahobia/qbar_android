@@ -46,7 +46,7 @@
 
         <com.google.android.gms.ads.AdView
 
-            android:id="@+id/adViewHistoryBottom"
+            android:id="@+id/ad_view_history_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

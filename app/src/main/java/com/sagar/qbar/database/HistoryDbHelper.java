@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.sagar.qbar.enums.ResultType;
-import com.sagar.qbar.models.ResultWrapper;
+import com.sagar.qbar.database.models.ResultType;
+import com.sagar.qbar.database.models.ResultWrapper;
 
 /**
  * Created by SAGAR MAHOBIA on 10-Jan-18. at 22:32

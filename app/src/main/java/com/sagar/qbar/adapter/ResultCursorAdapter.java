@@ -19,9 +19,8 @@ import com.sagar.qbar.R;
 import com.sagar.qbar.activities.history.HistoryActivity;
 import com.sagar.qbar.activities.result.ResultActivity;
 import com.sagar.qbar.database.HistoryDbHelper;
-import com.sagar.qbar.enums.ResultType;
-import com.sagar.qbar.models.ResultWrapper;
-
+import com.sagar.qbar.database.models.ResultType;
+import com.sagar.qbar.database.models.ResultWrapper;
 /**
  * Created by SAGAR MAHOBIA on 10-Jan-18. at 23:55
  */
@@ -68,22 +67,19 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
         final int id = cursor.getInt(cursor.getColumnIndex(HistoryDbHelper.ID));
 
 
-        layout.findViewById(R.id.list_item_delete_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dbHelper.deleteHistory(id);
-                Cursor historiesCursor = dbHelper.getHistoriesCursor();
-                if (historiesCursor != null && historiesCursor.getCount() > 0) {
-                    ResultCursorAdapter.this.changeCursor(historiesCursor);
-                } else {
-                    cursor.close();
-                    dbHelper.close();
-                    activity.finish();
-                    Toast.makeText(activity, "All history cleared", Toast.LENGTH_SHORT).show();
-                }
-                FirebaseAnalytics.getInstance(context).logEvent("deletedItemFromHistory", null);
-
+        layout.findViewById(R.id.list_item_delete_button).setOnClickListener(v -> {
+            dbHelper.deleteHistory(id);
+            Cursor historiesCursor = dbHelper.getHistoriesCursor();
+            if (historiesCursor != null && historiesCursor.getCount() > 0) {
+                ResultCursorAdapter.this.changeCursor(historiesCursor);
+            } else {
+                cursor.close();
+                dbHelper.close();
+                activity.finish();
+                Toast.makeText(activity, "All history cleared", Toast.LENGTH_SHORT).show();
             }
+            FirebaseAnalytics.getInstance(context).logEvent("deletedItemFromHistory", null);
+
         });
 
 

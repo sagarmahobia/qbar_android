@@ -75,7 +75,7 @@
 
 
     <com.google.android.gms.ads.AdView
-        android:id="@+id/adViewResultScreen"
+        android:id="@+id/ad_view_result_screen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

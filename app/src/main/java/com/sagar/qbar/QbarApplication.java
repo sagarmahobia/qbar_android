@@ -1,5 +1,6 @@
 package com.sagar.qbar;
 
+import android.app.Activity;
 import android.app.Application;
 
 import com.google.android.gms.ads.MobileAds;
@@ -10,10 +11,25 @@ import com.google.android.gms.ads.MobileAds;
 
 public class QbarApplication extends Application {
 
+    private ApplicationComponent component;
+
+    public ApplicationComponent getComponent() {
+        return component;
+    }
+
+    public static QbarApplication get(Activity activity) {
+        return (QbarApplication) activity.getApplication();
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        component = DaggerApplicationComponent.
+                builder().
+                applicationModule(new ApplicationModule(this)).
+                build();
+        component.inject(this);
         MobileAds.initialize(this, this.getResources().getString(R.string.app_pub_id));
 
     }
