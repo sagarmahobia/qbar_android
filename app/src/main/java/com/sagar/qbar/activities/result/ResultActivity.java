@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -124,7 +123,7 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
             imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_link_black_24dp));
             codeTypeTextView.setText("Weblink");
 
-            LinearLayout linkResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.link_result_layout, resultContainerLayout, false);
+            View linkResultLayout = LayoutInflater.from(this).inflate(R.layout.link_result_layout, resultContainerLayout, false);
 
             TextView linkResultText = linkResultLayout.findViewById(R.id.linkResultText);
 
@@ -149,7 +148,7 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
             imageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_text_black));
             codeTypeTextView.setText("Text");
 
-            LinearLayout textResultLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.text_result_layout, resultContainerLayout, false);
+            View textResultLayout = LayoutInflater.from(this).inflate(R.layout.text_result_layout, resultContainerLayout, false);
 
             TextView textResultTextView = textResultLayout.findViewById(R.id.textResultText);
             textResultTextView.setText(result);
@@ -168,7 +167,7 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
             codeTypeTextView.setText("Product");
 
 
-            LinearLayout productResultLayout = (LinearLayout) LayoutInflater.from(getApplicationContext())
+            View productResultLayout = LayoutInflater.from(getApplicationContext())
                     .inflate(R.layout.product_result_layout, resultContainerLayout, false);
 
             TextView resultText = productResultLayout.findViewById(R.id.productResultText);

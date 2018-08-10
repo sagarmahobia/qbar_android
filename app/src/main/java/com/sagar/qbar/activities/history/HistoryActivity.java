@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sagar.qbar.ApplicationComponent;
@@ -85,6 +86,14 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
         historyListView.setOnItemClickListener(resultCursorAdapter);
 
         adView.loadAd(component.provideAdRequest());
+        adView.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                adView.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 

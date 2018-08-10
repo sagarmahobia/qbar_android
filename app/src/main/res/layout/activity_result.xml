@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:fitsSystemWindows="true"
     tools:context="com.sagar.qbar.activities.result.ResultActivity">
 
@@ -23,4 +22,5 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_result" />
+
 </android.support.design.widget.CoordinatorLayout>

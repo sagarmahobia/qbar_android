@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,12 +42,12 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
 
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
-        LinearLayout layout = (LinearLayout) view;
-        TextView resultText = layout.findViewById(R.id.list_item_result_text);
+
+        TextView resultText = view.findViewById(R.id.list_item_result_text);
         resultText.setText(cursor.getString(cursor.getColumnIndex(HistoryDbHelper.DATA)));
 
         ResultType resultType = ResultType.getResultTypeFromId(cursor.getInt(cursor.getColumnIndex(HistoryDbHelper.RESULT_TYPE)));
-        ImageView viewById = layout.findViewById(R.id.list_item_code_type_icon);
+        ImageView viewById = view.findViewById(R.id.list_item_code_type_icon);
 
 
         switch (resultType) {
@@ -67,7 +66,7 @@ public class ResultCursorAdapter extends CursorAdapter implements AdapterView.On
         final int id = cursor.getInt(cursor.getColumnIndex(HistoryDbHelper.ID));
 
 
-        layout.findViewById(R.id.list_item_delete_button).setOnClickListener(v -> {
+        view.findViewById(R.id.list_item_delete_button).setOnClickListener(v -> {
             dbHelper.deleteHistory(id);
             Cursor historiesCursor = dbHelper.getHistoriesCursor();
             if (historiesCursor != null && historiesCursor.getCount() > 0) {
