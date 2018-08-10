@@ -62,7 +62,7 @@
             android:text="@string/barcode_scanner_library" />
 
         <TextView
-            android:id="@+id/projectLinkDm77"
+            android:id="@+id/project_link_dm_77"
             style="@style/LinkText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -84,7 +84,7 @@
             android:text="@string/the_zxing_project" />
 
         <TextView
-            android:id="@+id/projectLinkZxing"
+            android:id="@+id/project_link_zxing"
             style="@style/LinkText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -107,7 +107,7 @@
             android:text="@string/the_zbar_android_sdk" />
 
         <TextView
-            android:id="@+id/projectLinkZbar"
+            android:id="@+id/project_link_zbar"
             style="@style/LinkText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -23,10 +23,9 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
+import com.sagar.qbar.ApplicationComponent;
 import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
 import com.sagar.qbar.activities.about.AboutPageActivity;
@@ -65,7 +64,6 @@ public class ScannerActivity extends AppCompatActivity
     public static final String FROM_SCANNER = "FROM_SCANNER";
 
     private ZXingScannerView mScannerView;
-    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,20 +84,18 @@ public class ScannerActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        ApplicationComponent component = QbarApplication.get(this).getComponent();
         DaggerScannerActivityComponent.builder()
-                .applicationComponent(QbarApplication.get(this).getComponent())
+                .applicationComponent(component)
                 .scannerActivityModule(new ScannerActivityModule(this))
                 .build().inject(this);
 
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);//todo use dagger
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED) {
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
                     MY_CAMERA_REQUEST_CODE);
-            mFirebaseAnalytics.logEvent("permissionRequested", null);//todo remove
         }
 
         mAdView.setAdListener(new AdListener() {
@@ -111,10 +107,7 @@ public class ScannerActivity extends AppCompatActivity
             }
         });
 
-        AdRequest adRequest = new AdRequest.Builder().
-                addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
-                .build();//todo use dagger
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(component.provideAdRequest());
 
     }
 
@@ -152,7 +145,7 @@ public class ScannerActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            mFirebaseAnalytics.logEvent("appClosedUsingBackButton", null);//todo remove
+
         }
     }
 
@@ -178,7 +171,7 @@ public class ScannerActivity extends AppCompatActivity
 
             if (flash) {
                 mScannerView.setFlash(false);
-                mFirebaseAnalytics.logEvent("flashSwitchedOff", null);
+
 
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_on_black_24dp));
@@ -187,7 +180,7 @@ public class ScannerActivity extends AppCompatActivity
 
             } else {
                 mScannerView.setFlash(true);
-                mFirebaseAnalytics.logEvent("flashSwitchedOn", null);
+
 
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_off_black_24dp));
@@ -212,7 +205,6 @@ public class ScannerActivity extends AppCompatActivity
 
             ShareTextUtil.share(this, shareBody);
 
-            mFirebaseAnalytics.logEvent("appSharerOpened", null);
 
         } else if (id == R.id.about) {
 
@@ -225,11 +217,10 @@ public class ScannerActivity extends AppCompatActivity
 
             OpenUrlUtil.openUrl("market://search?q=pub:Sagar+Mahobia", this);
 
-            mFirebaseAnalytics.logEvent("visitedOurApps", null);
+
         } else if (id == R.id.history) {
             Intent intent = new Intent(this, HistoryActivity.class);
             this.startActivity(intent);
-            this.mFirebaseAnalytics.logEvent("openedHistoryActivityFromScanner", null);
 
         }
 
@@ -261,8 +252,7 @@ public class ScannerActivity extends AppCompatActivity
         this.startActivity(intent);
 
         Bundle bundle = new Bundle();
-        bundle.putString("CodeFormate", rawResult.getBarcodeFormat().toString());
-        this.mFirebaseAnalytics.logEvent("scannedResultType", bundle);
+        bundle.putString("CodeFormate", rawResult.getBarcodeFormat().toString());//todo modify
 
 
     }
@@ -275,17 +265,10 @@ public class ScannerActivity extends AppCompatActivity
             case MY_CAMERA_REQUEST_CODE:
                 // If request is cancelled, the result arrays are empty.
 
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    mFirebaseAnalytics.logEvent("cameraPermissionGranted", null);
-
-                } else {
+                if (!(grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(this, "Camera permission is required", Toast.LENGTH_LONG).show();
                     this.finish();
-
-                    mFirebaseAnalytics.logEvent("cameraPermissionDenied", null);
-
                 }
         }
     }

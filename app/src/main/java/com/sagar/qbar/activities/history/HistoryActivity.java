@@ -11,9 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.sagar.qbar.ApplicationComponent;
 import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
 import com.sagar.qbar.adapter.ResultCursorAdapter;
@@ -41,7 +41,6 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
     @BindView(R.id.no_history_text_view)
     TextView noHistoryTextView;
 
-    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +54,9 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        ApplicationComponent component = QbarApplication.get(this).getComponent();
         DaggerHistoryActivityComponent.builder()
-                .applicationComponent(QbarApplication.get(this).getComponent())
+                .applicationComponent(component)
                 .historyActivityModule(new HistoryActivityModule(this))
                 .build().
                 inject(this);
@@ -84,12 +84,8 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
         historyListView.setAdapter(resultCursorAdapter);
         historyListView.setOnItemClickListener(resultCursorAdapter);
 
-        AdRequest adRequest = new AdRequest.Builder().//todo use dagger
-                addTestDevice("C06EC5B37D145628D1527D7ECFC97CFA")
-                .build();
-        adView.loadAd(adRequest);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);//todo use dagger
-        mFirebaseAnalytics.logEvent("openedHistoryActivity", null);//todo remove
+        adView.loadAd(component.provideAdRequest());
+
     }
 
     @Override

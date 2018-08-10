@@ -1,5 +1,9 @@
 package com.sagar.qbar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.sagar.qbar.tasks.ImageDecoderService;
+
 import dagger.Component;
 
 /**
@@ -8,8 +12,13 @@ import dagger.Component;
 
 
 @ApplicationScope
-@Component(modules = ApplicationModule.class)
+@Component(modules = {FirebaseModule.class, AdmobModule.class})
 public interface ApplicationComponent {
     void inject(QbarApplication qbarApplication);
 
+    ImageDecoderService provideImageDecoderService();
+
+    AdRequest provideAdRequest();
+
+    FirebaseAnalytics provideFirebaseAnalytics();
 }
