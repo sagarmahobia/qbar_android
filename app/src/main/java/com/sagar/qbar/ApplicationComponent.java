@@ -2,6 +2,7 @@ package com.sagar.qbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.sagar.qbar.greendao.ResultService;
 import com.sagar.qbar.tasks.ImageDecoderService;
 
 import dagger.Component;
@@ -12,7 +13,7 @@ import dagger.Component;
 
 
 @ApplicationScope
-@Component(modules = {FirebaseModule.class, AdmobModule.class})
+@Component(modules = {FirebaseModule.class, AdmobModule.class, GreenDaoModule.class})
 public interface ApplicationComponent {
     void inject(QbarApplication qbarApplication);
 
@@ -21,4 +22,6 @@ public interface ApplicationComponent {
     AdRequest provideAdRequest();
 
     FirebaseAnalytics provideFirebaseAnalytics();
+
+    ResultService provideResultService();
 }

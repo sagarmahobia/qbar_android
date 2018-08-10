@@ -1,4 +1,4 @@
-package com.sagar.qbar.database.models;
+package com.sagar.qbar.models;
 
 import com.google.zxing.BarcodeFormat;
 import com.sagar.qbar.utils.UrlUtil;

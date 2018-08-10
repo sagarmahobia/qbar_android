@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,21 +17,22 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:visibility="gone"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ListView
-        android:id="@+id/history_list_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/history_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        ads:layout_constraintBottom_toTopOf="@+id/clear_all_button"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toBottomOf="@+id/no_history_text_view" />
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/ad_view_history_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/no_history_text_view">
+
+    </android.support.v7.widget.RecyclerView>
 
     <Button
         android:id="@+id/clear_all_button"
@@ -39,10 +41,10 @@
         android:layout_marginBottom="8dp"
         android:text="@string/clear_all"
         android:theme="@style/MyButton"
-        android:visibility="gone"
-        ads:layout_constraintBottom_toTopOf="@+id/ad_view_history_bottom"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent" />
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/ad_view_history_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/ad_view_history_bottom"
@@ -51,11 +53,11 @@
         android:layout_gravity="bottom"
         android:foregroundGravity="bottom"
         android:visibility="gone"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/smart_banner_ad_unit_id_history_bottom"
-        ads:layout_constraintBottom_toBottomOf="parent"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent" />
+        app:adSize="SMART_BANNER"
+        app:adUnitId="@string/smart_banner_ad_unit_id_history_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

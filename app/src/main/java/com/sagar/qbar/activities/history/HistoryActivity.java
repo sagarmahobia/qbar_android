@@ -1,24 +1,23 @@
 package com.sagar.qbar.activities.history;
 
-import android.database.Cursor;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sagar.qbar.ApplicationComponent;
 import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
-import com.sagar.qbar.adapter.ResultCursorAdapter;
-import com.sagar.qbar.database.HistoryDbHelper;
+import com.sagar.qbar.activities.history.adapter.HistoryAdapter;
+import com.sagar.qbar.activities.result.ResultActivity;
+import com.sagar.qbar.activities.scanner.ScannerActivity;
 
 import javax.inject.Inject;
 
@@ -30,11 +29,14 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
     @Inject
     HistoryActivityContract.Presenter presenter;
 
-    @BindView(R.id.history_list_view)
-    ListView historyListView;
+    @Inject
+    HistoryAdapter adapter;
+
+    @BindView(R.id.history_recycler_view)
+    RecyclerView historyRecyclerView;
 
     @BindView(R.id.clear_all_button)
-    Button button;
+    Button clearAllButton;
 
     @BindView(R.id.ad_view_history_bottom)
     AdView adView;
@@ -62,29 +64,10 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
                 .build().
                 inject(this);
 
-        HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);//todo use dagger
-        Cursor historiesCursor = historyDbHelper.getHistoriesCursor();
-
-        button.setOnClickListener(v -> {
-            HistoryDbHelper dbHelper = new HistoryDbHelper(HistoryActivity.this);
-
-            dbHelper.deleteAll();
-            Toast.makeText(HistoryActivity.this, "History Cleared", Toast.LENGTH_SHORT).show();
-            FirebaseAnalytics.getInstance(HistoryActivity.this).logEvent("ClearedHistory", null);
-
-            HistoryActivity.this.finish();
-
+        historyRecyclerView.setAdapter(adapter);
+        clearAllButton.setOnClickListener(v -> {
+            presenter.onClearAll();
         });
-        if (historiesCursor.getCount() > 0) {
-            button.setVisibility(View.VISIBLE);
-        } else {
-            noHistoryTextView.setVisibility(View.VISIBLE);
-        }
-
-        ResultCursorAdapter resultCursorAdapter = new ResultCursorAdapter(this, historiesCursor, historyDbHelper);
-        historyListView.setAdapter(resultCursorAdapter);
-        historyListView.setOnItemClickListener(resultCursorAdapter);
-
         adView.loadAd(component.provideAdRequest());
         adView.setAdListener(new AdListener() {
 
@@ -94,7 +77,19 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
                 adView.setVisibility(View.VISIBLE);
             }
         });
+        presenter.onCreate();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.onLoad();
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override
@@ -105,4 +100,16 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void notifyAdapter() {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void startResultActivity(long id) {
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra(ScannerActivity.ID, id);
+        this.startActivity(intent);
+
+    }
 }

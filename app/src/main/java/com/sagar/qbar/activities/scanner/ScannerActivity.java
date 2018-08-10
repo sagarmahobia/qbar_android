@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,9 +30,8 @@ import com.sagar.qbar.R;
 import com.sagar.qbar.activities.about.AboutPageActivity;
 import com.sagar.qbar.activities.history.HistoryActivity;
 import com.sagar.qbar.activities.result.ResultActivity;
-import com.sagar.qbar.database.HistoryDbHelper;
-import com.sagar.qbar.database.models.ResultType;
-import com.sagar.qbar.database.models.ResultWrapper;
+import com.sagar.qbar.greendao.entities.StorableResult;
+import com.sagar.qbar.models.ResultType;
 import com.sagar.qbar.onclickutil.OpenUrlUtil;
 import com.sagar.qbar.onclickutil.ShareTextUtil;
 import com.sagar.qbar.utils.SoundGenerator;
@@ -55,13 +53,14 @@ public class ScannerActivity extends AppCompatActivity
     Toolbar toolbar;
 
     @BindView(R.id.ad_view_scanner_screen)
-    AdView mAdView;
+    AdView adView;
 
     @BindView(R.id.camera_container)
     FrameLayout cameraContainer;
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     public static final String FROM_SCANNER = "FROM_SCANNER";
+    public static final String ID = "id";//todo
 
     private ZXingScannerView mScannerView;
 
@@ -88,8 +87,10 @@ public class ScannerActivity extends AppCompatActivity
         DaggerScannerActivityComponent.builder()
                 .applicationComponent(component)
                 .scannerActivityModule(new ScannerActivityModule(this))
-                .build().inject(this);
+                .build()
+                .inject(this);
 
+        presenter.onCreate();
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED) {
@@ -98,23 +99,21 @@ public class ScannerActivity extends AppCompatActivity
                     MY_CAMERA_REQUEST_CODE);
         }
 
-        mAdView.setAdListener(new AdListener() {
+        adView.setAdListener(new AdListener() {
 
             @Override
             public void onAdLoaded() {
-                mAdView.setVisibility(View.VISIBLE);
+                adView.setVisibility(View.VISIBLE);
                 super.onAdLoaded();
             }
         });
 
-        mAdView.loadAd(component.provideAdRequest());
-
+        adView.loadAd(component.provideAdRequest());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("myTag", "OnResumeCalled");
         mScannerView = new MyScannerView(this);
 
         cameraContainer.addView(mScannerView);
@@ -139,6 +138,12 @@ public class ScannerActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -159,37 +164,26 @@ public class ScannerActivity extends AppCompatActivity
     @SuppressLint("RestrictedApi")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_flash) {
             boolean flash = mScannerView.getFlash();
             ActionMenuItemView menuItem = findViewById(R.id.action_flash);
 
             if (flash) {
                 mScannerView.setFlash(false);
-
-
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_on_black_24dp));
                 }
-
-
             } else {
                 mScannerView.setFlash(true);
-
-
                 if (menuItem != null) {
                     menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flash_off_black_24dp));
                 }
             }
-
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -205,23 +199,18 @@ public class ScannerActivity extends AppCompatActivity
 
             ShareTextUtil.share(this, shareBody);
 
-
         } else if (id == R.id.about) {
-
 
             Intent intent = new Intent(this, AboutPageActivity.class);
             this.startActivity(intent);
-
 
         } else if (id == R.id.ourApps) {
 
             OpenUrlUtil.openUrl("market://search?q=pub:Sagar+Mahobia", this);
 
-
         } else if (id == R.id.history) {
             Intent intent = new Intent(this, HistoryActivity.class);
             this.startActivity(intent);
-
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -236,30 +225,23 @@ public class ScannerActivity extends AppCompatActivity
 
         SoundGenerator.playBeep();
 
+        StorableResult result = new StorableResult();
+
+        result.setResultType(ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText()).getId());
+        result.setText(rawResult.getText());
+        result.setTimestamp(System.currentTimeMillis());//todo change
+
+        presenter.onHandleResult(result);
+
         Toast.makeText(this, "Scanned Successfully", Toast.LENGTH_SHORT).show();
-
-        ResultWrapper resultWrapper = new ResultWrapper(
-
-                ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText()),
-                rawResult.getText(),
-                rawResult.getTimestamp());
-
-        Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra(ResultWrapper.RESULT_TAG, resultWrapper);
-        intent.putExtra(FROM_SCANNER, true);
-        HistoryDbHelper historyDbHelper = new HistoryDbHelper(this);
-        historyDbHelper.storeResult(resultWrapper);
-        this.startActivity(intent);
-
-        Bundle bundle = new Bundle();
-        bundle.putString("CodeFormate", rawResult.getBarcodeFormat().toString());//todo modify
-
 
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
 
         switch (requestCode) {
             case MY_CAMERA_REQUEST_CODE:
@@ -271,5 +253,15 @@ public class ScannerActivity extends AppCompatActivity
                     this.finish();
                 }
         }
+    }
+
+    @Override
+    public void startResultActivity(long id) {
+
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra(FROM_SCANNER, true);
+        intent.putExtra(ID, id);
+        this.startActivity(intent);
+
     }
 }
