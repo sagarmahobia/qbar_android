@@ -29,8 +29,12 @@ public class ResultService {
 
     public Single<Long> saveResultSingle(StorableResult result) {
         Single<Long> saveSingle = Single.create(emitter -> {
-            long id = storableResultDao.insert(result);
-            emitter.onSuccess(id);
+            try {
+                long id = storableResultDao.insert(result);
+                emitter.onSuccess(id);
+            } catch (Exception error) {
+                emitter.onError(error);
+            }
         });
         return saveSingle.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -38,7 +42,12 @@ public class ResultService {
 
     public Single<List<StorableResult>> loadAllResultsSingle() {
         Single<List<StorableResult>> single = Single.create(emitter -> {
-            emitter.onSuccess(storableResultDao.loadAll());
+            try {
+                List<StorableResult> storableResults = storableResultDao.loadAll();
+                emitter.onSuccess(storableResults);
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
         });
         return single
                 .subscribeOn(Schedulers.io())
@@ -47,7 +56,16 @@ public class ResultService {
 
     public Single<StorableResult> loadResultSingle(long id) {
         Single<StorableResult> resultSingle = Single.create(emitter -> {
-            emitter.onSuccess(storableResultDao.load(id));
+            try {
+                StorableResult load = storableResultDao.load(id);
+                if (load != null) {
+                    emitter.onSuccess(load);
+                } else {
+                    emitter.onError(new RuntimeException("Result not available"));
+                }
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
         });
         return resultSingle
                 .subscribeOn(Schedulers.io())
@@ -57,16 +75,24 @@ public class ResultService {
 
     public Completable deleteResultCompletable(long id) {
         return Completable.create(emitter -> {
-            storableResultDao.deleteByKey(id);
-            emitter.onComplete();
+            try {
+                storableResultDao.deleteByKey(id);
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
         }).subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread());
     }
 
     public Completable deleteAllResultCompletable() {
         return Completable.create(emitter -> {
-            storableResultDao.deleteAll();
-            emitter.onComplete();
+            try {
+                storableResultDao.deleteAll();
+                emitter.onComplete();
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
         }).subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread());
     }

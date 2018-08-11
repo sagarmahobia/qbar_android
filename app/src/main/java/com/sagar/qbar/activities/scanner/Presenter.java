@@ -34,7 +34,11 @@ class Presenter implements ScannerActivityContract.Presenter {
     public void onHandleResult(StorableResult result) {
         disposable.add(resultService.
                 saveResultSingle(result).
-                subscribe((id) -> view.startResultActivity(id)));
+                subscribe((id) -> view.startResultActivity(id),
+                        error -> {
+                            //todo log
+                            view.onError();
+                        }));
     }
 
     @Override

@@ -12,7 +12,12 @@ public interface ResultActivityContract {
 
     interface View {
 
+        void showToast(String msg);
+
         void populateView(DisplayableResult displayableResult);
+
+        void onError();
+
     }
 
     interface Presenter {

@@ -2,6 +2,7 @@ package com.sagar.qbar.activities.history;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.Group;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
@@ -44,6 +46,9 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
     @BindView(R.id.no_history_text_view)
     TextView noHistoryTextView;
 
+    @BindView(R.id.recycler_group)
+    Group recyclerGroup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +70,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
                 inject(this);
 
         historyRecyclerView.setAdapter(adapter);
-        clearAllButton.setOnClickListener(v -> {
-            presenter.onClearAll();
-        });
+         clearAllButton.setOnClickListener(v -> presenter.onClearAll());
         adView.loadAd(component.provideAdRequest());
         adView.setAdListener(new AdListener() {
 
@@ -103,6 +106,24 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
     @Override
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showList() {
+        recyclerGroup.setVisibility(View.VISIBLE);
+        noHistoryTextView.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void showNoHistory() {
+        noHistoryTextView.setVisibility(View.VISIBLE);
+        recyclerGroup.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

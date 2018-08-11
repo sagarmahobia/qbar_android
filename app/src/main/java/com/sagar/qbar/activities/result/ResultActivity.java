@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
@@ -26,8 +26,6 @@ import com.sagar.qbar.models.ResultType;
 import com.sagar.qbar.onclickutil.OpenUrlUtil;
 import com.sagar.qbar.onclickutil.SearchUtil;
 import com.sagar.qbar.onclickutil.ShareTextUtil;
-import com.sagar.qbar.utils.TimeAndDateUtil;
-import com.sagar.qbar.utils.UrlUtil;
 
 import javax.inject.Inject;
 
@@ -38,9 +36,6 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
     @Inject
     ResultActivityContract.Presenter presenter;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
 
     @BindView(R.id.ad_view_result_screen)
     AdView adView;
@@ -67,8 +62,6 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -94,10 +87,20 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
         Intent intent = getIntent();
         fromScannerActivity = intent.getBooleanExtra(ScannerActivity.FROM_SCANNER, false);
-        id = intent.getLongExtra(ScannerActivity.ID, 0);
+        id = intent.getLongExtra(ScannerActivity.ID, -1);
+        if (id == -1) {
+            showToast("Result isn't available");
+            this.finish();
+            return;
+        }
 
         presenter.onCreate();
 
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -138,8 +141,8 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
     @Override
     public void populateView(DisplayableResult result) {
-
-        timestampTextView.setText(TimeAndDateUtil.getTimeFromTimestamp(result.getTimestamp(), this));//todo change
+        resultContainerLayout.removeAllViews();
+        timestampTextView.setText(result.getTime());
 
         View.OnClickListener shareButtonListener = v -> ShareTextUtil.share(ResultActivity.this, result.getText());
 
@@ -157,9 +160,7 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
             linkResultText.setText(result.getText());
 
-            View.OnClickListener openLinkListener = v -> {
-                OpenUrlUtil.openUrl(UrlUtil.checkAndGetUrlWithProtocol(result.getText()), ResultActivity.this);
-            };
+            View.OnClickListener openLinkListener = v -> OpenUrlUtil.openUrl(result.getText(), ResultActivity.this);
 
             linkResultText.setOnClickListener(openLinkListener);
 
@@ -208,5 +209,11 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
             resultContainerLayout.addView(productResultLayout);
         }
+    }
+
+    @Override
+    public void onError() {
+        this.finish();
+        showToast("Result doesn't exist");
     }
 }

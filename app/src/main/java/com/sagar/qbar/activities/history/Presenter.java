@@ -45,7 +45,14 @@ public class Presenter implements HistoryActivityContract.Presenter {
                 loadAllResultsSingle().
                 subscribe(storableResults -> {
                     this.storableResults = storableResults;
+                    if (storableResults.size() < 1) {
+                        view.showNoHistory();
+                        return;
+                    }
+                    view.showList();
                     view.notifyAdapter();
+                }, error -> {
+                    //todo
                 }));
     }
 
@@ -78,8 +85,15 @@ public class Presenter implements HistoryActivityContract.Presenter {
                                 get(position).
                                 getId()).subscribe(() -> {
                     storableResults.remove(position);
-                    //todo show msg
+                    if (storableResults.size() < 1) {
+                        view.showNoHistory();
+                        return;
+                    }
+                    view.showList();
                     view.notifyAdapter();
+                }, error -> {
+                    view.showToast("Something isn't right");
+                    //todo
                 })
         );
     }
@@ -89,7 +103,12 @@ public class Presenter implements HistoryActivityContract.Presenter {
         disposable.add(resultService
                 .deleteAllResultCompletable()
                 .subscribe(() -> {
-                    //todo show msg
+                    storableResults.clear();
+                    view.notifyAdapter();
+                    view.showNoHistory();
+                }, error -> {
+                    view.showToast("Something isn't right");
+                    //todo
                 }));
     }
 }

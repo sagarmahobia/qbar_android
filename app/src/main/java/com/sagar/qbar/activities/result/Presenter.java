@@ -4,6 +4,8 @@ package com.sagar.qbar.activities.result;
 import com.sagar.qbar.greendao.ResultService;
 import com.sagar.qbar.models.DisplayableResult;
 import com.sagar.qbar.models.ResultType;
+import com.sagar.qbar.utils.TimeAndDateUtil;
+import com.sagar.qbar.utils.UrlUtil;
 
 import javax.inject.Inject;
 
@@ -40,14 +42,20 @@ public class Presenter implements ResultActivityContract.Presenter {
         disposable.add(resultService.
                 loadResultSingle(id).
                 subscribe(storableResult -> {
-                    String text = storableResult.getText();
-                    ResultType resultType = ResultType.getResultTypeFromId(storableResult.getResultType());
-                    long timestamp = storableResult.getTimestamp();
-                    DisplayableResult displayableResult = new DisplayableResult(resultType, text, timestamp);
 
+                    ResultType resultType = ResultType.getResultTypeFromId(storableResult.getResultType());
+                    String text;
+                    if (resultType == ResultType.LINK) {
+                        text = UrlUtil.checkAndGetUrlWithProtocol(storableResult.getText());
+                    } else {
+                        text = storableResult.getText();
+                    }
+                    String time = TimeAndDateUtil.getTimeFromTimestamp(storableResult.getTimestamp());
+
+                    DisplayableResult displayableResult = new DisplayableResult(resultType, text, time);
                     view.populateView(displayableResult);
 
-                }));
+                }, error -> view.onError()));
     }
 
     @Override

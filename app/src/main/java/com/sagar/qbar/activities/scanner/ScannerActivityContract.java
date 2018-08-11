@@ -8,6 +8,10 @@ import com.sagar.qbar.greendao.entities.StorableResult;
 public interface ScannerActivityContract {
     interface View {
         void startResultActivity(long id);
+
+        void onError();
+
+        void showToast(String msg);
     }
 
     interface Presenter {

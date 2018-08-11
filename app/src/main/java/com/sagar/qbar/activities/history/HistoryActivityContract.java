@@ -10,9 +10,15 @@ public interface HistoryActivityContract {
 
     interface View {
 
+        void showToast(String msg);
+
         void startResultActivity(long id);
 
         void notifyAdapter();
+
+        void showList();
+
+        void showNoHistory();
     }
 
     interface Presenter {

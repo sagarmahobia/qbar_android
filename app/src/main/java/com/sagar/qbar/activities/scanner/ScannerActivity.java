@@ -37,6 +37,8 @@ import com.sagar.qbar.onclickutil.ShareTextUtil;
 import com.sagar.qbar.utils.SoundGenerator;
 import com.sagar.qbar.views.MyScannerView;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -60,7 +62,7 @@ public class ScannerActivity extends AppCompatActivity
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     public static final String FROM_SCANNER = "FROM_SCANNER";
-    public static final String ID = "id";//todo
+    public static final String ID = "id";
 
     private ZXingScannerView mScannerView;
 
@@ -221,24 +223,6 @@ public class ScannerActivity extends AppCompatActivity
     }
 
     @Override
-    public void handleResult(Result rawResult) {
-
-        SoundGenerator.playBeep();
-
-        StorableResult result = new StorableResult();
-
-        result.setResultType(ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText()).getId());
-        result.setText(rawResult.getText());
-        result.setTimestamp(System.currentTimeMillis());//todo change
-
-        presenter.onHandleResult(result);
-
-        Toast.makeText(this, "Scanned Successfully", Toast.LENGTH_SHORT).show();
-
-    }
-
-
-    @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
@@ -256,12 +240,39 @@ public class ScannerActivity extends AppCompatActivity
     }
 
     @Override
+    public void handleResult(Result rawResult) {
+
+        SoundGenerator.playBeep();
+
+        StorableResult result = new StorableResult();
+
+        result.setResultType(ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText()).getId());
+        result.setText(rawResult.getText());
+        result.setTimestamp(new Date().getTime());
+
+        presenter.onHandleResult(result);
+
+    }
+
+
+    @Override
     public void startResultActivity(long id) {
+
+        showToast("Scanned Successfully");
 
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(FROM_SCANNER, true);
         intent.putExtra(ID, id);
         this.startActivity(intent);
+    }
 
+    @Override
+    public void onError() {
+        showToast("Something isn't right. Try again.");
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }

@@ -9,13 +9,13 @@ public class DisplayableResult {
 
     private ResultType resultType;
     private String text;
-    private long timestamp;
+    private String time;
 
 
-    public DisplayableResult(ResultType resultType, String text, long timestamp) {
+    public DisplayableResult(ResultType resultType, String text, String time) {
         this.resultType = resultType;
         this.text = text;
-        this.timestamp = timestamp;
+        this.time = time;
     }
 
     public String getText() {
@@ -23,8 +23,8 @@ public class DisplayableResult {
 
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public String getTime() {
+        return time;
     }
 
     public ResultType getResultType() {
