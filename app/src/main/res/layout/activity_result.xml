@@ -79,7 +79,7 @@
         android:foregroundGravity="bottom"
         android:visibility="gone"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/smart_banner_ad_unit_id_result_bottom"
+        ads:adUnitId="@string/ad_unit_id_result_bottom"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent" />

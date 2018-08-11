@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.zxing.Result;
 import com.sagar.qbar.ApplicationComponent;
 import com.sagar.qbar.QbarApplication;
@@ -60,9 +61,13 @@ public class ScannerActivity extends AppCompatActivity
     @BindView(R.id.camera_container)
     FrameLayout cameraContainer;
 
+    private InterstitialAd interstitialAd;
+    private ApplicationComponent component;
+
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     public static final String FROM_SCANNER = "FROM_SCANNER";
     public static final String ID = "id";
+
 
     private ZXingScannerView mScannerView;
 
@@ -85,7 +90,7 @@ public class ScannerActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ApplicationComponent component = QbarApplication.get(this).getComponent();
+        component = QbarApplication.get(this).getComponent();
         DaggerScannerActivityComponent.builder()
                 .applicationComponent(component)
                 .scannerActivityModule(new ScannerActivityModule(this))
@@ -111,6 +116,9 @@ public class ScannerActivity extends AppCompatActivity
         });
 
         adView.loadAd(component.provideAdRequest());
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(getString(R.string.ad_unit_id_scanner_full_screen));
+        interstitialAd.loadAd(component.provideAdRequest());
     }
 
     @Override
@@ -263,7 +271,21 @@ public class ScannerActivity extends AppCompatActivity
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(FROM_SCANNER, true);
         intent.putExtra(ID, id);
-        this.startActivity(intent);
+
+
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                interstitialAd.loadAd(component.provideAdRequest());
+                ScannerActivity.this.startActivity(intent);
+            }
+        });
+        if (interstitialAd.isLoaded()) {
+            interstitialAd.show();
+        } else {
+            this.startActivity(intent);
+        }
     }
 
     @Override
