@@ -4,6 +4,7 @@ import com.sagar.qbar.ApplicationScope;
 import com.sagar.qbar.greendao.entities.StorableResult;
 import com.sagar.qbar.greendao.entities.StorableResultDao;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,6 +45,7 @@ public class ResultService {
         Single<List<StorableResult>> single = Single.create(emitter -> {
             try {
                 List<StorableResult> storableResults = storableResultDao.loadAll();
+                Collections.sort(storableResults, (o1, o2) -> Long.compare(o2.getId(), o1.getId()));
                 emitter.onSuccess(storableResults);
             } catch (Exception e) {
                 emitter.onError(e);
