@@ -1,6 +1,8 @@
 package com.sagar.qbar.activities.history;
 
 
+import com.crashlytics.android.Crashlytics;
+import com.sagar.qbar.R;
 import com.sagar.qbar.activities.history.adapter.HistoryCard;
 import com.sagar.qbar.greendao.ResultService;
 import com.sagar.qbar.greendao.entities.StorableResult;
@@ -52,7 +54,8 @@ public class Presenter implements HistoryActivityContract.Presenter {
                     view.showList();
                     view.notifyAdapter();
                 }, error -> {
-                    //todo
+                    view.showNoHistory();
+                    Crashlytics.logException(error);
                 }));
     }
 
@@ -64,8 +67,20 @@ public class Presenter implements HistoryActivityContract.Presenter {
     @Override
     public void onBindHistory(HistoryCard card, int position) {
         StorableResult storableResult = storableResults.get(position);
+        int drawable;
+        switch (ResultType.getResultTypeFromId(storableResult.getResultType())) {
+            case PRODUCT:
+                drawable = R.drawable.ic_barcode_black_24dp;
+                break;
+            case LINK:
+                drawable = R.drawable.ic_link_black_24dp;
+                break;
+            default:
+                drawable = R.drawable.ic_text_black;
+                break;
+        }
         card.setText(storableResult.getText());
-        card.setIcon(ResultType.getResultTypeFromId(storableResult.getResultType()));
+        card.setIcon(drawable);
     }
 
     @Override
@@ -93,7 +108,7 @@ public class Presenter implements HistoryActivityContract.Presenter {
                     view.notifyAdapter();
                 }, error -> {
                     view.showToast("Something isn't right");
-                    //todo
+                    Crashlytics.logException(error);
                 })
         );
     }
@@ -108,7 +123,7 @@ public class Presenter implements HistoryActivityContract.Presenter {
                     view.showNoHistory();
                 }, error -> {
                     view.showToast("Something isn't right");
-                    //todo
+                    Crashlytics.logException(error);
                 }));
     }
 }

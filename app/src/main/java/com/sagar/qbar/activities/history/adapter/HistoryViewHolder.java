@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sagar.qbar.R;
-import com.sagar.qbar.models.ResultType;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,21 +36,9 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements Histor
     }
 
     @Override
-    public void setIcon(ResultType resultType) {
+    public void setIcon(int drawableId) {
         Context context = codeTypeIcon.getContext();
-        Drawable drawable;
-
-        switch (resultType) {
-            case PRODUCT:
-                drawable = getDrawable(context, R.drawable.ic_barcode_black_24dp);
-                break;
-            case LINK:
-                drawable = getDrawable(context, R.drawable.ic_link_black_24dp);
-                break;
-            default:
-                drawable = getDrawable(context, R.drawable.ic_text_black);
-                break;
-        }
+        Drawable drawable = getDrawable(context, drawableId);
         codeTypeIcon.setImageDrawable(drawable);
     }
 

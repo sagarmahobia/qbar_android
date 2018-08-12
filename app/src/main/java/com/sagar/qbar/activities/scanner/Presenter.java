@@ -1,5 +1,6 @@
 package com.sagar.qbar.activities.scanner;
 
+import com.crashlytics.android.Crashlytics;
 import com.sagar.qbar.greendao.ResultService;
 import com.sagar.qbar.greendao.entities.StorableResult;
 
@@ -36,7 +37,7 @@ class Presenter implements ScannerActivityContract.Presenter {
                 saveResultSingle(result).
                 subscribe((id) -> view.startResultActivity(id),
                         error -> {
-                            //todo log
+                            Crashlytics.logException(error);
                             view.onError();
                         }));
     }

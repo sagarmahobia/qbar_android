@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
 import com.sagar.qbar.ApplicationComponent;
+import com.sagar.qbar.FirebaseService;
 import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
 import com.sagar.qbar.activities.history.HistoryActivity;
@@ -36,6 +37,9 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
     @Inject
     ResultActivityContract.Presenter presenter;
+
+    @Inject
+    FirebaseService firebaseService;
 
     @BindView(R.id.ad_view_result_screen)
     AdView adView;
@@ -146,8 +150,10 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
         View.OnClickListener shareButtonListener = v -> ShareTextUtil.share(ResultActivity.this, result.getText());
 
-        View.OnClickListener searchButtonListener = v -> SearchUtil.searchText(ResultActivity.this, result.getText());
-
+        View.OnClickListener searchButtonListener = v -> {
+            SearchUtil.searchText(ResultActivity.this, result.getText());
+            firebaseService.linkOrTextSearched();
+        };
 
         if (result.getResultType() == ResultType.LINK) {
 
@@ -160,8 +166,10 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
             linkResultText.setText(result.getText());
 
-            View.OnClickListener openLinkListener = v -> OpenUrlUtil.openUrl(result.getText(), ResultActivity.this);
-
+            View.OnClickListener openLinkListener = v -> {
+                OpenUrlUtil.openUrl(result.getText(), ResultActivity.this);
+                firebaseService.linkOpen();
+            };
             linkResultText.setOnClickListener(openLinkListener);
 
             linkResultLayout.findViewById(R.id.open_link_button).setOnClickListener(openLinkListener);

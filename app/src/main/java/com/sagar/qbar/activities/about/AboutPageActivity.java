@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sagar.qbar.ApplicationComponent;
 import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
 import com.sagar.qbar.tasks.ImageDecoderService;
@@ -47,11 +46,12 @@ public class AboutPageActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        ApplicationComponent component = QbarApplication.get(this).
-                getComponent();
 
-        ImageDecoderService imageDecoderService = component.
-                provideImageDecoderService();
+        ImageDecoderService imageDecoderService =
+                QbarApplication.
+                        get(this).
+                        getComponent().
+                        provideImageDecoderService();
 
         disposable = imageDecoderService.
                 getBitmapSingle(getResources().openRawResource(R.raw.logo)).

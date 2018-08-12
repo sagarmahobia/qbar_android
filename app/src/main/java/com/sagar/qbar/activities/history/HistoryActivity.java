@@ -70,7 +70,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
                 inject(this);
 
         historyRecyclerView.setAdapter(adapter);
-         clearAllButton.setOnClickListener(v -> presenter.onClearAll());
+        clearAllButton.setOnClickListener(v -> presenter.onClearAll());
         adView.loadAd(component.provideAdRequest());
         adView.setAdListener(new AdListener() {
 

@@ -26,6 +26,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.zxing.Result;
 import com.sagar.qbar.ApplicationComponent;
+import com.sagar.qbar.FirebaseService;
 import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
 import com.sagar.qbar.activities.about.AboutPageActivity;
@@ -33,7 +34,6 @@ import com.sagar.qbar.activities.history.HistoryActivity;
 import com.sagar.qbar.activities.result.ResultActivity;
 import com.sagar.qbar.greendao.entities.StorableResult;
 import com.sagar.qbar.models.ResultType;
-import com.sagar.qbar.onclickutil.OpenUrlUtil;
 import com.sagar.qbar.onclickutil.ShareTextUtil;
 import com.sagar.qbar.utils.SoundGenerator;
 import com.sagar.qbar.views.MyScannerView;
@@ -51,6 +51,9 @@ public class ScannerActivity extends AppCompatActivity
 
     @Inject
     ScannerActivityContract.Presenter presenter;
+
+    @Inject
+    FirebaseService firebaseService;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -201,8 +204,12 @@ public class ScannerActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (id == R.id.history) {
 
-        if (id == R.id.nav_share) {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            this.startActivity(intent);
+
+        } else if (id == R.id.nav_share) {
 
             String shareBody = "I'm using QBar - Qr and Barcode Scanner app, the fastest QR and Barcode reader. Try it NOW! " +
                     "https://play.google.com/store/apps/details?id=com.sagar.qbar";
@@ -214,13 +221,6 @@ public class ScannerActivity extends AppCompatActivity
             Intent intent = new Intent(this, AboutPageActivity.class);
             this.startActivity(intent);
 
-        } else if (id == R.id.ourApps) {
-
-            OpenUrlUtil.openUrl("market://search?q=pub:Sagar+Mahobia", this);
-
-        } else if (id == R.id.history) {
-            Intent intent = new Intent(this, HistoryActivity.class);
-            this.startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -250,16 +250,15 @@ public class ScannerActivity extends AppCompatActivity
     @Override
     public void handleResult(Result rawResult) {
 
-        SoundGenerator.playBeep();
-
         StorableResult result = new StorableResult();
 
-        result.setResultType(ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText()).getId());
+        ResultType resultType = ResultType.getResultType(rawResult.getBarcodeFormat(), rawResult.getText());
+        result.setResultType(resultType.getId());
         result.setText(rawResult.getText());
         result.setTimestamp(new Date().getTime());
 
         presenter.onHandleResult(result);
-
+        firebaseService.scannedImage(resultType);
     }
 
 
@@ -267,6 +266,7 @@ public class ScannerActivity extends AppCompatActivity
     public void startResultActivity(long id) {
 
         showToast("Scanned Successfully");
+        SoundGenerator.playBeep();
 
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(FROM_SCANNER, true);

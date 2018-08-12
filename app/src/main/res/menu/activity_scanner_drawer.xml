@@ -10,10 +10,6 @@
             android:title="History" />
 
         <item
-            android:id="@+id/ourApps"
-            android:icon="@drawable/ic_favorite_black_24dp"
-            android:title="Our Apps" />
-        <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_share_black_24dp"
             android:title="Share" />

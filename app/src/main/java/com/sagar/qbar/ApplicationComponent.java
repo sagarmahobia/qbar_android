@@ -1,7 +1,6 @@
 package com.sagar.qbar;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sagar.qbar.greendao.ResultService;
 import com.sagar.qbar.tasks.ImageDecoderService;
 
@@ -21,7 +20,7 @@ public interface ApplicationComponent {
 
     AdRequest provideAdRequest();
 
-    FirebaseAnalytics provideFirebaseAnalytics();
+    FirebaseService provideFirebaseService();
 
     ResultService provideResultService();
 }

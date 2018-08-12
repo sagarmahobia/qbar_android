@@ -2,6 +2,8 @@ package com.sagar.qbar.utils;
 
 import android.annotation.SuppressLint;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,7 +16,6 @@ public class TimeAndDateUtil {
     @SuppressWarnings("deprecation")
     public static String getTimeFromTimestamp(long timestamp) {
 
-
         try {
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, YYYY hh:mm a");
@@ -22,7 +23,7 @@ public class TimeAndDateUtil {
             return sdf.format(date);
 
         } catch (IllegalArgumentException e) {
-            //todo Crashlytics
+            Crashlytics.logException(e);
             return "";
         }
 
