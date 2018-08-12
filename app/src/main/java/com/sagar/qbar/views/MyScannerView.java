@@ -1,4 +1,4 @@
-package com.sagar.qbar;
+package com.sagar.qbar.views;
 
 import android.content.Context;
 import android.view.ViewGroup;
@@ -15,7 +15,6 @@ public class MyScannerView extends ZXingScannerView {
         super(context);
         super.setLayoutParams(
                 new FrameLayout.LayoutParams(
-
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT)
         );

@@ -1,135 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:showIn="@layout/activity_about_page">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="25dp" />
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/about_logo_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/qbar_logo" />
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/qbar_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/qbar_name_short"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/app_name_short"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/about_logo_image" />
 
         <TextView
+            android:id="@+id/qbar_slogen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/app_name_part"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qbar_name_short" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/credits"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="@string/credits" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="15dp" />
+            android:text="@string/credits"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qbar_slogen" />
 
         <TextView
+            android:id="@+id/dm_77_title"
             style="@style/ProjectNameText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/barcode_scanner_library" />
+            android:layout_marginTop="8dp"
+            android:text="@string/barcode_scanner_library"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/credits" />
 
         <TextView
-            android:id="@+id/projectLinkDm77"
+            android:id="@+id/project_link_dm_77"
             style="@style/LinkText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            style="@style/LicenceText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/apache_license_version_2_0" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dm_77_title" />
 
         <TextView
+            android:id="@+id/dm_77_license"
+            style="@style/LicenceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/apache_license_version_2_0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/project_link_dm_77" />
+
+
+        <TextView
+            android:id="@+id/zxing_title"
             style="@style/ProjectNameText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/the_zxing_project" />
+            android:layout_marginTop="16dp"
+            android:text="@string/the_zxing_project"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dm_77_license" />
 
         <TextView
-            android:id="@+id/projectLinkZxing"
+            android:id="@+id/project_link_zxing"
             style="@style/LinkText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-
-            style="@style/LicenceText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/apache_license_version_2_0" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zxing_title" />
 
         <TextView
+            android:id="@+id/zxing_license"
+            style="@style/LicenceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/apache_license_version_2_0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/project_link_zxing" />
+
+
+        <TextView
+            android:id="@+id/zbar_title"
             style="@style/ProjectNameText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/the_zbar_android_sdk" />
+            android:layout_marginTop="16dp"
+            android:text="@string/the_zbar_android_sdk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zxing_license" />
 
         <TextView
-            android:id="@+id/projectLinkZbar"
+            android:id="@+id/project_link_zbar"
             style="@style/LinkText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zbar_title" />
 
         <TextView
-
+            android:id="@+id/zbar_license"
             style="@style/LicenceText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/gnu_lesser_general_public_license" />
+            android:text="@string/gnu_lesser_general_public_license"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/project_link_zbar" />
 
         <TextView
-
+            android:id="@+id/zbar_license_date"
             style="@style/LicenceText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/version_2_1_february_1999" />
+            android:layout_marginBottom="32dp"
+            android:text="@string/version_2_1_february_1999"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zbar_license" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="25dp" />
-
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

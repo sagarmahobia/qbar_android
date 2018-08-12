@@ -1,6 +1,7 @@
-package com.sagar.qbar.utils;
+package com.sagar.qbar.models;
 
 import com.google.zxing.BarcodeFormat;
+import com.sagar.qbar.utils.UrlUtil;
 
 public enum ResultType {
 
