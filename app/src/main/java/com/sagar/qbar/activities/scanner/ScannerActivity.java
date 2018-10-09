@@ -73,6 +73,7 @@ public class ScannerActivity extends AppCompatActivity
 
 
     private ZXingScannerView mScannerView;
+    private boolean showAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,8 @@ public class ScannerActivity extends AppCompatActivity
                 .scannerActivityModule(new ScannerActivityModule(this))
                 .build()
                 .inject(this);
+
+        showAd = false;
 
         presenter.onCreate();
 
@@ -281,10 +284,12 @@ public class ScannerActivity extends AppCompatActivity
                 ScannerActivity.this.startActivity(intent);
             }
         });
-        if (interstitialAd.isLoaded()) {
+        if (interstitialAd.isLoaded() && showAd) {
             interstitialAd.show();
+            showAd = false;
         } else {
             this.startActivity(intent);
+            showAd = true;
         }
     }
 
