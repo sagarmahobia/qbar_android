@@ -11,7 +11,8 @@
     <string name="ad_unit_id_scanner_bottom">ca-app-pub-5244380836127327/8098294172</string>
     <string name="ad_unit_id_history_bottom">ca-app-pub-5244380836127327/7449073824</string>
     <string name="ad_unit_id_scanner_full_screen">ca-app-pub-5244380836127327/4355233475</string>
-
+    <string name="ad_unit_id_search_or_open_link">ca-app-pub-5244380836127327/6315451247</string>
+    
     <string name="action_flash">Toggle Flash</string>
     <string name="action_history">Open History</string>
     <string name="app_name_short">QBar</string>
