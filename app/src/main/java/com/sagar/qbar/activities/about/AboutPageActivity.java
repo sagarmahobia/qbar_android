@@ -29,9 +29,6 @@ public class AboutPageActivity extends AppCompatActivity {
     @BindView(R.id.project_link_zxing)
     TextView zxingProjectLink;
 
-    @BindView(R.id.project_link_zbar)
-    TextView zBarProjectLink;
-
     private Disposable disposable;
 
     @Override
@@ -72,12 +69,6 @@ public class AboutPageActivity extends AppCompatActivity {
         if (zxingProjectLink != null) {
             zxingProjectLink.setText(MyHtml.fromHtml("<a href=\"https://github.com/zxing/zxing\">https://github.com/zxing/zxing</a>"));
             zxingProjectLink.setMovementMethod(LinkMovementMethod.getInstance());
-        }
-
-
-        if (zBarProjectLink != null) {
-            zBarProjectLink.setText(MyHtml.fromHtml("<a href=\"http://sourceforge.net/projects/zbar/files/AndroidSDK/\"> http://sourceforge.net/projects/zbar/files/AndroidSDK/</a>"));
-            zBarProjectLink.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
     }
