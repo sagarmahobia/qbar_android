@@ -17,6 +17,11 @@
         android:resizeableActivity="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/app_pub_id"/>
+
         <activity
             android:name=".activities.scanner.ScannerActivity"
             android:label="@string/app_name"
