@@ -3,7 +3,9 @@ package com.sagar.qbar.activities.scanner;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
@@ -24,9 +27,12 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
 import com.sagar.qbar.ApplicationComponent;
+import com.sagar.qbar.FirebaseLogTags;
 import com.sagar.qbar.FirebaseService;
+import com.sagar.qbar.GlobalConstants;
 import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
 import com.sagar.qbar.activities.about.AboutPageActivity;
@@ -54,6 +60,13 @@ public class ScannerActivity extends AppCompatActivity
 
     @Inject
     FirebaseService firebaseService;
+
+    @Inject
+    SharedPreferences sharedPreferences;
+
+    @Inject
+    FirebaseAnalytics firebaseAnalytics;
+
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -162,13 +175,62 @@ public class ScannerActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
 
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+
+            drawer.closeDrawer(GravityCompat.START);
+
+        } else {
+            long exitCount = sharedPreferences.getLong(GlobalConstants.EXIT_APP_COUNT, 1);
+            boolean openedEarlier = sharedPreferences.getBoolean(GlobalConstants.OPENED_RATE_APP, false);
+            if (exitCount % 5 == 3 && !openedEarlier) {
+                showRateUsDialog();
+            } else {
+                super.onBackPressed();
+                incrementExitCount();
+            }
         }
     }
+
+    private void openStore() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=com.sagar.qbar")
+        );
+        startActivity(browserIntent);
+    }
+
+
+    private void incrementExitCount() {
+        long exitCount = sharedPreferences.getLong(GlobalConstants.EXIT_APP_COUNT, 1);
+        sharedPreferences.edit().putLong(GlobalConstants.EXIT_APP_COUNT, exitCount + 1).apply();
+    }
+
+    private void showRateUsDialog() {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Enjoying Freectionary?")
+                .setMessage("Would you like to rate us?")
+                .setPositiveButton("Ok, Sure", (dialog, which) -> {
+                    dialog.dismiss();
+                    openStore();
+                    sharedPreferences.edit().putBoolean(GlobalConstants.OPENED_RATE_APP, true).apply();
+                    firebaseAnalytics.logEvent(FirebaseLogTags.RATE_REQUEST_ACCEPTED, null);
+
+                })
+                .setNegativeButton("No, Thanks", (dialog, which) -> {
+                    dialog.dismiss();
+                    super.onBackPressed();
+                    incrementExitCount();
+                    firebaseAnalytics.logEvent(FirebaseLogTags.RATE_REQUEST_REJECTED, null);
+
+                })
+                .setCancelable(false)
+                .create()
+                .show();
+        firebaseAnalytics.logEvent(FirebaseLogTags.ASKED_FOR_RATE, null);
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
