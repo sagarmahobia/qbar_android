@@ -1,6 +1,9 @@
 package com.sagar.qbar;
 
+import android.content.SharedPreferences;
+
 import com.google.android.gms.ads.AdRequest;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sagar.qbar.greendao.ResultService;
 import com.sagar.qbar.tasks.ImageDecoderService;
 
@@ -23,4 +26,9 @@ public interface ApplicationComponent {
     FirebaseService provideFirebaseService();
 
     ResultService provideResultService();
+
+    SharedPreferences provideSharedPreferences();
+
+    FirebaseAnalytics firebaseAnalytics();
+
 }

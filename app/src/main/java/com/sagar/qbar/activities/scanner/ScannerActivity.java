@@ -183,7 +183,7 @@ public class ScannerActivity extends AppCompatActivity
         } else {
             long exitCount = sharedPreferences.getLong(GlobalConstants.EXIT_APP_COUNT, 1);
             boolean openedEarlier = sharedPreferences.getBoolean(GlobalConstants.OPENED_RATE_APP, false);
-            if (exitCount % 5 == 3 && !openedEarlier) {
+            if (exitCount % 3 == 0 && !openedEarlier) {
                 showRateUsDialog();
             } else {
                 super.onBackPressed();
@@ -208,7 +208,7 @@ public class ScannerActivity extends AppCompatActivity
     private void showRateUsDialog() {
 
         new AlertDialog.Builder(this)
-                .setTitle("Enjoying Freectionary?")
+                .setTitle("Enjoying this code scanner?")
                 .setMessage("Would you like to rate us?")
                 .setPositiveButton("Ok, Sure", (dialog, which) -> {
                     dialog.dismiss();
