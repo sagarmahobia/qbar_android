@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.sagar.qbar.ApplicationComponent;
 import com.sagar.qbar.FirebaseService;
 import com.sagar.qbar.QbarApplication;
@@ -55,6 +56,8 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
     @BindView(R.id.code_scan_timestamp)
     TextView timestampTextView;
+
+    private InterstitialAd interstitialAd;
 
     private boolean fromScannerActivity;
     private long id;
@@ -97,6 +100,9 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
             this.finish();
             return;
         }
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(getString(R.string.ad_unit_id_search_or_open_link));
+        interstitialAd.loadAd(component.provideAdRequest());
 
         presenter.onCreate();
 
@@ -151,8 +157,22 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
         View.OnClickListener shareButtonListener = v -> ShareTextUtil.share(ResultActivity.this, result.getText());
 
         View.OnClickListener searchButtonListener = v -> {
-            SearchUtil.searchText(ResultActivity.this, result.getText());
-            firebaseService.linkOrTextSearched();
+
+            interstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+                    SearchUtil.searchText(ResultActivity.this, result.getText());
+                    firebaseService.linkOrTextSearched();
+                }
+            });
+            if (interstitialAd.isLoaded()) {
+                interstitialAd.show();
+            } else {
+                SearchUtil.searchText(ResultActivity.this, result.getText());
+                firebaseService.linkOrTextSearched();
+            }
+
         };
 
         if (result.getResultType() == ResultType.LINK) {
@@ -167,8 +187,23 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
             linkResultText.setText(result.getText());
 
             View.OnClickListener openLinkListener = v -> {
-                OpenUrlUtil.openUrl(result.getText(), ResultActivity.this);
-                firebaseService.linkOpen();
+
+                interstitialAd.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdClosed() {
+                        super.onAdClosed();
+                        OpenUrlUtil.openUrl(result.getText(), ResultActivity.this);
+                        firebaseService.linkOpen();
+                    }
+                });
+                if (interstitialAd.isLoaded()) {
+                    interstitialAd.show();
+                } else {
+                    OpenUrlUtil.openUrl(result.getText(), ResultActivity.this);
+                    firebaseService.linkOpen();
+                }
+
+
             };
             linkResultText.setOnClickListener(openLinkListener);
 

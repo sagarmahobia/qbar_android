@@ -125,49 +125,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/project_link_zxing" />
 
-
-        <TextView
-            android:id="@+id/zbar_title"
-            style="@style/ProjectNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/the_zbar_android_sdk"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zxing_license" />
-
-        <TextView
-            android:id="@+id/project_link_zbar"
-            style="@style/LinkText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zbar_title" />
-
-        <TextView
-            android:id="@+id/zbar_license"
-            style="@style/LicenceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gnu_lesser_general_public_license"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/project_link_zbar" />
-
-        <TextView
-            android:id="@+id/zbar_license_date"
-            style="@style/LicenceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="@string/version_2_1_february_1999"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zbar_license" />
-
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

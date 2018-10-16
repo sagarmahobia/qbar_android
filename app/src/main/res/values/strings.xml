@@ -11,6 +11,7 @@
     <string name="ad_unit_id_scanner_bottom">ca-app-pub-5244380836127327/8098294172</string>
     <string name="ad_unit_id_history_bottom">ca-app-pub-5244380836127327/7449073824</string>
     <string name="ad_unit_id_scanner_full_screen">ca-app-pub-5244380836127327/4355233475</string>
+    <string name="ad_unit_id_search_or_open_link">ca-app-pub-5244380836127327/6315451247</string>
 
     <string name="action_flash">Toggle Flash</string>
     <string name="action_history">Open History</string>
@@ -24,9 +25,6 @@
     <string name="barcode_scanner_library">Barcode Scanner Library</string>
     <string name="apache_license_version_2_0">Apache License, Version 2.0</string>
     <string name="the_zxing_project">The ZXing project</string>
-    <string name="the_zbar_android_sdk">The ZBar Android SDK</string>
-    <string name="gnu_lesser_general_public_license">GNU LESSER GENERAL PUBLIC LICENSE</string>
-    <string name="version_2_1_february_1999">Version 2.1, February 1999</string>
     <string name="type">Type: </string>
     <string name="qr_and_barcode_scanner">Qr and Barcode scanner</string>
     <string name="title_activity_history">HistoryActivity</string>
