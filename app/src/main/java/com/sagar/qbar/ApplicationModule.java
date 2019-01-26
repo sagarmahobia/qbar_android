@@ -1,6 +1,8 @@
 package com.sagar.qbar;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,6 +25,13 @@ public class ApplicationModule {
     @ApplicationScope
     public Context getContext() {
         return context;
+    }
+
+
+    @ApplicationScope
+    @Provides
+    SharedPreferences getSharedPreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 }
 
