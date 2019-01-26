@@ -1,8 +1,9 @@
-package com.sagar.qbar;
+package com.sagar.qbar.daggermodule;
 
 import android.content.Context;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.sagar.qbar.ApplicationScope;
 
 import dagger.Module;
 import dagger.Provides;
@@ -12,7 +13,7 @@ import dagger.Provides;
  */
 
 @Module(includes = ApplicationModule.class)
-class FirebaseModule {
+public class FirebaseModule {
 
     @Provides
     @ApplicationScope

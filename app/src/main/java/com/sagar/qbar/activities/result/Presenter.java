@@ -19,17 +19,16 @@ import io.reactivex.disposables.CompositeDisposable;
 @ResultActivityScope
 public class Presenter implements ResultActivityContract.Presenter {
 
-    @Inject
-    ResultActivityContract.View view;
+    private ResultActivityContract.View view;
 
-    @Inject
-    ResultService resultService;
+    private ResultService resultService;
 
     private CompositeDisposable disposable;
 
     @Inject
-    public Presenter(ResultActivityComponent component) {
-        component.inject(this);
+    public Presenter(ResultActivityContract.View view, ResultService resultService) {
+        this.view = view;
+        this.resultService = resultService;
     }
 
     @Override

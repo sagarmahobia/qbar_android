@@ -1,4 +1,4 @@
-package com.sagar.qbar;
+package com.sagar.qbar.daggermodule;
 
 import com.google.android.gms.ads.AdRequest;
 

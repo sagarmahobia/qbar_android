@@ -30,17 +30,16 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
 import com.sagar.qbar.ApplicationComponent;
-import com.sagar.qbar.FirebaseLogTags;
-import com.sagar.qbar.FirebaseService;
-import com.sagar.qbar.GlobalConstants;
-import com.sagar.qbar.QbarApplication;
+import com.sagar.qbar.constants.FirebaseLogTags;
+import com.sagar.qbar.services.FirebaseService;
+import com.sagar.qbar.constants.GlobalConstants;
 import com.sagar.qbar.R;
 import com.sagar.qbar.activities.about.AboutPageActivity;
 import com.sagar.qbar.activities.history.HistoryActivity;
 import com.sagar.qbar.activities.result.ResultActivity;
 import com.sagar.qbar.greendao.entities.StorableResult;
 import com.sagar.qbar.models.ResultType;
-import com.sagar.qbar.onclickutil.ShareTextUtil;
+import com.sagar.qbar.utils.ShareTextUtil;
 import com.sagar.qbar.utils.SoundGenerator;
 import com.sagar.qbar.views.MyScannerView;
 
@@ -50,10 +49,14 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends AppCompatActivity
         implements ScannerActivityContract.View, NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
+
+    @Inject
+    ApplicationComponent component;
 
     @Inject
     ScannerActivityContract.Presenter presenter;
@@ -78,7 +81,6 @@ public class ScannerActivity extends AppCompatActivity
     FrameLayout cameraContainer;
 
     private InterstitialAd interstitialAd;
-    private ApplicationComponent component;
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     public static final String FROM_SCANNER = "FROM_SCANNER";
@@ -90,6 +92,7 @@ public class ScannerActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
@@ -106,13 +109,6 @@ public class ScannerActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        component = QbarApplication.get(this).getComponent();
-        DaggerScannerActivityComponent.builder()
-                .applicationComponent(component)
-                .scannerActivityModule(new ScannerActivityModule(this))
-                .build()
-                .inject(this);
 
         showAd = false;
 

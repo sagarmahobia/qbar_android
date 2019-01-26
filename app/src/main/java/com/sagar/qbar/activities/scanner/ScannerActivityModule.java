@@ -8,20 +8,7 @@ import dagger.Provides;
  */
 
 @Module
-class ScannerActivityModule {
-
-    private ScannerActivity scannerActivity;
-
-    ScannerActivityModule(ScannerActivity scannerActivity) {
-        this.scannerActivity = scannerActivity;
-    }
-
-    @ScannerActivityScope
-    @Provides
-    ScannerActivity getScannerActivity() {
-        return scannerActivity;
-    }
-
+public class ScannerActivityModule {
 
     @ScannerActivityScope
     @Provides

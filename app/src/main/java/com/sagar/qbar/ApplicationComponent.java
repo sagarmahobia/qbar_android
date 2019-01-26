@@ -1,13 +1,13 @@
 package com.sagar.qbar;
 
-import android.content.SharedPreferences;
+import android.app.Application;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.sagar.qbar.greendao.ResultService;
-import com.sagar.qbar.tasks.ImageDecoderService;
+import com.sagar.qbar.daggermodule.ApplicationModule;
 
+import dagger.BindsInstance;
 import dagger.Component;
+import dagger.android.AndroidInjectionModule;
 
 /**
  * Created by SAGAR MAHOBIA on 09-Aug-18. at 23:34
@@ -15,20 +15,21 @@ import dagger.Component;
 
 
 @ApplicationScope
-@Component(modules = {FirebaseModule.class, AdmobModule.class, GreenDaoModule.class})
+@Component(modules = {AndroidInjectionModule.class,
+        ActivityProvider.class,
+        ApplicationModule.class})
 public interface ApplicationComponent {
-    void inject(QbarApplication qbarApplication);
 
-    ImageDecoderService provideImageDecoderService();
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder application(Application application);
+
+        ApplicationComponent build();
+    }
+
+    void inject(QbarApplication application);
 
     AdRequest provideAdRequest();
-
-    FirebaseService provideFirebaseService();
-
-    ResultService provideResultService();
-
-    SharedPreferences provideSharedPreferences();
-
-    FirebaseAnalytics firebaseAnalytics();
 
 }

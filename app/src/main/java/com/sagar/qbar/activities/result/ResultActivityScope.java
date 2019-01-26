@@ -11,5 +11,5 @@ import javax.inject.Scope;
 
 @Scope
 @Retention(RetentionPolicy.CLASS)
-@interface ResultActivityScope {
+public @interface ResultActivityScope {
 }

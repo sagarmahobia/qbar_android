@@ -1,8 +1,9 @@
-package com.sagar.qbar;
+package com.sagar.qbar.services;
 
 import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.sagar.qbar.ApplicationScope;
 import com.sagar.qbar.models.ResultType;
 
 import javax.inject.Inject;

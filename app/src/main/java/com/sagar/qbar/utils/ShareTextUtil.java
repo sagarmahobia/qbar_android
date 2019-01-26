@@ -1,4 +1,4 @@
-package com.sagar.qbar.onclickutil;
+package com.sagar.qbar.utils;
 
 import android.content.Context;
 import android.content.Intent;

@@ -8,17 +8,6 @@ import dagger.Provides;
  */
 @Module
 public class ResultActivityModule {
-    private ResultActivity resultActivity;
-
-    ResultActivityModule(ResultActivity resultActivity) {
-        this.resultActivity = resultActivity;
-    }
-
-    @ResultActivityScope
-    @Provides
-    public ResultActivity getResultActivity() {
-        return resultActivity;
-    }
 
     @ResultActivityScope
     @Provides

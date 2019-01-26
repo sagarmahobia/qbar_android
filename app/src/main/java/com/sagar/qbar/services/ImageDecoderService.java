@@ -1,4 +1,4 @@
-package com.sagar.qbar.tasks;
+package com.sagar.qbar.services;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

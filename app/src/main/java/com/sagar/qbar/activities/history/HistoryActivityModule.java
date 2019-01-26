@@ -10,18 +10,6 @@ import dagger.Provides;
 @Module
 public class HistoryActivityModule {
 
-    private HistoryActivity activity;
-
-    HistoryActivityModule(HistoryActivity activity) {
-        this.activity = activity;
-    }
-
-    @Provides
-    @HistoryActivityScope
-    HistoryActivity historiesActivity() {
-        return this.activity;
-    }
-
     @Provides
     @HistoryActivityScope
     HistoryActivityContract.View view(HistoryActivity activity) {

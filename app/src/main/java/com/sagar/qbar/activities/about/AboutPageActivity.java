@@ -8,17 +8,22 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
-import com.sagar.qbar.tasks.ImageDecoderService;
+import com.sagar.qbar.services.ImageDecoderService;
 import com.sagar.qbar.utils.MyHtml;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 import io.reactivex.disposables.Disposable;
 
 
 public class AboutPageActivity extends AppCompatActivity {
+
+    @Inject
+    ImageDecoderService imageDecoderService;
 
     @BindView(R.id.about_logo_image)
     ImageView logoImageView;
@@ -33,6 +38,7 @@ public class AboutPageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_page);
 
@@ -43,12 +49,6 @@ public class AboutPageActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-
-        ImageDecoderService imageDecoderService =
-                QbarApplication.
-                        get(this).
-                        getComponent().
-                        provideImageDecoderService();
 
         disposable = imageDecoderService.
                 getBitmapSingle(getResources().openRawResource(R.raw.logo)).

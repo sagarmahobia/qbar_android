@@ -1,8 +1,11 @@
-package com.sagar.qbar;
+package com.sagar.qbar.daggermodule;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.sagar.qbar.ApplicationScope;
 
 import dagger.Module;
 import dagger.Provides;
@@ -11,22 +14,16 @@ import dagger.Provides;
  * Created by SAGAR MAHOBIA on 09-Aug-18. at 23:34
  */
 
-@Module
+@Module(includes = {FirebaseModule.class,
+        AdmobModule.class,
+        GreenDaoModule.class})
 public class ApplicationModule {
-
-    private Context context;
-
-
-    ApplicationModule(Context context) {
-        this.context = context;
-    }
 
     @Provides
     @ApplicationScope
-    public Context getContext() {
-        return context;
+    Context provideContext(Application application) {
+        return application;
     }
-
 
     @ApplicationScope
     @Provides

@@ -18,23 +18,26 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.sagar.qbar.ApplicationComponent;
-import com.sagar.qbar.FirebaseService;
-import com.sagar.qbar.QbarApplication;
+import com.sagar.qbar.services.FirebaseService;
 import com.sagar.qbar.R;
 import com.sagar.qbar.activities.history.HistoryActivity;
 import com.sagar.qbar.activities.scanner.ScannerActivity;
 import com.sagar.qbar.models.DisplayableResult;
 import com.sagar.qbar.models.ResultType;
-import com.sagar.qbar.onclickutil.OpenUrlUtil;
-import com.sagar.qbar.onclickutil.SearchUtil;
-import com.sagar.qbar.onclickutil.ShareTextUtil;
+import com.sagar.qbar.utils.OpenUrlUtil;
+import com.sagar.qbar.utils.SearchUtil;
+import com.sagar.qbar.utils.ShareTextUtil;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 
 public class ResultActivity extends AppCompatActivity implements ResultActivityContract.View {
+
+    @Inject
+    ApplicationComponent component;
 
     @Inject
     ResultActivityContract.Presenter presenter;
@@ -64,6 +67,7 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
@@ -73,12 +77,6 @@ public class ResultActivity extends AppCompatActivity implements ResultActivityC
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        ApplicationComponent component = QbarApplication.get(this).getComponent();
-        DaggerResultActivityComponent.builder()
-                .applicationComponent(component)
-                .resultActivityModule(new ResultActivityModule(this))
-                .build().inject(this);
 
 
         adView.setAdListener(new AdListener() {

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
 import com.sagar.qbar.ApplicationComponent;
-import com.sagar.qbar.QbarApplication;
 import com.sagar.qbar.R;
 import com.sagar.qbar.activities.history.adapter.HistoryAdapter;
 import com.sagar.qbar.activities.result.ResultActivity;
@@ -25,8 +24,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 
 public class HistoryActivity extends AppCompatActivity implements HistoryActivityContract.View {
+
+    @Inject
+    ApplicationComponent component;
 
     @Inject
     HistoryActivityContract.Presenter presenter;
@@ -52,6 +55,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
@@ -62,12 +66,6 @@ public class HistoryActivity extends AppCompatActivity implements HistoryActivit
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        ApplicationComponent component = QbarApplication.get(this).getComponent();
-        DaggerHistoryActivityComponent.builder()
-                .applicationComponent(component)
-                .historyActivityModule(new HistoryActivityModule(this))
-                .build().
-                inject(this);
 
         historyRecyclerView.setAdapter(adapter);
         clearAllButton.setOnClickListener(v -> presenter.onClearAll());

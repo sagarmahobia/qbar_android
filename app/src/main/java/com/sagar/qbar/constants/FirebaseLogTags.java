@@ -1,4 +1,4 @@
-package com.sagar.qbar;
+package com.sagar.qbar.constants;
 
 /**
  * Created by SAGAR MAHOBIA on 07-Aug-18. at 19:56

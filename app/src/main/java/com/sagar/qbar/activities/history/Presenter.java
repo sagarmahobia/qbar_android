@@ -21,19 +21,18 @@ import io.reactivex.disposables.CompositeDisposable;
 @HistoryActivityScope
 public class Presenter implements HistoryActivityContract.Presenter {
 
+    private HistoryActivityContract.View view;
+    private ResultService resultService;
+
     private CompositeDisposable disposable;
 
     private List<StorableResult> storableResults;
 
-    @Inject
-    HistoryActivityContract.View view;
 
     @Inject
-    ResultService resultService;
-
-    @Inject
-    Presenter(HistoryActivityComponent component) {
-        component.inject(this);
+    Presenter(HistoryActivityContract.View view, ResultService resultService) {
+        this.view = view;
+        this.resultService = resultService;
     }
 
     @Override

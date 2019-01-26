@@ -1,7 +1,8 @@
-package com.sagar.qbar;
+package com.sagar.qbar.daggermodule;
 
 import android.content.Context;
 
+import com.sagar.qbar.ApplicationScope;
 import com.sagar.qbar.greendao.DbOpenHelper;
 import com.sagar.qbar.greendao.entities.DaoMaster;
 import com.sagar.qbar.greendao.entities.DaoSession;
@@ -14,7 +15,7 @@ import dagger.Provides;
  * Created by SAGAR MAHOBIA on 03-Aug-18. at 23:54
  */
 @Module(includes = ApplicationModule.class)
-class GreenDaoModule {
+public class GreenDaoModule {
 
     private static final String DB_NAME = "user_data.db";
 
