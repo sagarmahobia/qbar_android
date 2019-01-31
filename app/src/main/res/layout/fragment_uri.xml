@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.sagar.qbar.activities.host.results.uri.URIModel" />
+            type="com.sagar.qbar.activities.host.results.uri.URIFragmentModel" />
 
         <variable
             name="handler"

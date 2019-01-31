@@ -126,10 +126,10 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
             case VIN:
                 break;
             case ISBN:
-                break;
             case PRODUCT:
                 break;
             case TEXT:
+                Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_textFragment, bundle);
                 break;
             case WIFI:
                 break;

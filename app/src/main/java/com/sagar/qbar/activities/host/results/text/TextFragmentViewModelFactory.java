@@ -1,4 +1,4 @@
-package com.sagar.qbar.activities.host.results.uri;
+package com.sagar.qbar.activities.host.results.text;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -9,19 +9,16 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
 import javax.inject.Inject;
 
 /**
- * Created by SAGAR MAHOBIA on 31-Jan-19. at 16:25
+ * Created by SAGAR MAHOBIA on 31-Jan-19. at 22:15
  */
-
-
-@URIFragmentScope
-public class URIFragmentViewModelFactory implements ViewModelProvider.Factory {
-
+@TextFragmentScope
+public class TextFragmentViewModelFactory implements ViewModelProvider.Factory {
     private StorableResultRepository repository;
     private long id;
     private boolean setId;
 
     @Inject
-    URIFragmentViewModelFactory(StorableResultRepository repository) {
+    public TextFragmentViewModelFactory(StorableResultRepository repository) {
         this.repository = repository;
     }
 
@@ -38,12 +35,12 @@ public class URIFragmentViewModelFactory implements ViewModelProvider.Factory {
             throw new IllegalStateException("setId(int) should be called");
         }
 
-        if (modelClass.isAssignableFrom(URIFragmentViewModel.class)) {
-            return (T) new URIFragmentViewModel(repository, id);
+        if (modelClass.isAssignableFrom(TextFragmentViewModel.class)) {
+            return (T) new TextFragmentViewModel(repository, id);
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }
-
-
     }
+
+
 }

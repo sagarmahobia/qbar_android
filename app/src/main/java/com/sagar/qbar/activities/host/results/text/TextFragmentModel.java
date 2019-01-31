@@ -1,4 +1,4 @@
-package com.sagar.qbar.activities.host.results.uri;
+package com.sagar.qbar.activities.host.results.text;
 
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
@@ -8,43 +8,43 @@ import com.sagar.qbar.R;
 import com.sagar.qbar.utils.TimeAndDateUtil;
 
 /**
- * Created by SAGAR MAHOBIA on 31-Jan-19. at 14:14
+ * Created by SAGAR MAHOBIA on 31-Jan-19. at 22:16
  */
-public class URIModel extends BaseObservable {
+public class TextFragmentModel extends BaseObservable {
 
-    private String uri;
-
+    private String text;
     private String timestamp;
-
-
-    public void setUri(String uri) {
-        this.uri = uri;
-        notifyChange();
-    }
 
     void setTimestamp(long timestamp) {
         this.timestamp = TimeAndDateUtil.getTimeFromTimestamp(timestamp);
         notifyChange();
     }
 
-    public int getCodeTypeIcon() {
-        return R.drawable.ic_link;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public String getTypeText() {
-        return "Weblink";
-    }
-
     public String getTimestamp() {
         return timestamp;
     }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+        notifyChange();
+    }
+
+    public int getCodeTypeIcon() {
+        return R.drawable.ic_text;
+    }
+
+    public String getTypeText() {
+        return "Text";
+    }
+
 
     @BindingAdapter({"android:src"})
     public static void setImageViewResource(ImageView imageView, int resource) {
         imageView.setImageResource(resource);
     }
+
 }

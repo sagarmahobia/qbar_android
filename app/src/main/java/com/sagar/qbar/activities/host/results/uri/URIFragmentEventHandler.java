@@ -6,11 +6,11 @@ package com.sagar.qbar.activities.host.results.uri;
 public interface URIFragmentEventHandler {
 
 
-    void onClickOpenLink(URIModel model);
+    void onClickOpenLink(URIFragmentModel model);
 
-    void onClickWebSearch(URIModel model);
+    void onClickWebSearch(URIFragmentModel model);
 
-    void onClickShare(URIModel model);
+    void onClickShare(URIFragmentModel model);
 
 
 }

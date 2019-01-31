@@ -1,21 +1,19 @@
-package com.sagar.qbar.activities.host.results.uri;
-
+package com.sagar.qbar.activities.host.results.text;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sagar.qbar.R;
-import com.sagar.qbar.databinding.FragmentUriBinding;
+import com.sagar.qbar.activities.host.results.uri.URIFragmentModel;
+import com.sagar.qbar.databinding.FragmentTextBinding;
 import com.sagar.qbar.room.entities.StorableResult;
-import com.sagar.qbar.utils.OpenUrlUtil;
 import com.sagar.qbar.utils.SearchUtil;
 import com.sagar.qbar.utils.ShareTextUtil;
 
@@ -23,24 +21,23 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class URIFragment extends Fragment implements URIFragmentEventHandler {
+
+public class TextFragment extends Fragment implements TextFragmentEventHandler {
 
     @Inject
-    URIFragmentViewModelFactory viewModelFactory;
+    TextFragmentViewModelFactory viewModelFactory;
 
-    private URIFragmentModel model;
+    private TextFragmentModel model;
 
     @Override
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
+
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
         long id = arguments != null ? arguments.getLong("id", 0) : 0;
@@ -51,15 +48,15 @@ public class URIFragment extends Fragment implements URIFragmentEventHandler {
 
         viewModelFactory.setId(id);
 
-        URIFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(URIFragmentViewModel.class);
-        model = viewModel.getUriModel();
+        TextFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(TextFragmentViewModel.class);
+        model = viewModel.getTextFragmentModel();
         viewModel.getResponse().observe(this, this::onResponse);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentUriBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_uri, container, false);
+        FragmentTextBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_text, container, false);
 
         binding.setModel(model);
         binding.setHandler(this);
@@ -68,30 +65,22 @@ public class URIFragment extends Fragment implements URIFragmentEventHandler {
 
     private void onResponse(StorableResult storableResult) {
         model.setTimestamp(storableResult.getTimestamp());
-        model.setUri(storableResult.getText());
+        model.setText(storableResult.getText());
     }
 
     @Override
-    public void onClickOpenLink(URIFragmentModel model) {
+    public void onClickWebSearch(TextFragmentModel model) {
         Context context = this.getContext();
         if (context != null) {
-            OpenUrlUtil.openUrl(context, model.getUri());
+            SearchUtil.searchText(context, model.getText());
         }
     }
 
     @Override
-    public void onClickWebSearch(URIFragmentModel model) {
+    public void onClickShare(TextFragmentModel model) {
         Context context = this.getContext();
         if (context != null) {
-            SearchUtil.searchText(context, model.getUri());
-        }
-    }
-
-    @Override
-    public void onClickShare(URIFragmentModel model) {
-        Context context = this.getContext();
-        if (context != null) {
-            ShareTextUtil.share(context, model.getUri());
+            ShareTextUtil.share(context, model.getText());
         }
 
     }

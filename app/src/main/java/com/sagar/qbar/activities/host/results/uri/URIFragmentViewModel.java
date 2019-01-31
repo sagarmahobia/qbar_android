@@ -10,11 +10,11 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
  * Created by SAGAR MAHOBIA on 31-Jan-19. at 16:25
  */
 class URIFragmentViewModel extends ViewModel {
-    private URIModel uriModel;
+    private URIFragmentModel uriModel;
     private LiveData<StorableResult> response;
 
     URIFragmentViewModel(StorableResultRepository repository, long id) {
-        uriModel = new URIModel();
+        uriModel = new URIFragmentModel();
         response = repository.getStorableResultLiveData(id);
     }
 
@@ -22,7 +22,7 @@ class URIFragmentViewModel extends ViewModel {
         return response;
     }
 
-    URIModel getUriModel() {
+    URIFragmentModel getUriModel() {
         return uriModel;
     }
 }

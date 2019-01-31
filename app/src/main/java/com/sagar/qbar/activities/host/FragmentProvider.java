@@ -6,6 +6,9 @@ import com.sagar.qbar.activities.host.about.AboutFragmentScope;
 import com.sagar.qbar.activities.host.history.HistoryFragment;
 import com.sagar.qbar.activities.host.history.HistoryFragmentModule;
 import com.sagar.qbar.activities.host.history.HistoryFragmentScope;
+import com.sagar.qbar.activities.host.results.text.TextFragment;
+import com.sagar.qbar.activities.host.results.text.TextFragmentModule;
+import com.sagar.qbar.activities.host.results.text.TextFragmentScope;
 import com.sagar.qbar.activities.host.results.uri.URIFragment;
 import com.sagar.qbar.activities.host.results.uri.URIFragmentModule;
 import com.sagar.qbar.activities.host.results.uri.URIFragmentScope;
@@ -39,5 +42,8 @@ public abstract class FragmentProvider {
     @URIFragmentScope
     abstract URIFragment uriFragment();
 
+    @ContributesAndroidInjector(modules = TextFragmentModule.class)
+    @TextFragmentScope
+    abstract TextFragment textFragment();
 
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_scannerFragment_to_URIFragment"
             app:destination="@id/URIFragment" />
+        <action
+            android:id="@+id/action_scannerFragment_to_textFragment"
+            app:destination="@id/textFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -22,6 +25,9 @@
         <action
             android:id="@+id/action_historyFragment_to_URIFragment"
             app:destination="@id/URIFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_textFragment"
+            app:destination="@id/textFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -33,6 +39,15 @@
         android:name="com.sagar.qbar.activities.host.results.uri.URIFragment"
         android:label="Scan"
         tools:layout="@layout/fragment_uri">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/textFragment"
+        android:name="com.sagar.qbar.activities.host.results.text.TextFragment"
+        android:label="Scan"
+        tools:layout="@layout/fragment_text">
         <argument
             android:name="id"
             app:argType="long" />

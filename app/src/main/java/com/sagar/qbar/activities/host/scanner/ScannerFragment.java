@@ -141,12 +141,12 @@ public class ScannerFragment extends Fragment implements DecoratedBarcodeView.To
                 case VIN:
                     break;
                 case ISBN:
+                case PRODUCT:
                     break;
                 case TEXT:
+                    navController.navigate(R.id.action_scannerFragment_to_textFragment, bundle);
                     break;
                 case WIFI:
-                    break;
-                case PRODUCT:
                     break;
                 case CALENDAR:
                     break;
