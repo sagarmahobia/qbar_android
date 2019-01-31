@@ -1,0 +1,100 @@
+package com.sagar.qbar.activities.host.results.uri;
+
+
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.google.zxing.client.result.URIParsedResult;
+import com.sagar.qbar.R;
+import com.sagar.qbar.databinding.FragmentUriBinding;
+import com.sagar.qbar.room.entities.StorableResult;
+import com.sagar.qbar.utils.OpenUrlUtil;
+import com.sagar.qbar.utils.SearchUtil;
+import com.sagar.qbar.utils.ShareTextUtil;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class URIFragment extends Fragment implements URIFragmentEventHandler {
+
+    @Inject
+    URIFragmentViewModelFactory viewModelFactory;
+
+    private URIModel model;
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        long id = arguments != null ? arguments.getLong("id", 0) : 0;
+
+        if (id == 0) {
+            throw new IllegalStateException("id should be passed");
+        }
+
+        viewModelFactory.setId(id);
+
+        URIFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(URIFragmentViewModel.class);
+        model = viewModel.getUriModel();
+        viewModel.getResponse().observe(this, this::onResponse);
+
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        FragmentUriBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_uri, container, false);
+
+        binding.setModel(model);
+        binding.setHandler(this);
+        return binding.getRoot();
+    }
+
+    private void onResponse(StorableResult storableResult) {
+        model.setTimestamp(storableResult.getTimestamp());
+        model.setUri(storableResult.getText());
+    }
+
+    @Override
+    public void onClickOpenLink(URIModel model) {
+        Context context = this.getContext();
+        if (context != null) {
+            OpenUrlUtil.openUrl(context, model.getUri());
+        }
+    }
+
+    @Override
+    public void onClickWebSearch(URIModel model) {
+        Context context = this.getContext();
+        if (context != null) {
+            SearchUtil.searchText(context, model.getUri());
+        }
+    }
+
+    @Override
+    public void onClickShare(URIModel model) {
+        Context context = this.getContext();
+        if (context != null) {
+            ShareTextUtil.share(context, model.getUri());
+        }
+
+    }
+}

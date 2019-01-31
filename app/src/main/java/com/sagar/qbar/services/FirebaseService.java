@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.sagar.qbar.ApplicationScope;
-import com.sagar.qbar.models.ResultType;
 
 import javax.inject.Inject;
 
@@ -31,10 +30,10 @@ public class FirebaseService {
         firebaseAnalytics.logEvent("openedLinkFromResult", null);
     }
 
-    public void scannedImage(ResultType resultType) {
+    public void scannedImage( ) {
 
         Bundle bundle = new Bundle();
-        bundle.putString("type", resultType.toString().toLowerCase());
+//        bundle.putString("type", resultType.toString().toLowerCase());
         firebaseAnalytics.logEvent("scannedResultType", bundle);
 
         firebaseAnalytics.logEvent("scannedImage", null);

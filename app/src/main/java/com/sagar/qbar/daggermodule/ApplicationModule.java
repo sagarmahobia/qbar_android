@@ -16,7 +16,7 @@ import dagger.Provides;
 
 @Module(includes = {FirebaseModule.class,
         AdmobModule.class,
-        GreenDaoModule.class})
+        RoomModule.class})
 public class ApplicationModule {
 
     @Provides

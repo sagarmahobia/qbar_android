@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation.xml"
+    app:startDestination="@id/scannerFragment">
+
+    <fragment
+        android:id="@+id/scannerFragment"
+        android:name="com.sagar.qbar.activities.host.scanner.ScannerFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_scanner">
+        <action
+            android:id="@+id/action_scannerFragment_to_URIFragment"
+            app:destination="@id/URIFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.sagar.qbar.activities.host.history.HistoryFragment"
+        android:label="@string/title_history"
+        tools:layout="@layout/fragment_history">
+        <action
+            android:id="@+id/action_historyFragment_to_URIFragment"
+            app:destination="@id/URIFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.sagar.qbar.activities.host.about.AboutFragment"
+        android:label="@string/about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/URIFragment"
+        android:name="com.sagar.qbar.activities.host.results.uri.URIFragment"
+        android:label="Scan"
+        tools:layout="@layout/fragment_uri">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
+</navigation>

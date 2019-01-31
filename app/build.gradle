@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'io.fabric'
 
 android {
@@ -17,6 +16,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -31,7 +33,12 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "android.arch.lifecycle:viewmodel:1.1.1"
 
-    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+    implementation "android.arch.navigation:navigation-fragment:1.0.0-alpha11"
+    implementation "android.arch.navigation:navigation-ui:1.0.0-alpha11"
+
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+    implementation "android.arch.persistence.room:rxjava2:1.1.1"
 
     implementation 'com.google.firebase:firebase-ads:17.1.2'
     implementation 'com.google.firebase:firebase-core:16.0.6'
@@ -45,18 +52,14 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
 
-    implementation 'org.greenrobot:greendao:3.2.2'
-
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
+    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
+
 //test implementation
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.15.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
 }
-greendao {
-    schemaVersion 1
-}
+

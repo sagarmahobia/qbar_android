@@ -10,7 +10,7 @@ import android.net.Uri;
 public class SearchUtil {
 
     public static void searchText(Context context, String textToSearch) {
-       OpenUrlUtil.openUrl("http://google.com/search?q=" + Uri.encode(textToSearch),context);
+        OpenUrlUtil.openUrl(context, "http://google.com/search?q=" + Uri.encode(textToSearch));
 
     }
 
