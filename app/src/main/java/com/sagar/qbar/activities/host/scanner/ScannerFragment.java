@@ -138,13 +138,14 @@ public class ScannerFragment extends Fragment implements DecoratedBarcodeView.To
                 case URI:
                     navController.navigate(R.id.action_scannerFragment_to_URIFragment, bundle);
                     break;
-                case VIN:
-                    break;
                 case ISBN:
                 case PRODUCT:
+                    navController.navigate(R.id.action_scannerFragment_to_barcodeFragment, bundle);
                     break;
                 case TEXT:
                     navController.navigate(R.id.action_scannerFragment_to_textFragment, bundle);
+                    break;
+                case VIN:
                     break;
                 case WIFI:
                     break;

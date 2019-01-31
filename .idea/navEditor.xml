@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-184" />
-                            <option name="y" value="140" />
+                            <option name="x" value="-655" />
+                            <option name="y" value="651" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -25,8 +25,20 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-541" />
-                            <option name="y" value="749" />
+                            <option name="x" value="-902" />
+                            <option name="y" value="60" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="barcodeFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-308" />
+                            <option name="y" value="657" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -37,13 +49,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-541" />
-                            <option name="y" value="461" />
+                            <option name="x" value="-706" />
+                            <option name="y" value="59" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_historyFragment_to_URIFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_historyFragment_to_barcodeFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -63,13 +80,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-538" />
-                            <option name="y" value="140" />
+                            <option name="x" value="-480" />
+                            <option name="y" value="59" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_scannerFragment_to_URIFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_scannerFragment_to_barcodeFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -89,8 +111,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-184" />
-                            <option name="y" value="461" />
+                            <option name="x" value="-483" />
+                            <option name="y" value="655" />
                           </Point>
                         </option>
                       </LayoutPositions>

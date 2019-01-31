@@ -123,13 +123,14 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
             case URI:
                 Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_URIFragment, bundle);
                 break;
-            case VIN:
-                break;
             case ISBN:
             case PRODUCT:
+                Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_barcodeFragment, bundle);
                 break;
             case TEXT:
                 Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_textFragment, bundle);
+                break;
+            case VIN:
                 break;
             case WIFI:
                 break;

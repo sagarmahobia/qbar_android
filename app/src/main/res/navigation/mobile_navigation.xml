@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_scannerFragment_to_textFragment"
             app:destination="@id/textFragment" />
+        <action
+            android:id="@+id/action_scannerFragment_to_barcodeFragment"
+            app:destination="@id/barcodeFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -28,6 +31,9 @@
         <action
             android:id="@+id/action_historyFragment_to_textFragment"
             app:destination="@id/textFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_barcodeFragment"
+            app:destination="@id/barcodeFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -48,6 +54,15 @@
         android:name="com.sagar.qbar.activities.host.results.text.TextFragment"
         android:label="Scan"
         tools:layout="@layout/fragment_text">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/barcodeFragment"
+        android:name="com.sagar.qbar.activities.host.results.barcode.BarcodeFragment"
+        android:label="Scan"
+        tools:layout="@layout/fragment_barcode">
         <argument
             android:name="id"
             app:argType="long" />
