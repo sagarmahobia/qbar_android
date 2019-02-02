@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-655" />
-                            <option name="y" value="651" />
+                            <option name="x" value="-893" />
+                            <option name="y" value="612" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -37,8 +37,20 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-308" />
-                            <option name="y" value="657" />
+                            <option name="x" value="-516" />
+                            <option name="y" value="619" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="geoFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-336" />
+                            <option name="y" value="622" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -61,6 +73,11 @@
                               </value>
                             </entry>
                             <entry key="action_historyFragment_to_barcodeFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_historyFragment_to_geoFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -96,6 +113,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_scannerFragment_to_geoFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_scannerFragment_to_textFragment">
                               <value>
                                 <LayoutPositions />
@@ -111,8 +133,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-483" />
-                            <option name="y" value="655" />
+                            <option name="x" value="-703" />
+                            <option name="y" value="616" />
                           </Point>
                         </option>
                       </LayoutPositions>

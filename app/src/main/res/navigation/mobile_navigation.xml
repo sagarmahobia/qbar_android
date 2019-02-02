@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_scannerFragment_to_barcodeFragment"
             app:destination="@id/barcodeFragment" />
+        <action
+            android:id="@+id/action_scannerFragment_to_geoFragment"
+            app:destination="@id/geoFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -34,6 +37,9 @@
         <action
             android:id="@+id/action_historyFragment_to_barcodeFragment"
             app:destination="@id/barcodeFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_geoFragment"
+            app:destination="@id/geoFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -63,6 +69,15 @@
         android:name="com.sagar.qbar.activities.host.results.barcode.BarcodeFragment"
         android:label="Scan"
         tools:layout="@layout/fragment_barcode">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/geoFragment"
+        android:name="com.sagar.qbar.activities.host.results.geo.GeoFragment"
+        android:label="fragment_geo"
+        tools:layout="@layout/fragment_geo">
         <argument
             android:name="id"
             app:argType="long" />

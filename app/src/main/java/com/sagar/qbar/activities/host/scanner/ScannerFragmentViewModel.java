@@ -40,9 +40,9 @@ class ScannerFragmentViewModel extends ViewModel {
 
         StorableResult storableResult = new StorableResult();
         storableResult.setBarcodeFormat(result.getBarcodeFormat());
-        storableResult.setParsedResultType(parsedResult.getType());
-        storableResult.setText(parsedResult.getDisplayResult());
+        storableResult.setText(result.getText());
         storableResult.setTimestamp(result.getTimestamp());
+        storableResult.setParsedResultType(parsedResult.getType());
 
         disposable.add(repository.insert(storableResult).
                 subscribe(id -> {
