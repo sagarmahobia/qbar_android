@@ -101,7 +101,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
             historyModels.add(historyModel);
         }
 
-        adapter.setHistories(historyModels);
+        adapter.submitList(historyModels);
         historyFragmentModel.setSize(storableResults.size());
     }
 

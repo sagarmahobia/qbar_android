@@ -2,15 +2,14 @@ package com.sagar.qbar.activities.host.history.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.sagar.qbar.R;
 import com.sagar.qbar.activities.host.history.HistoryFragmentScope;
 import com.sagar.qbar.databinding.HistoryItemLayoutBinding;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -19,20 +18,15 @@ import javax.inject.Inject;
  */
 
 @HistoryFragmentScope
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
+public class HistoryAdapter extends ListAdapter<HistoryModel, HistoryViewHolder> {
 
     private LayoutInflater layoutInflater;
-    private List<HistoryModel> histories;
     private AdapterListener adapterListener;
     private HistoryItemEventHandler historyItemEventHandler;
 
     @Inject
     HistoryAdapter() {
-    }
-
-    public void setHistories(List<HistoryModel> histories) {
-        this.histories = histories;
-        notifyDataSetChanged();
+        super(DIFF_CALLBACK);
     }
 
     public void setAdapterListener(AdapterListener adapterListener) {
@@ -58,20 +52,28 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
-        holder.getBinding().setHistory(histories.get(position));
+        HistoryModel item = getItem(position);
+        holder.getBinding().setHistory(item);
         holder.getBinding().setHandler(historyItemEventHandler);
         holder.itemView.setOnClickListener(v -> {
             if (adapterListener != null) {
-                adapterListener.onHistoryClicked(histories.get(position));
+                adapterListener.onHistoryClicked(item);
             }
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return histories != null ? histories.size() : 0;
-    }
+    private static final DiffUtil.ItemCallback<HistoryModel> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<HistoryModel>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull HistoryModel old, @NonNull HistoryModel new_) {
+                    return old.getId().equals(new_.getId());
+                }
 
+                @Override
+                public boolean areContentsTheSame(@NonNull HistoryModel old, @NonNull HistoryModel new_) {
+                    return true;
+                }
+            };
 
     public interface AdapterListener {
         void onHistoryClicked(HistoryModel history);

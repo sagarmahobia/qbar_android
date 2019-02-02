@@ -1,10 +1,9 @@
 package com.sagar.qbar.activities.host.results.text;
 
 import android.databinding.BaseObservable;
-import android.databinding.BindingAdapter;
-import android.widget.ImageView;
+import android.databinding.Bindable;
 
-import com.sagar.qbar.R;
+import com.sagar.qbar.BR;
 import com.sagar.qbar.utils.TimeAndDateUtil;
 
 /**
@@ -17,34 +16,22 @@ public class TextFragmentModel extends BaseObservable {
 
     void setTimestamp(long timestamp) {
         this.timestamp = TimeAndDateUtil.getTimeFromTimestamp(timestamp);
-        notifyChange();
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public String getText() {
-        return text;
+        notifyPropertyChanged(BR.timestamp);
     }
 
     public void setText(String text) {
         this.text = text;
-        notifyChange();
+        notifyPropertyChanged(BR.text);
     }
 
-    public int getCodeTypeIcon() {
-        return R.drawable.ic_text;
+    @Bindable
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public String getTypeText() {
-        return "Text";
-    }
-
-
-    @BindingAdapter({"android:src"})
-    public static void setImageViewResource(ImageView imageView, int resource) {
-        imageView.setImageResource(resource);
+    @Bindable
+    public String getText() {
+        return text;
     }
 
 }

@@ -1,10 +1,12 @@
 package com.sagar.qbar.activities.host.results.barcode;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 
 import com.google.zxing.client.result.ParsedResultType;
+import com.sagar.qbar.BR;
 import com.sagar.qbar.R;
 import com.sagar.qbar.utils.TimeAndDateUtil;
 
@@ -22,23 +24,25 @@ public class BarcodeFragmentModel extends BaseObservable {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
-        notifyChange();
+        notifyPropertyChanged(BR.barcode);
     }
 
     void setTimestamp(long timestamp) {
         this.timestamp = TimeAndDateUtil.getTimeFromTimestamp(timestamp);
-        notifyChange();
+        notifyPropertyChanged(BR.timestamp);
     }
 
     public void setType(ParsedResultType type) {
         this.type = type;
-        notifyChange();
+        notifyPropertyChanged(BR.typeText);
     }
 
+    @Bindable
     public String getBarcode() {
         return barcode;
     }
 
+    @Bindable
     public int getCodeTypeIcon() {
         if (type == null) {
             return R.drawable.ic_book;
@@ -51,6 +55,7 @@ public class BarcodeFragmentModel extends BaseObservable {
         }
     }
 
+    @Bindable
     public String getTypeText() {
         if (type == null) {
             return "";
@@ -63,6 +68,7 @@ public class BarcodeFragmentModel extends BaseObservable {
         }
     }
 
+    @Bindable
     public String getTimestamp() {
         return timestamp;
     }

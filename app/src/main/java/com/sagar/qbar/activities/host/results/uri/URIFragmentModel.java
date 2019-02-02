@@ -1,10 +1,9 @@
 package com.sagar.qbar.activities.host.results.uri;
 
 import android.databinding.BaseObservable;
-import android.databinding.BindingAdapter;
-import android.widget.ImageView;
+import android.databinding.Bindable;
 
-import com.sagar.qbar.R;
+import com.sagar.qbar.BR;
 import com.sagar.qbar.utils.TimeAndDateUtil;
 
 /**
@@ -19,32 +18,22 @@ public class URIFragmentModel extends BaseObservable {
 
     public void setUri(String uri) {
         this.uri = uri;
-        notifyChange();
+        notifyPropertyChanged(BR.uri);
     }
 
     void setTimestamp(long timestamp) {
         this.timestamp = TimeAndDateUtil.getTimeFromTimestamp(timestamp);
-        notifyChange();
+        notifyPropertyChanged(BR.timestamp);
     }
 
-    public int getCodeTypeIcon() {
-        return R.drawable.ic_link;
-    }
-
+    @Bindable
     public String getUri() {
         return uri;
     }
 
-    public String getTypeText() {
-        return "Weblink";
-    }
-
+    @Bindable
     public String getTimestamp() {
         return timestamp;
     }
 
-    @BindingAdapter({"android:src"})
-    public static void setImageViewResource(ImageView imageView, int resource) {
-        imageView.setImageResource(resource);
-    }
 }
