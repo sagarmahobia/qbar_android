@@ -82,6 +82,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_historyFragment_to_smsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_historyFragment_to_textFragment">
                               <value>
                                 <LayoutPositions />
@@ -118,12 +123,29 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_scannerFragment_to_smsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_scannerFragment_to_textFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="smsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-150" />
+                            <option name="y" value="627" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

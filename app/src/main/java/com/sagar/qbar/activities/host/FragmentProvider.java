@@ -12,6 +12,9 @@ import com.sagar.qbar.activities.host.results.barcode.BarcodeFragmentScope;
 import com.sagar.qbar.activities.host.results.geo.GeoFragment;
 import com.sagar.qbar.activities.host.results.geo.GeoFragmentModule;
 import com.sagar.qbar.activities.host.results.geo.GeoFragmentScope;
+import com.sagar.qbar.activities.host.results.sms.SmsFragment;
+import com.sagar.qbar.activities.host.results.sms.SmsFragmentModule;
+import com.sagar.qbar.activities.host.results.sms.SmsFragmentScope;
 import com.sagar.qbar.activities.host.results.text.TextFragment;
 import com.sagar.qbar.activities.host.results.text.TextFragmentModule;
 import com.sagar.qbar.activities.host.results.text.TextFragmentScope;
@@ -59,5 +62,9 @@ public abstract class FragmentProvider {
     @ContributesAndroidInjector(modules = GeoFragmentModule.class)
     @GeoFragmentScope
     abstract GeoFragment geoFragment();
+
+    @ContributesAndroidInjector(modules = SmsFragmentModule.class)
+    @SmsFragmentScope
+    abstract SmsFragment smsFragment();
 
 }

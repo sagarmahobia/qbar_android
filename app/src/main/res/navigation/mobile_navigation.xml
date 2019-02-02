@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_scannerFragment_to_geoFragment"
             app:destination="@id/geoFragment" />
+        <action
+            android:id="@+id/action_scannerFragment_to_smsFragment"
+            app:destination="@id/smsFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -40,6 +43,9 @@
         <action
             android:id="@+id/action_historyFragment_to_geoFragment"
             app:destination="@id/geoFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_smsFragment"
+            app:destination="@id/smsFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -76,8 +82,17 @@
     <fragment
         android:id="@+id/geoFragment"
         android:name="com.sagar.qbar.activities.host.results.geo.GeoFragment"
-        android:label="fragment_geo"
+        android:label="Geolocation"
         tools:layout="@layout/fragment_geo">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/smsFragment"
+        android:name="com.sagar.qbar.activities.host.results.sms.SmsFragment"
+        android:label="SMS"
+        tools:layout="@layout/fragment_sms">
         <argument
             android:name="id"
             app:argType="long" />

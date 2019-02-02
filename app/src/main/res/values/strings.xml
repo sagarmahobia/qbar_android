@@ -45,4 +45,6 @@
     <string name="geo">Geo</string>
     <string name="directions">Directions</string>
     <string name="show_map">Show Map</string>
+    <string name="sms">SMS</string>
+    <string name="send_sms">Send SMS</string>
 </resources>

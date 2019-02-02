@@ -118,6 +118,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
                 Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_geoFragment, bundle);
                 break;
             case SMS:
+                Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_smsFragment, bundle);
                 break;
             case TEL:
                 break;

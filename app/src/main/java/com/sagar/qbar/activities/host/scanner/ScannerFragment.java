@@ -133,6 +133,7 @@ public class ScannerFragment extends Fragment implements DecoratedBarcodeView.To
                     navController.navigate(R.id.action_scannerFragment_to_geoFragment, bundle);
                     break;
                 case SMS:
+                    navController.navigate(R.id.action_scannerFragment_to_smsFragment, bundle);
                     break;
                 case TEL:
                     break;
