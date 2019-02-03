@@ -47,4 +47,7 @@
     <string name="show_map">Show Map</string>
     <string name="sms">SMS</string>
     <string name="send_sms">Send SMS</string>
+    <string name="tel">Telephone</string>
+    <string name="call">Call</string>
+    <string name="save">Save</string>
 </resources>

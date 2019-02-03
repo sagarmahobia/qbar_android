@@ -136,6 +136,7 @@ public class ScannerFragment extends Fragment implements DecoratedBarcodeView.To
                     navController.navigate(R.id.action_scannerFragment_to_smsFragment, bundle);
                     break;
                 case TEL:
+                    navController.navigate(R.id.action_scannerFragment_to_telFragment, bundle);
                     break;
                 case URI:
                     navController.navigate(R.id.action_scannerFragment_to_URIFragment, bundle);

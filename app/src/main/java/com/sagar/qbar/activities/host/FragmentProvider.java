@@ -15,6 +15,9 @@ import com.sagar.qbar.activities.host.results.geo.GeoFragmentScope;
 import com.sagar.qbar.activities.host.results.sms.SmsFragment;
 import com.sagar.qbar.activities.host.results.sms.SmsFragmentModule;
 import com.sagar.qbar.activities.host.results.sms.SmsFragmentScope;
+import com.sagar.qbar.activities.host.results.tel.TelFragment;
+import com.sagar.qbar.activities.host.results.tel.TelFragmentModule;
+import com.sagar.qbar.activities.host.results.tel.TelFragmentScope;
 import com.sagar.qbar.activities.host.results.text.TextFragment;
 import com.sagar.qbar.activities.host.results.text.TextFragmentModule;
 import com.sagar.qbar.activities.host.results.text.TextFragmentScope;
@@ -66,5 +69,9 @@ public abstract class FragmentProvider {
     @ContributesAndroidInjector(modules = SmsFragmentModule.class)
     @SmsFragmentScope
     abstract SmsFragment smsFragment();
+
+    @ContributesAndroidInjector(modules = TelFragmentModule.class)
+    @TelFragmentScope
+    abstract TelFragment telFragment();
 
 }

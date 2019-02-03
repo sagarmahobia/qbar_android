@@ -13,8 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -25,7 +23,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
 import com.sagar.qbar.ApplicationComponent;
 import com.sagar.qbar.R;
-import com.sagar.qbar.utils.ShareTextUtil;
 
 import javax.inject.Inject;
 
@@ -150,6 +147,7 @@ public class HostActivity extends AppCompatActivity
                     this.finish();
                 }
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

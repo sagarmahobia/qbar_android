@@ -87,6 +87,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_historyFragment_to_telFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_historyFragment_to_textFragment">
                               <value>
                                 <LayoutPositions />
@@ -128,6 +133,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_scannerFragment_to_telFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_scannerFragment_to_textFragment">
                               <value>
                                 <LayoutPositions />
@@ -145,6 +155,18 @@
                           <Point>
                             <option name="x" value="-150" />
                             <option name="y" value="627" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="telFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="43" />
+                            <option name="y" value="626" />
                           </Point>
                         </option>
                       </LayoutPositions>

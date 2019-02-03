@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_scannerFragment_to_smsFragment"
             app:destination="@id/smsFragment" />
+        <action
+            android:id="@+id/action_scannerFragment_to_telFragment"
+            app:destination="@id/telFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -46,6 +49,9 @@
         <action
             android:id="@+id/action_historyFragment_to_smsFragment"
             app:destination="@id/smsFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_telFragment"
+            app:destination="@id/telFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -97,4 +103,9 @@
             android:name="id"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/telFragment"
+        android:name="com.sagar.qbar.activities.host.results.tel.TelFragment"
+        android:label="Telephone"
+        tools:layout="@layout/fragment_tel" />
 </navigation>
