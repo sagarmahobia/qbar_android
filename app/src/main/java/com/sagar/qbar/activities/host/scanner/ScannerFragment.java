@@ -151,6 +151,7 @@ public class ScannerFragment extends Fragment implements DecoratedBarcodeView.To
                 case VIN:
                     break;
                 case WIFI:
+                    navController.navigate(R.id.action_scannerFragment_to_wifiFragment, bundle);
                     break;
                 case CALENDAR:
                     break;

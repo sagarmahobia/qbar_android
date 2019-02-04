@@ -18,9 +18,6 @@
     <string name="app_name_short">QBar</string>
     <string name="app_name_part">Qr and Barcode Scanner</string>
     <string name="qbar_logo">QBar Logo</string>
-    <string name="QrCodeText">Qr Code</string>
-    <string name="DataMatrixText">Data Matrix</string>
-    <string name="BarcodeText">Barcode</string>
     <string name="credits">--Credits--</string>
     <string name="barcode_scanner_library">ZXing Android Embedded</string>
     <string name="apache_license_version_2_0">Apache License, Version 2.0</string>
@@ -50,4 +47,6 @@
     <string name="tel">Telephone</string>
     <string name="call">Call</string>
     <string name="save">Save</string>
+    <string name="wifi">WiFi</string>
+    <string name="connect">Connect</string>
 </resources>

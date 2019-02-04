@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-893" />
-                            <option name="y" value="612" />
+                            <option name="x" value="-1048" />
+                            <option name="y" value="585" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -37,8 +37,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-516" />
-                            <option name="y" value="619" />
+                            <option name="x" value="-671" />
+                            <option name="y" value="592" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -49,8 +49,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-336" />
-                            <option name="y" value="622" />
+                            <option name="x" value="-491" />
+                            <option name="y" value="595" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -93,6 +93,11 @@
                               </value>
                             </entry>
                             <entry key="action_historyFragment_to_textFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_historyFragment_to_wifiFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -143,6 +148,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_scannerFragment_to_wifiFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -153,8 +163,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-150" />
-                            <option name="y" value="627" />
+                            <option name="x" value="-305" />
+                            <option name="y" value="600" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -165,8 +175,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="43" />
-                            <option name="y" value="626" />
+                            <option name="x" value="-112" />
+                            <option name="y" value="599" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -177,8 +187,20 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-703" />
-                            <option name="y" value="616" />
+                            <option name="x" value="-858" />
+                            <option name="y" value="589" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="wifiFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="88" />
+                            <option name="y" value="602" />
                           </Point>
                         </option>
                       </LayoutPositions>

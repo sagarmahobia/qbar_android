@@ -24,6 +24,9 @@ import com.sagar.qbar.activities.host.results.text.TextFragmentScope;
 import com.sagar.qbar.activities.host.results.uri.URIFragment;
 import com.sagar.qbar.activities.host.results.uri.URIFragmentModule;
 import com.sagar.qbar.activities.host.results.uri.URIFragmentScope;
+import com.sagar.qbar.activities.host.results.wifi.WifiFragment;
+import com.sagar.qbar.activities.host.results.wifi.WifiFragmentModule;
+import com.sagar.qbar.activities.host.results.wifi.WifiFragmentScope;
 import com.sagar.qbar.activities.host.scanner.ScannerFragment;
 import com.sagar.qbar.activities.host.scanner.ScannerFragmentModule;
 import com.sagar.qbar.activities.host.scanner.ScannerFragmentScope;
@@ -73,5 +76,9 @@ public abstract class FragmentProvider {
     @ContributesAndroidInjector(modules = TelFragmentModule.class)
     @TelFragmentScope
     abstract TelFragment telFragment();
+
+    @ContributesAndroidInjector(modules = WifiFragmentModule.class)
+    @WifiFragmentScope
+    abstract WifiFragment wifiFragment();
 
 }

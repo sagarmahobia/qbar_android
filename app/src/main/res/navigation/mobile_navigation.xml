@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_scannerFragment_to_telFragment"
             app:destination="@id/telFragment" />
+        <action
+            android:id="@+id/action_scannerFragment_to_wifiFragment"
+            app:destination="@id/wifiFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -52,6 +55,9 @@
         <action
             android:id="@+id/action_historyFragment_to_telFragment"
             app:destination="@id/telFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_wifiFragment"
+            app:destination="@id/wifiFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -88,7 +94,7 @@
     <fragment
         android:id="@+id/geoFragment"
         android:name="com.sagar.qbar.activities.host.results.geo.GeoFragment"
-        android:label="Geolocation"
+        android:label="Scan"
         tools:layout="@layout/fragment_geo">
         <argument
             android:name="id"
@@ -97,7 +103,7 @@
     <fragment
         android:id="@+id/smsFragment"
         android:name="com.sagar.qbar.activities.host.results.sms.SmsFragment"
-        android:label="SMS"
+        android:label="Scan"
         tools:layout="@layout/fragment_sms">
         <argument
             android:name="id"
@@ -106,6 +112,11 @@
     <fragment
         android:id="@+id/telFragment"
         android:name="com.sagar.qbar.activities.host.results.tel.TelFragment"
-        android:label="Telephone"
+        android:label="Scan"
         tools:layout="@layout/fragment_tel" />
+    <fragment
+        android:id="@+id/wifiFragment"
+        android:name="com.sagar.qbar.activities.host.results.wifi.WifiFragment"
+        android:label="Scan"
+        tools:layout="@layout/fragment_wifi" />
 </navigation>
