@@ -9,6 +9,9 @@ import com.sagar.qbar.activities.host.history.HistoryFragmentScope;
 import com.sagar.qbar.activities.host.results.barcode.BarcodeFragment;
 import com.sagar.qbar.activities.host.results.barcode.BarcodeFragmentModule;
 import com.sagar.qbar.activities.host.results.barcode.BarcodeFragmentScope;
+import com.sagar.qbar.activities.host.results.email.EmailFragment;
+import com.sagar.qbar.activities.host.results.email.EmailFragmentModule;
+import com.sagar.qbar.activities.host.results.email.EmailFragmentScope;
 import com.sagar.qbar.activities.host.results.geo.GeoFragment;
 import com.sagar.qbar.activities.host.results.geo.GeoFragmentModule;
 import com.sagar.qbar.activities.host.results.geo.GeoFragmentScope;
@@ -80,5 +83,9 @@ public abstract class FragmentProvider {
     @ContributesAndroidInjector(modules = WifiFragmentModule.class)
     @WifiFragmentScope
     abstract WifiFragment wifiFragment();
+
+    @ContributesAndroidInjector(modules = EmailFragmentModule.class)
+    @EmailFragmentScope
+    abstract EmailFragment emailFragment();
 
 }

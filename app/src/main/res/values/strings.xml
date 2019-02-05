@@ -49,4 +49,6 @@
     <string name="save">Save</string>
     <string name="wifi">WiFi</string>
     <string name="connect">Connect</string>
+    <string name="email">Email</string>
+    <string name="add_contanct">Add Contact</string>
 </resources>

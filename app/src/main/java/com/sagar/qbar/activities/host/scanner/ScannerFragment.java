@@ -158,6 +158,7 @@ public class ScannerFragment extends Fragment implements DecoratedBarcodeView.To
                 case ADDRESSBOOK:
                     break;
                 case EMAIL_ADDRESS:
+                    navController.navigate(R.id.action_scannerFragment_to_emailFragment, bundle);
                     break;
             }
         }

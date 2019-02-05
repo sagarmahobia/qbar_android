@@ -143,6 +143,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
             case ADDRESSBOOK:
                 break;
             case EMAIL_ADDRESS:
+                Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_emailFragment, bundle);
                 break;
         }
     }

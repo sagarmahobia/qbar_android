@@ -1,4 +1,4 @@
-package com.sagar.qbar.activities.host.results.sms;
+package com.sagar.qbar.activities.host.results.email;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -9,16 +9,18 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
 import javax.inject.Inject;
 
 /**
- * Created by SAGAR MAHOBIA on 03-Feb-19. at 01:00
+ * Created by SAGAR MAHOBIA on 05-Feb-19. at 13:34
  */
-@SmsFragmentScope
-public class SmsFragmentViewModelFactory implements ViewModelProvider.Factory {
+
+@EmailFragmentScope
+public class EmailFragmentViewModelFactory implements ViewModelProvider.Factory {
+
     private StorableResultRepository repository;
     private long id;
     private boolean setId;
 
     @Inject
-    SmsFragmentViewModelFactory(StorableResultRepository repository) {
+    EmailFragmentViewModelFactory(StorableResultRepository repository) {
         this.repository = repository;
     }
 
@@ -27,16 +29,18 @@ public class SmsFragmentViewModelFactory implements ViewModelProvider.Factory {
         setId = true;
     }
 
+
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (!setId) {
             throw new IllegalStateException("setId(int) should be called");
         }
-        if (modelClass.isAssignableFrom(SmsFragmentViewModel.class)) {
-            return (T) new SmsFragmentViewModel(repository, id);
+        if (modelClass.isAssignableFrom(EmailFragmentViewModel.class)) {
+            return (T) new EmailFragmentViewModel(repository, id);
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }
+
     }
 }
