@@ -27,6 +27,9 @@ import com.sagar.qbar.activities.host.results.text.TextFragmentScope;
 import com.sagar.qbar.activities.host.results.uri.URIFragment;
 import com.sagar.qbar.activities.host.results.uri.URIFragmentModule;
 import com.sagar.qbar.activities.host.results.uri.URIFragmentScope;
+import com.sagar.qbar.activities.host.results.vin.VinFragment;
+import com.sagar.qbar.activities.host.results.vin.VinFragmentModule;
+import com.sagar.qbar.activities.host.results.vin.VinFragmentScope;
 import com.sagar.qbar.activities.host.results.wifi.WifiFragment;
 import com.sagar.qbar.activities.host.results.wifi.WifiFragmentModule;
 import com.sagar.qbar.activities.host.results.wifi.WifiFragmentScope;
@@ -87,5 +90,9 @@ public abstract class FragmentProvider {
     @ContributesAndroidInjector(modules = EmailFragmentModule.class)
     @EmailFragmentScope
     abstract EmailFragment emailFragment();
+
+    @ContributesAndroidInjector(modules = VinFragmentModule.class)
+    @VinFragmentScope
+    abstract VinFragment vinFragment();
 
 }

@@ -134,6 +134,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
                 Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_textFragment, bundle);
                 break;
             case VIN:
+                Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_vinFragment, bundle);
                 break;
             case WIFI:
                 Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_wifiFragment, bundle);

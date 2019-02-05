@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_scannerFragment_to_emailFragment"
             app:destination="@id/emailFragment" />
+        <action
+            android:id="@+id/action_scannerFragment_to_vinFragment"
+            app:destination="@id/vinFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -64,6 +67,9 @@
         <action
             android:id="@+id/action_historyFragment_to_emailFragment"
             app:destination="@id/emailFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_vinFragment"
+            app:destination="@id/vinFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -130,4 +136,9 @@
         android:name="com.sagar.qbar.activities.host.results.email.EmailFragment"
         android:label="Scan"
         tools:layout="@layout/fragment_email" />
+    <fragment
+        android:id="@+id/vinFragment"
+        android:name="com.sagar.qbar.activities.host.results.vin.VinFragment"
+        android:label="Scan"
+        tools:layout="@layout/fragment_vin" />
 </navigation>
