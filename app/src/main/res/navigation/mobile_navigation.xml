@@ -37,6 +37,12 @@
         <action
             android:id="@+id/action_scannerFragment_to_vinFragment"
             app:destination="@id/vinFragment" />
+        <action
+            android:id="@+id/action_scannerFragment_to_calenderFragment"
+            app:destination="@id/calenderFragment" />
+        <action
+            android:id="@+id/action_scannerFragment_to_contactFragment"
+            app:destination="@id/contactFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -70,6 +76,12 @@
         <action
             android:id="@+id/action_historyFragment_to_vinFragment"
             app:destination="@id/vinFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_calenderFragment"
+            app:destination="@id/calenderFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_contactFragment"
+            app:destination="@id/contactFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -125,20 +137,54 @@
         android:id="@+id/telFragment"
         android:name="com.sagar.qbar.activities.host.results.tel.TelFragment"
         android:label="Scan"
-        tools:layout="@layout/fragment_tel" />
+        tools:layout="@layout/fragment_tel">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/wifiFragment"
         android:name="com.sagar.qbar.activities.host.results.wifi.WifiFragment"
         android:label="Scan"
-        tools:layout="@layout/fragment_wifi" />
+        tools:layout="@layout/fragment_wifi">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/emailFragment"
         android:name="com.sagar.qbar.activities.host.results.email.EmailFragment"
         android:label="Scan"
-        tools:layout="@layout/fragment_email" />
+        tools:layout="@layout/fragment_email">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/vinFragment"
         android:name="com.sagar.qbar.activities.host.results.vin.VinFragment"
         android:label="Scan"
-        tools:layout="@layout/fragment_vin" />
+        tools:layout="@layout/fragment_vin">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/calenderFragment"
+        android:name="com.sagar.qbar.activities.host.results.calender.CalenderFragment"
+        android:label="Scan"
+        tools:layout="@layout/fragment_calender">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.sagar.qbar.activities.host.results.contact.ContactFragment"
+        android:label="Scan"
+        tools:layout="@layout/fragment_contact">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
 </navigation>

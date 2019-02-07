@@ -9,6 +9,12 @@ import com.sagar.qbar.activities.host.history.HistoryFragmentScope;
 import com.sagar.qbar.activities.host.results.barcode.BarcodeFragment;
 import com.sagar.qbar.activities.host.results.barcode.BarcodeFragmentModule;
 import com.sagar.qbar.activities.host.results.barcode.BarcodeFragmentScope;
+import com.sagar.qbar.activities.host.results.calender.CalenderFragment;
+import com.sagar.qbar.activities.host.results.calender.CalenderFragmentModule;
+import com.sagar.qbar.activities.host.results.calender.CalenderFragmentScope;
+import com.sagar.qbar.activities.host.results.contact.ContactFragment;
+import com.sagar.qbar.activities.host.results.contact.ContactFragmentModule;
+import com.sagar.qbar.activities.host.results.contact.ContactFragmentScope;
 import com.sagar.qbar.activities.host.results.email.EmailFragment;
 import com.sagar.qbar.activities.host.results.email.EmailFragmentModule;
 import com.sagar.qbar.activities.host.results.email.EmailFragmentScope;
@@ -94,5 +100,13 @@ public abstract class FragmentProvider {
     @ContributesAndroidInjector(modules = VinFragmentModule.class)
     @VinFragmentScope
     abstract VinFragment vinFragment();
+
+    @ContributesAndroidInjector(modules = ContactFragmentModule.class)
+    @ContactFragmentScope
+    abstract ContactFragment contactFragment();
+
+    @ContributesAndroidInjector(modules = CalenderFragmentModule.class)
+    @CalenderFragmentScope
+    abstract CalenderFragment calenderFragment();
 
 }

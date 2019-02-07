@@ -19,9 +19,6 @@ public class QbarApplication extends Application implements HasActivityInjector 
     @Inject
     DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
 
-    public static QbarApplication get(Activity activity) {
-        return (QbarApplication) activity.getApplication();
-    }
 
     @Override
     public void onCreate() {

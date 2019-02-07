@@ -140,8 +140,10 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
                 Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_wifiFragment, bundle);
                 break;
             case CALENDAR:
+                Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_calenderFragment, bundle);
                 break;
             case ADDRESSBOOK:
+                Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_contactFragment, bundle);
                 break;
             case EMAIL_ADDRESS:
                 Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_emailFragment, bundle);

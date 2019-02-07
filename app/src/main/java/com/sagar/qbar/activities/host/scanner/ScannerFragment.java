@@ -155,8 +155,10 @@ public class ScannerFragment extends Fragment implements DecoratedBarcodeView.To
                     navController.navigate(R.id.action_scannerFragment_to_wifiFragment, bundle);
                     break;
                 case CALENDAR:
+                    navController.navigate(R.id.action_scannerFragment_to_calenderFragment, bundle);
                     break;
                 case ADDRESSBOOK:
+                    navController.navigate(R.id.action_scannerFragment_to_contactFragment, bundle);
                     break;
                 case EMAIL_ADDRESS:
                     navController.navigate(R.id.action_scannerFragment_to_emailFragment, bundle);
