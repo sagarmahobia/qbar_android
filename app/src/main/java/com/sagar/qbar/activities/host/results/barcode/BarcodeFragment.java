@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sagar.qbar.R;
-import com.sagar.qbar.activities.host.results.ResultCommonModel;
+import com.sagar.qbar.activities.host.results.BaseResultFragment;
 import com.sagar.qbar.databinding.FragmentBarcodeBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.SearchUtil;
@@ -21,40 +21,24 @@ import com.sagar.qbar.utils.ShareTextUtil;
 
 import javax.inject.Inject;
 
-import dagger.android.support.AndroidSupportInjection;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BarcodeFragment extends Fragment implements BarcodeFragmentEventHandler {
+public class BarcodeFragment extends BaseResultFragment implements BarcodeFragmentEventHandler {
 
     @Inject
     BarcodeFragmentViewModelFactory viewModelFactory;
 
     private BarcodeFragmentModel model;
-    private ResultCommonModel commonModel;
-
-    @Override
-    public void onAttach(Context context) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context);
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        long id = arguments != null ? arguments.getLong("id", 0) : 0;
 
-        if (id == 0) {
-            throw new IllegalStateException("id should be passed");
-        }
-
-        viewModelFactory.setId(id);
-
+        viewModelFactory.setId(super.id);
         BarcodeFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(BarcodeFragmentViewModel.class);
         model = viewModel.getBarcodeFragmentModel();
-        commonModel = viewModel.getCommonModel();
+        super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
     }
 
@@ -64,14 +48,14 @@ public class BarcodeFragment extends Fragment implements BarcodeFragmentEventHan
         FragmentBarcodeBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_barcode, container, false);
 
         binding.setModel(model);
-        binding.setCommonModel(commonModel);
+        binding.setCommonModel(super.commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
 
-    private void onResponse(StorableResult storableResult) {
-        commonModel.setTimestamp(storableResult.getTimestamp());
-        commonModel.setType(storableResult.getParsedResultType());
+    @Override
+    protected void onResponse(StorableResult storableResult) {
+        super.onResponse(storableResult);
         model.setBarcode(storableResult.getText());
     }
 

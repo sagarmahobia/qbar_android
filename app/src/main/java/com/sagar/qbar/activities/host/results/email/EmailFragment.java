@@ -2,7 +2,6 @@ package com.sagar.qbar.activities.host.results.email;
 
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -18,48 +17,32 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.EmailAddressParsedResult;
 import com.google.zxing.client.result.ResultParser;
 import com.sagar.qbar.R;
-import com.sagar.qbar.activities.host.results.ResultCommonModel;
+import com.sagar.qbar.activities.host.results.BaseResultFragment;
 import com.sagar.qbar.databinding.FragmentEmailBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
 
 import javax.inject.Inject;
 
-import dagger.android.support.AndroidSupportInjection;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EmailFragment extends Fragment implements EmailFragmentEventHandler {
+public class EmailFragment extends BaseResultFragment implements EmailFragmentEventHandler {
 
     @Inject
     EmailFragmentViewModelFactory viewModelFactory;
 
     private EmailFragmentModel model;
-    private ResultCommonModel commonModel;
-
-    @Override
-    public void onAttach(Context context) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context);
-
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        long id = arguments != null ? arguments.getLong("id", 0) : 0;
 
-        if (id == 0) {
-            throw new IllegalStateException("id should be passed");
-        }
-
-        viewModelFactory.setId(id);
+        viewModelFactory.setId(super.id);
         EmailFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(EmailFragmentViewModel.class);
 
         model = viewModel.getEmailFragmentModel();
-        commonModel = viewModel.getCommonModel();
+        super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
     }
 
@@ -70,20 +53,18 @@ public class EmailFragment extends Fragment implements EmailFragmentEventHandler
         FragmentEmailBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_email, container, false);
 
         binding.setModel(model);
-        binding.setCommonModel(commonModel);
+        binding.setCommonModel(super.commonModel);
         binding.setHandler(this);
 
         return binding.getRoot();
     }
 
-    private void onResponse(StorableResult storableResult) {
+    @Override
+    protected void onResponse(StorableResult storableResult) {
+        super.onResponse(storableResult);
+
         Result result = new Result(storableResult.getText(), null, null, storableResult.getBarcodeFormat(), storableResult.getTimestamp());
-
         EmailAddressParsedResult parsedResult = (EmailAddressParsedResult) ResultParser.parseResult(result);
-
-        commonModel.setTimestamp(storableResult.getTimestamp());
-        commonModel.setType(parsedResult.getType());
-
         model.setEmailAddressParsedResult(parsedResult);
     }
 

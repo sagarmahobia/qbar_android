@@ -3,7 +3,6 @@ package com.sagar.qbar.activities.host.results.contact;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.AddressBookParsedResult;
 import com.google.zxing.client.result.ResultParser;
 import com.sagar.qbar.R;
-import com.sagar.qbar.activities.host.results.ResultCommonModel;
+import com.sagar.qbar.activities.host.results.BaseResultFragment;
 import com.sagar.qbar.databinding.FragmentContactBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -28,44 +27,26 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import dagger.android.support.AndroidSupportInjection;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactFragment extends Fragment implements ContactFragmentEventHandler {
+public class ContactFragment extends BaseResultFragment implements ContactFragmentEventHandler {
 
 
     @Inject
     ContactFragmentViewModelFactory viewModelFactory;
 
     private ContactFragmentModel model;
-    private ResultCommonModel commonModel;
-
-    @Override
-    public void onAttach(Context context) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context);
-
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        long id = arguments != null ? arguments.getLong("id", 0) : 0;
 
-        if (id == 0) {
-            throw new IllegalStateException("id should be passed");
-        }
-
-        viewModelFactory.setId(id);
+        viewModelFactory.setId(super.id);
         ContactFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(ContactFragmentViewModel.class);
-
         model = viewModel.getContactFragmentModel();
-        commonModel = viewModel.getCommonModel();
+        super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
-
     }
 
 
@@ -75,17 +56,17 @@ public class ContactFragment extends Fragment implements ContactFragmentEventHan
         FragmentContactBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact, container, false);
 
         binding.setModel(model);
-        binding.setCommonModel(commonModel);
+        binding.setCommonModel(super.commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
 
-    private void onResponse(@NonNull StorableResult storableResult) {
-        Result result = new Result(storableResult.getText(), null, null, storableResult.getBarcodeFormat(), storableResult.getTimestamp());
+    @Override
+    protected void onResponse(@NonNull StorableResult storableResult) {
+        super.onResponse(storableResult);
 
+        Result result = new Result(storableResult.getText(), null, null, storableResult.getBarcodeFormat(), storableResult.getTimestamp());
         AddressBookParsedResult parsedResult = (AddressBookParsedResult) ResultParser.parseResult(result);
-        commonModel.setTimestamp(storableResult.getTimestamp());
-        commonModel.setType(parsedResult.getType());
         model.setParsedResult(parsedResult);
     }
 

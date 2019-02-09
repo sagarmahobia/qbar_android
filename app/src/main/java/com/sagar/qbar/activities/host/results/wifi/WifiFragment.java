@@ -2,7 +2,6 @@ package com.sagar.qbar.activities.host.results.wifi;
 
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -18,7 +17,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.ResultParser;
 import com.google.zxing.client.result.WifiParsedResult;
 import com.sagar.qbar.R;
-import com.sagar.qbar.activities.host.results.ResultCommonModel;
+import com.sagar.qbar.activities.host.results.BaseResultFragment;
 import com.sagar.qbar.databinding.FragmentWifiBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -27,13 +26,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.support.AndroidSupportInjection;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WifiFragment extends Fragment implements WifiFragmentEventHandler {
+public class WifiFragment extends BaseResultFragment implements WifiFragmentEventHandler {
 
     @Inject
     WifiManager wifiManager;
@@ -42,30 +39,16 @@ public class WifiFragment extends Fragment implements WifiFragmentEventHandler {
     WifiFragmentViewModelFactory viewModelFactory;
 
     private WifiFragmentModel model;
-    private ResultCommonModel commonModel;
-
-    @Override
-    public void onAttach(Context context) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context);
-
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        long id = arguments != null ? arguments.getLong("id", 0) : 0;
 
-        if (id == 0) {
-            throw new IllegalStateException("id should be passed");
-        }
-
-        viewModelFactory.setId(id);
+        viewModelFactory.setId(super.id);
         WifiFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(WifiFragmentViewModel.class);
 
         model = viewModel.getWifiModel();
-        commonModel = viewModel.getCommonModel();
+        super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
 
         boolean wifiEnabled = wifiManager.isWifiEnabled();
@@ -81,19 +64,17 @@ public class WifiFragment extends Fragment implements WifiFragmentEventHandler {
         FragmentWifiBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wifi, container, false);
 
         binding.setModel(model);
-        binding.setCommonModel(commonModel);
+        binding.setCommonModel(super.commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
 
-    private void onResponse(StorableResult storableResult) {
+    @Override
+    protected void onResponse(StorableResult storableResult) {
+        super.onResponse(storableResult);
+
         Result result = new Result(storableResult.getText(), null, null, storableResult.getBarcodeFormat(), storableResult.getTimestamp());
-
         WifiParsedResult parsedResult = (WifiParsedResult) ResultParser.parseResult(result);
-
-        commonModel.setTimestamp(storableResult.getTimestamp());
-        commonModel.setType(storableResult.getParsedResultType());
-
         model.setWifiParsedResult(parsedResult);
     }
 

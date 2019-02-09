@@ -17,49 +17,33 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.ResultParser;
 import com.google.zxing.client.result.SMSParsedResult;
 import com.sagar.qbar.R;
-import com.sagar.qbar.activities.host.results.ResultCommonModel;
+import com.sagar.qbar.activities.host.results.BaseResultFragment;
 import com.sagar.qbar.databinding.FragmentSmsBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
 
 import javax.inject.Inject;
 
-import dagger.android.support.AndroidSupportInjection;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SmsFragment extends Fragment implements SmsFragmentEventHandler {
+public class SmsFragment extends BaseResultFragment implements SmsFragmentEventHandler {
 
 
     @Inject
     SmsFragmentViewModelFactory viewModelFactory;
 
     private SmsFragmentModel model;
-    private ResultCommonModel commonModel;
-
-    @Override
-    public void onAttach(Context context) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context);
-
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        long id = arguments != null ? arguments.getLong("id", 0) : 0;
 
-        if (id == 0) {
-            throw new IllegalStateException("id should be passed");
-        }
-
-        viewModelFactory.setId(id);
+        viewModelFactory.setId(super.id);
         SmsFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(SmsFragmentViewModel.class);
 
         model = viewModel.getSmsFragmentModel();
-        commonModel = viewModel.getCommonModel();
+        super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
 
     }
@@ -72,19 +56,17 @@ public class SmsFragment extends Fragment implements SmsFragmentEventHandler {
 
         binding.setModel(model);
         binding.setHandler(this);
-        binding.setCommonModel(commonModel);
+        binding.setCommonModel(super.commonModel);
 
         return binding.getRoot();
     }
 
-    private void onResponse(StorableResult storableResult) {
+    @Override
+    protected void onResponse(StorableResult storableResult) {
+        super.onResponse(storableResult);
+
         Result result = new Result(storableResult.getText(), null, null, storableResult.getBarcodeFormat(), storableResult.getTimestamp());
-
         SMSParsedResult parsedResult = (SMSParsedResult) ResultParser.parseResult(result);
-
-        commonModel.setTimestamp(storableResult.getTimestamp());
-        commonModel.setType(storableResult.getParsedResultType());
-
         model.setSmsParsedResult(parsedResult);
     }
 
