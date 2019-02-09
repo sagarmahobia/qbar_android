@@ -1,37 +1,23 @@
 package com.sagar.qbar.activities.host.results.contact;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
-import com.sagar.qbar.activities.host.results.ResultCommonModel;
-import com.sagar.qbar.room.entities.StorableResult;
+import com.sagar.qbar.activities.host.results.ResultCommonViewModel;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
 /**
  * Created by SAGAR MAHOBIA on 05-Feb-19. at 19:33
  */
-class ContactFragmentViewModel extends ViewModel {
+class ContactFragmentViewModel extends ResultCommonViewModel {
 
     private ContactFragmentModel contactFragmentModel;
-    private LiveData<StorableResult> response;
-    private ResultCommonModel commonModel;
 
     ContactFragmentViewModel(@NonNull StorableResultRepository repository, long id) {
+        super(repository, id);
         contactFragmentModel = new ContactFragmentModel();
-        commonModel = new ResultCommonModel();
-        response = repository.getStorableResultLiveData(id);
-    }
-
-    LiveData<StorableResult> getResponse() {
-        return response;
     }
 
     ContactFragmentModel getContactFragmentModel() {
         return contactFragmentModel;
-    }
-
-    public ResultCommonModel getCommonModel() {
-        return commonModel;
     }
 }
