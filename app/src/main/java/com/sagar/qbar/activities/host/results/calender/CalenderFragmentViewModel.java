@@ -3,6 +3,7 @@ package com.sagar.qbar.activities.host.results.calender;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
@@ -11,10 +12,12 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
  */
 class CalenderFragmentViewModel extends ViewModel {
     private CalenderFragmentModel calenderFragmentModel;
+    private ResultCommonModel commonModel;
     private LiveData<StorableResult> response;
 
     CalenderFragmentViewModel(StorableResultRepository repository, long id) {
         calenderFragmentModel = new CalenderFragmentModel();
+        commonModel = new ResultCommonModel();
         response = repository.getStorableResultLiveData(id);
     }
 
@@ -24,5 +27,9 @@ class CalenderFragmentViewModel extends ViewModel {
 
     CalenderFragmentModel getCalenderFragmentModel() {
         return calenderFragmentModel;
+    }
+
+    public ResultCommonModel getCommonModel() {
+        return commonModel;
     }
 }

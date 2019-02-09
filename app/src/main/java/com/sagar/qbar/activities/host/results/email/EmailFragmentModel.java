@@ -3,82 +3,27 @@ package com.sagar.qbar.activities.host.results.email;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.google.zxing.client.result.EmailAddressParsedResult;
 import com.sagar.qbar.BR;
-import com.sagar.qbar.utils.TimeAndDateUtil;
 
 /**
  * Created by SAGAR MAHOBIA on 05-Feb-19. at 13:37
  */
 public class EmailFragmentModel extends BaseObservable {
 
-
-    private String[] tos;
-    private String[] ccs;
-    private String[] bccs;
-    private String subject;
-    private String body;
-
-    private String displayResult;
-    private String timestamp;
-
-    void setTimestamp(long timestamp) {
-        this.timestamp = TimeAndDateUtil.getTimeFromTimestamp(timestamp);
-        notifyPropertyChanged(BR.timestamp);
-    }
-
-    void setDisplayResult(String displayResult) {
-        this.displayResult = displayResult;
-        notifyPropertyChanged(BR.displayResult);
-    }
-
-
-    @Bindable
-    public String getTimestamp() {
-        return timestamp;
-    }
+    private EmailAddressParsedResult emailAddressParsedResult;
 
     @Bindable
     public String getDisplayResult() {
-        return displayResult;
+        return emailAddressParsedResult != null ? emailAddressParsedResult.getDisplayResult() : "";
     }
 
-    String[] getTos() {
-        return tos;
+    EmailAddressParsedResult getEmailAddressParsedResult() {
+        return emailAddressParsedResult;
     }
 
-    void setTos(String[] tos) {
-        this.tos = tos;
-    }
-
-    String[] getCcs() {
-        return ccs;
-    }
-
-    void setCcs(String[] ccs) {
-        this.ccs = ccs;
-    }
-
-    String[] getBccs() {
-        return bccs;
-    }
-
-    void setBccs(String[] bccs) {
-        this.bccs = bccs;
-    }
-
-    String getSubject() {
-        return subject;
-    }
-
-    void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    String getBody() {
-        return body;
-    }
-
-    void setBody(String body) {
-        this.body = body;
+    void setEmailAddressParsedResult(EmailAddressParsedResult emailAddressParsedResult) {
+        this.emailAddressParsedResult = emailAddressParsedResult;
+        notifyPropertyChanged(BR.displayResult);
     }
 }

@@ -19,6 +19,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.AddressBookParsedResult;
 import com.google.zxing.client.result.ResultParser;
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentContactBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -39,6 +40,7 @@ public class ContactFragment extends Fragment implements ContactFragmentEventHan
     ContactFragmentViewModelFactory viewModelFactory;
 
     private ContactFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -61,6 +63,7 @@ public class ContactFragment extends Fragment implements ContactFragmentEventHan
         ContactFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(ContactFragmentViewModel.class);
 
         model = viewModel.getContactFragmentModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
 
     }
@@ -72,6 +75,7 @@ public class ContactFragment extends Fragment implements ContactFragmentEventHan
         FragmentContactBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
@@ -80,9 +84,9 @@ public class ContactFragment extends Fragment implements ContactFragmentEventHan
         Result result = new Result(storableResult.getText(), null, null, storableResult.getBarcodeFormat(), storableResult.getTimestamp());
 
         AddressBookParsedResult parsedResult = (AddressBookParsedResult) ResultParser.parseResult(result);
-
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(parsedResult.getType());
         model.setParsedResult(parsedResult);
-        model.setTimestamp(storableResult.getTimestamp());
     }
 
     @SuppressWarnings("ConstantConditions")

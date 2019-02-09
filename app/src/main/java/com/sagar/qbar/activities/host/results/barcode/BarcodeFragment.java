@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentBarcodeBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.SearchUtil;
@@ -31,6 +32,7 @@ public class BarcodeFragment extends Fragment implements BarcodeFragmentEventHan
     BarcodeFragmentViewModelFactory viewModelFactory;
 
     private BarcodeFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -52,6 +54,7 @@ public class BarcodeFragment extends Fragment implements BarcodeFragmentEventHan
 
         BarcodeFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(BarcodeFragmentViewModel.class);
         model = viewModel.getBarcodeFragmentModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
     }
 
@@ -61,14 +64,15 @@ public class BarcodeFragment extends Fragment implements BarcodeFragmentEventHan
         FragmentBarcodeBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_barcode, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
 
     private void onResponse(StorableResult storableResult) {
-        model.setTimestamp(storableResult.getTimestamp());
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(storableResult.getParsedResultType());
         model.setBarcode(storableResult.getText());
-        model.setType(storableResult.getParsedResultType());
     }
 
 

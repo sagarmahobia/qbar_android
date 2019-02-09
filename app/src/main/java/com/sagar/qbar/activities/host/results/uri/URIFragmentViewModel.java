@@ -3,6 +3,7 @@ package com.sagar.qbar.activities.host.results.uri;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
@@ -11,10 +12,12 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
  */
 class URIFragmentViewModel extends ViewModel {
     private URIFragmentModel uriModel;
+    private ResultCommonModel commonModel;
     private LiveData<StorableResult> response;
 
     URIFragmentViewModel(StorableResultRepository repository, long id) {
         uriModel = new URIFragmentModel();
+        commonModel = new ResultCommonModel();
         response = repository.getStorableResultLiveData(id);
     }
 
@@ -24,5 +27,9 @@ class URIFragmentViewModel extends ViewModel {
 
     URIFragmentModel getUriModel() {
         return uriModel;
+    }
+
+    public ResultCommonModel getCommonModel() {
+        return commonModel;
     }
 }

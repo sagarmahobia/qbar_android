@@ -3,6 +3,7 @@ package com.sagar.qbar.activities.host.results.geo;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
@@ -13,10 +14,12 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
 class GeoFragmentViewModel extends ViewModel {
 
     private final GeoFragmentModel geoFragmentModel;
+    private ResultCommonModel commonModel;
     private LiveData<StorableResult> response;
 
     GeoFragmentViewModel(StorableResultRepository repository, long id) {
         geoFragmentModel = new GeoFragmentModel();
+        commonModel = new ResultCommonModel();
         response = repository.getStorableResultLiveData(id);
     }
 
@@ -26,5 +29,9 @@ class GeoFragmentViewModel extends ViewModel {
 
     GeoFragmentModel getGeoFragmentModel() {
         return geoFragmentModel;
+    }
+
+    public ResultCommonModel getCommonModel() {
+        return commonModel;
     }
 }

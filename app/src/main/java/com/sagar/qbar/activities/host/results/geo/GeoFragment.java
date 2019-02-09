@@ -17,6 +17,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.GeoParsedResult;
 import com.google.zxing.client.result.ResultParser;
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentGeoBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -34,6 +35,7 @@ public class GeoFragment extends Fragment implements GeoFragmentEventHandler {
     GeoFragmentViewModelFactory viewModelFactory;
 
     private GeoFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -56,6 +58,7 @@ public class GeoFragment extends Fragment implements GeoFragmentEventHandler {
         GeoFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(GeoFragmentViewModel.class);
 
         model = viewModel.getGeoFragmentModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
 
     }
@@ -68,6 +71,7 @@ public class GeoFragment extends Fragment implements GeoFragmentEventHandler {
         FragmentGeoBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_geo, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
 
         return binding.getRoot();
@@ -79,25 +83,25 @@ public class GeoFragment extends Fragment implements GeoFragmentEventHandler {
 
         GeoParsedResult parsedResult = (GeoParsedResult) ResultParser.parseResult(result);
 
-        model.setTimestamp(storableResult.getTimestamp());
-        model.setDisplayResult(parsedResult.getDisplayResult());
-        model.setUri(parsedResult.getGeoURI());
-        model.setLat(parsedResult.getLatitude());
-        model.setLon(parsedResult.getLongitude());
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(storableResult.getParsedResultType());
+        model.setGeoParsedResult(parsedResult);
     }
 
     @Override
     public void onClickShowMap(GeoFragmentModel model) {
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse(model.getUri()));
+                Uri.parse(model.getGeoParsedResult().getGeoURI()));
         startActivity(intent);
     }
 
     @Override
     public void onClickDirection(GeoFragmentModel model) {
 
+        GeoParsedResult geoParsedResult = model.getGeoParsedResult();
+
         Intent mapIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("google.navigation:q=" + model.getLat() + "," + model.getLon()));
+                Uri.parse("google.navigation:q=" + geoParsedResult.getLongitude() + "," + geoParsedResult.getLatitude()));
 
         mapIntent.setPackage("com.google.android.apps.maps");
 
@@ -108,7 +112,7 @@ public class GeoFragment extends Fragment implements GeoFragmentEventHandler {
     public void onClickShare(GeoFragmentModel model) {
         Context context = this.getContext();
         if (context != null) {
-            ShareTextUtil.share(context, model.getUri());
+            ShareTextUtil.share(context, model.getGeoParsedResult().getGeoURI());
         }
     }
 }

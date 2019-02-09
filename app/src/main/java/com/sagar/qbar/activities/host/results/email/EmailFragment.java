@@ -18,6 +18,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.EmailAddressParsedResult;
 import com.google.zxing.client.result.ResultParser;
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentEmailBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -35,6 +36,7 @@ public class EmailFragment extends Fragment implements EmailFragmentEventHandler
     EmailFragmentViewModelFactory viewModelFactory;
 
     private EmailFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -57,6 +59,7 @@ public class EmailFragment extends Fragment implements EmailFragmentEventHandler
         EmailFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(EmailFragmentViewModel.class);
 
         model = viewModel.getEmailFragmentModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
     }
 
@@ -67,6 +70,7 @@ public class EmailFragment extends Fragment implements EmailFragmentEventHandler
         FragmentEmailBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_email, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
 
         return binding.getRoot();
@@ -77,25 +81,21 @@ public class EmailFragment extends Fragment implements EmailFragmentEventHandler
 
         EmailAddressParsedResult parsedResult = (EmailAddressParsedResult) ResultParser.parseResult(result);
 
-        model.setTos(parsedResult.getTos());
-        model.setBccs(parsedResult.getBCCs());
-        model.setCcs(parsedResult.getCCs());
-        model.setSubject(parsedResult.getSubject());
-        model.setBody(parsedResult.getBody());
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(parsedResult.getType());
 
-        model.setTimestamp(storableResult.getTimestamp());
-        model.setDisplayResult(parsedResult.getDisplayResult());
-
+        model.setEmailAddressParsedResult(parsedResult);
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onClickEmail(EmailFragmentModel emailFragmentModel) {
-        String[] bccs = emailFragmentModel.getBccs();
-        String[] ccs = emailFragmentModel.getCcs();
-        String[] tos = emailFragmentModel.getTos();
-        String subject = emailFragmentModel.getSubject();
-        String body = emailFragmentModel.getBody();
+        EmailAddressParsedResult emailAddressParsedResult = emailFragmentModel.getEmailAddressParsedResult();
+        String[] bccs = emailAddressParsedResult.getBCCs();
+        String[] ccs = emailAddressParsedResult.getCCs();
+        String[] tos = emailAddressParsedResult.getTos();
+        String subject = emailAddressParsedResult.getSubject();
+        String body = emailAddressParsedResult.getBody();
         ShareCompat.IntentBuilder from = ShareCompat.IntentBuilder.from(this.getActivity());
         if (bccs != null) {
             from.addEmailBcc(bccs);
@@ -120,7 +120,7 @@ public class EmailFragment extends Fragment implements EmailFragmentEventHandler
 
         intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
 
-        intent.putExtra(ContactsContract.Intents.Insert.EMAIL, emailFragmentModel.getTos());
+        intent.putExtra(ContactsContract.Intents.Insert.EMAIL, emailFragmentModel.getEmailAddressParsedResult().getTos());
 
         startActivity(intent);
     }

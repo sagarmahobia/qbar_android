@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bindind="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="model"
             type="com.sagar.qbar.activities.host.results.uri.URIFragmentModel" />
+
+        <variable
+            name="commonModel"
+            type="com.sagar.qbar.activities.host.results.ResultCommonModel" />
 
         <variable
             name="handler"
@@ -21,56 +26,13 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ImageView
-            android:id="@+id/code_type_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/product_type_drawable"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="12dp"
-            android:src="@drawable/ic_link"
+        <include
+            android:id="@+id/uri_header"
+            layout="@layout/result_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            bindind:commonModel="@{commonModel}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/code_type_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:padding="3dp"
-            android:text="@string/web_link"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/code_type_icon"
-            app:layout_constraintEnd_toStartOf="@+id/code_scan_timestamp"
-            app:layout_constraintStart_toEndOf="@+id/code_type_icon"
-            app:layout_constraintTop_toTopOf="@+id/code_type_icon" />
-
-        <TextView
-            android:id="@+id/code_scan_timestamp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:padding="3dp"
-            android:text="@{model.timestamp}"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/code_type_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/code_type_icon" />
-
 
         <TextView
             android:id="@+id/linkResultText"
@@ -83,11 +45,11 @@
             android:padding="15dp"
             android:text="@{model.uri}"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryText"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/code_type_icon" />
+            app:layout_constraintTop_toBottomOf="@id/uri_header" />
 
 
         <Button
@@ -132,6 +94,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:onClick="@{()->handler.onClickShare(model)}"
             android:padding="10dp"

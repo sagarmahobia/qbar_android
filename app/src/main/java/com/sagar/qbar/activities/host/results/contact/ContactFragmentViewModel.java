@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
@@ -14,9 +15,11 @@ class ContactFragmentViewModel extends ViewModel {
 
     private ContactFragmentModel contactFragmentModel;
     private LiveData<StorableResult> response;
+    private ResultCommonModel commonModel;
 
     ContactFragmentViewModel(@NonNull StorableResultRepository repository, long id) {
         contactFragmentModel = new ContactFragmentModel();
+        commonModel = new ResultCommonModel();
         response = repository.getStorableResultLiveData(id);
     }
 
@@ -26,5 +29,9 @@ class ContactFragmentViewModel extends ViewModel {
 
     ContactFragmentModel getContactFragmentModel() {
         return contactFragmentModel;
+    }
+
+    public ResultCommonModel getCommonModel() {
+        return commonModel;
     }
 }

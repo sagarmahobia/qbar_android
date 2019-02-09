@@ -14,6 +14,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.ResultParser;
 import com.google.zxing.client.result.VINParsedResult;
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentVinBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -31,6 +32,7 @@ public class VinFragment extends Fragment implements VinFragmentEventHandler {
     VinFragmentViewModelFactory viewModelFactory;
 
     private VinFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -52,6 +54,7 @@ public class VinFragment extends Fragment implements VinFragmentEventHandler {
 
         VinFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(VinFragmentViewModel.class);
         model = viewModel.getVinFragmentModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
     }
 
@@ -62,6 +65,7 @@ public class VinFragment extends Fragment implements VinFragmentEventHandler {
         FragmentVinBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_vin, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
@@ -71,7 +75,8 @@ public class VinFragment extends Fragment implements VinFragmentEventHandler {
 
         VINParsedResult parsedResult = (VINParsedResult) ResultParser.parseResult(result);
 
-        model.setTimestamp(storableResult.getTimestamp());
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(storableResult.getParsedResultType());
         model.setDisplayResult(parsedResult.getDisplayResult());
     }
 
@@ -80,7 +85,6 @@ public class VinFragment extends Fragment implements VinFragmentEventHandler {
     @Override
     public void onClickShare(VinFragmentModel model) {
         ShareTextUtil.share(getContext(), model.getDisplayResult());
-
     }
 
 }

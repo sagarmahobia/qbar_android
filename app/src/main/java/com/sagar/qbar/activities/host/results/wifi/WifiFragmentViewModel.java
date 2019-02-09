@@ -3,6 +3,7 @@ package com.sagar.qbar.activities.host.results.wifi;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
@@ -11,10 +12,12 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
  */
 class WifiFragmentViewModel extends ViewModel {
     private WifiFragmentModel wifiModel;
+    private ResultCommonModel commonModel;
     private LiveData<StorableResult> response;
 
     WifiFragmentViewModel(StorableResultRepository repository, long id) {
         wifiModel = new WifiFragmentModel();
+        commonModel = new ResultCommonModel();
         response = repository.getStorableResultLiveData(id);
     }
 
@@ -24,5 +27,9 @@ class WifiFragmentViewModel extends ViewModel {
 
     WifiFragmentModel getWifiModel() {
         return wifiModel;
+    }
+
+    public ResultCommonModel getCommonModel() {
+        return commonModel;
     }
 }

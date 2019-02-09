@@ -3,6 +3,7 @@ package com.sagar.qbar.activities.host.results.wifi;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.google.zxing.client.result.WifiParsedResult;
 import com.sagar.qbar.BR;
 
 /**
@@ -10,65 +11,27 @@ import com.sagar.qbar.BR;
  */
 public class WifiFragmentModel extends BaseObservable {
 
-    private String SSID;
-    private String networkEncryption;
-    private String password;
-    private boolean hidden;
 
-    private String timestamp;
     private String displayResult;
-
-    String getSSID() {
-        return SSID;
-    }
-
-    void setSSID(String SSID) {
-        this.SSID = SSID;
-    }
-
-    String getNetworkEncryption() {
-        return networkEncryption;
-    }
-
-    void setNetworkEncryption(String networkEncryption) {
-        this.networkEncryption = networkEncryption;
-    }
-
-    String getPassword() {
-        return password;
-    }
-
-    void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
+    private WifiParsedResult wifiParsedResult;
 
     @Bindable
     public String getDisplayResult() {
         return displayResult;
     }
 
-    @Bindable
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    void prepareDisplayResult() {
+    private void prepareDisplayResult() {
 
         StringBuilder stringBuilder = new StringBuilder();
+
+        String networkEncryption = wifiParsedResult.getNetworkEncryption();
+        String password = wifiParsedResult.getPassword();
 
         boolean empty = networkEncryption.equalsIgnoreCase("");
         boolean nopass = networkEncryption.equalsIgnoreCase("nopass");
 
         stringBuilder.append("SSID: ")
-                .append(SSID);
+                .append(wifiParsedResult.getSsid());
 
         if (empty || nopass) {
             stringBuilder.append("\n").append("TYPE: ")
@@ -83,15 +46,20 @@ public class WifiFragmentModel extends BaseObservable {
                     append(password);
         }
 
-        if (hidden) {
+        if (wifiParsedResult.isHidden()) {
             stringBuilder.append("\n").append("HIDDEN: YES");
         }
         displayResult = stringBuilder.toString();
         notifyPropertyChanged(BR.displayResult);
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-        notifyPropertyChanged(BR.timestamp);
+
+    void setWifiParsedResult(WifiParsedResult wifiParsedResult) {
+        this.wifiParsedResult = wifiParsedResult;
+        prepareDisplayResult();
+    }
+
+    WifiParsedResult getWifiParsedResult() {
+        return wifiParsedResult;
     }
 }

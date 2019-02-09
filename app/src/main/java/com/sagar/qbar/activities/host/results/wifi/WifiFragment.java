@@ -18,6 +18,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.ResultParser;
 import com.google.zxing.client.result.WifiParsedResult;
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentWifiBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -41,6 +42,7 @@ public class WifiFragment extends Fragment implements WifiFragmentEventHandler {
     WifiFragmentViewModelFactory viewModelFactory;
 
     private WifiFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -63,6 +65,7 @@ public class WifiFragment extends Fragment implements WifiFragmentEventHandler {
         WifiFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(WifiFragmentViewModel.class);
 
         model = viewModel.getWifiModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
 
         boolean wifiEnabled = wifiManager.isWifiEnabled();
@@ -78,6 +81,7 @@ public class WifiFragment extends Fragment implements WifiFragmentEventHandler {
         FragmentWifiBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wifi, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
@@ -87,20 +91,19 @@ public class WifiFragment extends Fragment implements WifiFragmentEventHandler {
 
         WifiParsedResult parsedResult = (WifiParsedResult) ResultParser.parseResult(result);
 
-        model.setSSID(parsedResult.getSsid());
-        model.setNetworkEncryption(parsedResult.getNetworkEncryption());
-        model.setPassword(parsedResult.getPassword());
-        model.setHidden(parsedResult.isHidden());
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(storableResult.getParsedResultType());
 
-        model.prepareDisplayResult();
+        model.setWifiParsedResult(parsedResult);
     }
 
     @Override
     public void onClickConnect(WifiFragmentModel wifiFragmentModel) {
 
-        String networkSSID = wrapQuote(wifiFragmentModel.getSSID());
-        String networkPass = wrapQuote(wifiFragmentModel.getPassword());
-        String networkEncryption = wifiFragmentModel.getNetworkEncryption();
+        WifiParsedResult wifiParsedResult = wifiFragmentModel.getWifiParsedResult();
+        String networkSSID = wrapQuote(wifiParsedResult.getSsid());
+        String networkPass = wrapQuote(wifiParsedResult.getPassword());
+        String networkEncryption = wifiParsedResult.getNetworkEncryption();
 
         WifiConfiguration conf = new WifiConfiguration();
         conf.SSID = networkSSID;

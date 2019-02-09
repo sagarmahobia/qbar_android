@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sagar.qbar.R;
-import com.sagar.qbar.activities.host.results.uri.URIFragmentModel;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentTextBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.SearchUtil;
@@ -28,6 +28,7 @@ public class TextFragment extends Fragment implements TextFragmentEventHandler {
     TextFragmentViewModelFactory viewModelFactory;
 
     private TextFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -50,6 +51,7 @@ public class TextFragment extends Fragment implements TextFragmentEventHandler {
 
         TextFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(TextFragmentViewModel.class);
         model = viewModel.getTextFragmentModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
     }
 
@@ -59,12 +61,14 @@ public class TextFragment extends Fragment implements TextFragmentEventHandler {
         FragmentTextBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_text, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
 
     private void onResponse(StorableResult storableResult) {
-        model.setTimestamp(storableResult.getTimestamp());
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(storableResult.getParsedResultType());
         model.setText(storableResult.getText());
     }
 

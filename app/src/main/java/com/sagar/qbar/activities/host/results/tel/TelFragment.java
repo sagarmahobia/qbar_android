@@ -23,6 +23,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.ResultParser;
 import com.google.zxing.client.result.TelParsedResult;
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentTelBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -42,6 +43,7 @@ public class TelFragment extends Fragment implements TelFragmentEventHandler {
 
     private TelFragmentModel model;
     private String uri;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -64,6 +66,7 @@ public class TelFragment extends Fragment implements TelFragmentEventHandler {
         TelFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(TelFragmentViewModel.class);
 
         model = viewModel.getTelFragmentModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
 
     }
@@ -75,6 +78,7 @@ public class TelFragment extends Fragment implements TelFragmentEventHandler {
         FragmentTelBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tel, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
 
         return binding.getRoot();
@@ -87,16 +91,17 @@ public class TelFragment extends Fragment implements TelFragmentEventHandler {
 
         TelParsedResult parsedResult = (TelParsedResult) ResultParser.parseResult(result);
 
-        model.setTimestamp(storableResult.getTimestamp());
-        model.setDisplayResult(parsedResult.getDisplayResult());
-        model.setNumber(parsedResult.getNumber());
-        model.setUri(parsedResult.getTelURI());
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(storableResult.getParsedResultType());
+
+        model.setTelParsedResult(parsedResult);
+
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onClickCall(TelFragmentModel telFragmentModel) {
-        uri = telFragmentModel.getUri();
+        uri = telFragmentModel.getTelParsedResult().getTelURI();
 
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED) {
             requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, MY_CALL_REQUEST_CODE);
@@ -120,14 +125,14 @@ public class TelFragment extends Fragment implements TelFragmentEventHandler {
 
     @Override
     public void onClickSave(TelFragmentModel telFragmentModel) {
-        addContact(telFragmentModel.getNumber());
+        addContact(telFragmentModel.getTelParsedResult().getNumber());
     }
 
     @Override
     public void onClickShare(TelFragmentModel telFragmentModel) {
         Context context = this.getContext();
         if (context != null) {
-            ShareTextUtil.share(context, telFragmentModel.getNumber());
+            ShareTextUtil.share(context, telFragmentModel.getTelParsedResult().getNumber());
         }
     }
 

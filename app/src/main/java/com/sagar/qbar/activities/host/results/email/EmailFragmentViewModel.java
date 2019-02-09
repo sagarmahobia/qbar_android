@@ -3,6 +3,7 @@ package com.sagar.qbar.activities.host.results.email;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
@@ -11,11 +12,13 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
  */
 class EmailFragmentViewModel extends ViewModel {
     private final EmailFragmentModel emailFragmentModel;
+    private ResultCommonModel commonModel;
     private LiveData<StorableResult> response;
 
 
     EmailFragmentViewModel(StorableResultRepository repository, long id) {
         emailFragmentModel = new EmailFragmentModel();
+        commonModel = new ResultCommonModel();
         response = repository.getStorableResultLiveData(id);
     }
 
@@ -27,4 +30,7 @@ class EmailFragmentViewModel extends ViewModel {
         return emailFragmentModel;
     }
 
+    public ResultCommonModel getCommonModel() {
+        return commonModel;
+    }
 }

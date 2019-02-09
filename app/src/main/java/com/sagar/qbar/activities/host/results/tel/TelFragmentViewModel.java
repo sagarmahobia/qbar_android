@@ -3,6 +3,7 @@ package com.sagar.qbar.activities.host.results.tel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
@@ -12,10 +13,12 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
 public class TelFragmentViewModel extends ViewModel {
 
     private final TelFragmentModel telFragmentModel;
+    private ResultCommonModel commonModel;
     private LiveData<StorableResult> response;
 
     TelFragmentViewModel(StorableResultRepository repository, long id) {
         telFragmentModel = new TelFragmentModel();
+        commonModel = new ResultCommonModel();
         response = repository.getStorableResultLiveData(id);
     }
 
@@ -27,4 +30,7 @@ public class TelFragmentViewModel extends ViewModel {
         return telFragmentModel;
     }
 
+    public ResultCommonModel getCommonModel() {
+        return commonModel;
+    }
 }

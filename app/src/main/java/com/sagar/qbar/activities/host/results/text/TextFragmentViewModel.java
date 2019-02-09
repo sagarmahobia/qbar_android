@@ -3,6 +3,7 @@ package com.sagar.qbar.activities.host.results.text;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
@@ -12,10 +13,12 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
 class TextFragmentViewModel extends ViewModel {
 
     private final TextFragmentModel textFragmentModel;
+    private ResultCommonModel commonModel;
     private LiveData<StorableResult> response;
 
     TextFragmentViewModel(StorableResultRepository repository, long id) {
         textFragmentModel = new TextFragmentModel();
+        commonModel = new ResultCommonModel();
         response = repository.getStorableResultLiveData(id);
 
     }
@@ -26,5 +29,9 @@ class TextFragmentViewModel extends ViewModel {
 
     TextFragmentModel getTextFragmentModel() {
         return textFragmentModel;
+    }
+
+    public ResultCommonModel getCommonModel() {
+        return commonModel;
     }
 }

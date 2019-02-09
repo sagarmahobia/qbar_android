@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentUriBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.OpenUrlUtil;
@@ -32,6 +33,7 @@ public class URIFragment extends Fragment implements URIFragmentEventHandler {
     URIFragmentViewModelFactory viewModelFactory;
 
     private URIFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -53,6 +55,7 @@ public class URIFragment extends Fragment implements URIFragmentEventHandler {
 
         URIFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(URIFragmentViewModel.class);
         model = viewModel.getUriModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
     }
 
@@ -62,12 +65,15 @@ public class URIFragment extends Fragment implements URIFragmentEventHandler {
         FragmentUriBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_uri, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
 
     private void onResponse(StorableResult storableResult) {
-        model.setTimestamp(storableResult.getTimestamp());
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(storableResult.getParsedResultType());
+
         model.setUri(storableResult.getText());
     }
 

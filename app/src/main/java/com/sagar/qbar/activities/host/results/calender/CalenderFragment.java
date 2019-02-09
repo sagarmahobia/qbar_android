@@ -17,6 +17,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.CalendarParsedResult;
 import com.google.zxing.client.result.ResultParser;
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentCalenderBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -35,6 +36,7 @@ public class CalenderFragment extends Fragment implements CalenderFragmentEventH
     CalenderFragmentViewModelFactory viewModelFactory;
 
     private CalenderFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -58,6 +60,7 @@ public class CalenderFragment extends Fragment implements CalenderFragmentEventH
         CalenderFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(CalenderFragmentViewModel.class);
 
         model = viewModel.getCalenderFragmentModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
 
     }
@@ -69,6 +72,7 @@ public class CalenderFragment extends Fragment implements CalenderFragmentEventH
         FragmentCalenderBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calender, container, false);
 
         binding.setModel(model);
+        binding.setCommonModel(commonModel);
         binding.setHandler(this);
         return binding.getRoot();
     }
@@ -77,9 +81,9 @@ public class CalenderFragment extends Fragment implements CalenderFragmentEventH
         Result result = new Result(storableResult.getText(), null, null, storableResult.getBarcodeFormat(), storableResult.getTimestamp());
 
         CalendarParsedResult parsedResult = (CalendarParsedResult) ResultParser.parseResult(result);
-
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(parsedResult.getType());
         model.setParsedResult(parsedResult);
-        model.setTimestamp(storableResult.getTimestamp());
     }
 
     @Override

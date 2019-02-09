@@ -17,6 +17,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.result.ResultParser;
 import com.google.zxing.client.result.SMSParsedResult;
 import com.sagar.qbar.R;
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.databinding.FragmentSmsBinding;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.utils.ShareTextUtil;
@@ -35,6 +36,7 @@ public class SmsFragment extends Fragment implements SmsFragmentEventHandler {
     SmsFragmentViewModelFactory viewModelFactory;
 
     private SmsFragmentModel model;
+    private ResultCommonModel commonModel;
 
     @Override
     public void onAttach(Context context) {
@@ -57,6 +59,7 @@ public class SmsFragment extends Fragment implements SmsFragmentEventHandler {
         SmsFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(SmsFragmentViewModel.class);
 
         model = viewModel.getSmsFragmentModel();
+        commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
 
     }
@@ -69,6 +72,7 @@ public class SmsFragment extends Fragment implements SmsFragmentEventHandler {
 
         binding.setModel(model);
         binding.setHandler(this);
+        binding.setCommonModel(commonModel);
 
         return binding.getRoot();
     }
@@ -78,16 +82,10 @@ public class SmsFragment extends Fragment implements SmsFragmentEventHandler {
 
         SMSParsedResult parsedResult = (SMSParsedResult) ResultParser.parseResult(result);
 
-        model.setTimestamp(storableResult.getTimestamp());
-        model.setDisplayResult(parsedResult.getDisplayResult());
-        model.setBody(parsedResult.getBody());
-        String[] numbers = parsedResult.getNumbers();
-        if (numbers.length > 0) {
-            model.setNumber(numbers[0]);
-        } else {
-            model.setNumber("");
-        }
+        commonModel.setTimestamp(storableResult.getTimestamp());
+        commonModel.setType(storableResult.getParsedResultType());
 
+        model.setSmsParsedResult(parsedResult);
     }
 
     @Override

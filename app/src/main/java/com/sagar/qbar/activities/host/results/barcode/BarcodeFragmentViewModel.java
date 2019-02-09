@@ -3,6 +3,7 @@ package com.sagar.qbar.activities.host.results.barcode;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.sagar.qbar.activities.host.results.ResultCommonModel;
 import com.sagar.qbar.room.entities.StorableResult;
 import com.sagar.qbar.room.repository.StorableResultRepository;
 
@@ -11,10 +12,12 @@ import com.sagar.qbar.room.repository.StorableResultRepository;
  */
 class BarcodeFragmentViewModel extends ViewModel {
     private BarcodeFragmentModel barcodeFragmentModel;
+    private ResultCommonModel commonModel;
     private LiveData<StorableResult> response;
 
     BarcodeFragmentViewModel(StorableResultRepository repository, long id) {
         barcodeFragmentModel = new BarcodeFragmentModel();
+        commonModel = new ResultCommonModel();
         response = repository.getStorableResultLiveData(id);
     }
 
@@ -26,4 +29,10 @@ class BarcodeFragmentViewModel extends ViewModel {
     BarcodeFragmentModel getBarcodeFragmentModel() {
         return barcodeFragmentModel;
     }
+
+    ResultCommonModel getCommonModel() {
+        return commonModel;
+    }
+
+
 }
