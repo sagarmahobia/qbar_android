@@ -13,11 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sagar.qbar.R;
-import com.sagar.qbar.activities.host.results.uri.URIFragmentModel;
 import com.sagar.qbar.databinding.FragmentBarcodeBinding;
-import com.sagar.qbar.databinding.FragmentUriBinding;
 import com.sagar.qbar.room.entities.StorableResult;
-import com.sagar.qbar.utils.OpenUrlUtil;
 import com.sagar.qbar.utils.SearchUtil;
 import com.sagar.qbar.utils.ShareTextUtil;
 

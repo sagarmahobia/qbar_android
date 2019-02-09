@@ -11,9 +11,6 @@
             name="model"
             type="com.sagar.qbar.activities.host.history.HistoryFragmentModel" />
 
-        <variable
-            name="handler"
-            type="com.sagar.qbar.activities.host.history.HistoryFragmentEventHandler" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -25,10 +22,12 @@
             android:id="@+id/no_history_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:gravity="center_horizontal"
-            android:padding="10dp"
             android:text="@string/no_scan_history"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryText"
             android:textSize="18sp"
             android:visibility="@{model.size == 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,31 +38,13 @@
             android:id="@+id/history_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="@{model.size == 0 ? View.GONE : View.VISIBLE}"
             android:layout_marginBottom="6dp"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/clear_all_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/no_history_text_view" />
-
-        <Button
-            android:id="@+id/clear_all_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:onClick="@{() -> handler.clearAll()}"
-            android:text="@string/clear_all"
-            android:theme="@style/MyButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <android.support.constraint.Group
-            android:id="@+id/recycler_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{model.size == 0 ? View.GONE : View.VISIBLE}"
-            app:constraint_referenced_ids="history_recycler_view,clear_all_button" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

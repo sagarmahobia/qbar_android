@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.zxing.client.result.ParsedResultType;
 import com.sagar.qbar.R;
@@ -66,7 +71,6 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
         FragmentHistoryBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history, container, false);
         historyFragmentModel = viewModel.getHistoryFragmentModel();
         binding.setModel(historyFragmentModel);
-        binding.setHandler(viewModel);
 
         RecyclerView recyclerView = binding.historyRecyclerView;
 
@@ -149,5 +153,33 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
                 Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_emailFragment, bundle);
                 break;
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.history, menu);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_delete_all) {
+            new AlertDialog.Builder(this.getContext())
+                    .setTitle("Do you want delete all history?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        dialog.dismiss();
+                        viewModel.clearAll();
+                        Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("No", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .setCancelable(true)
+                    .create()
+                    .show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
