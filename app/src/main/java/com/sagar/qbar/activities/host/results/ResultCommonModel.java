@@ -75,7 +75,7 @@ public class ResultCommonModel extends BaseObservable {
             case TEL:
                 return "Phone";
             case URI:
-                return "Web link";
+                return "URL";
             case ISBN:
                 return "Book";
             case PRODUCT:

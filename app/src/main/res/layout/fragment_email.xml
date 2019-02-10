@@ -81,7 +81,7 @@
                 android:gravity="center"
                 android:onClick="@{()->handler.onClickAddContact(model)}"
                 android:padding="10dp"
-                android:text="@string/add_contanct"
+                android:text="@string/add_contact"
                 android:theme="@style/MyButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
