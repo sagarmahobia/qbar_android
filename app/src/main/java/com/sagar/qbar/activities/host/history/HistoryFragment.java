@@ -25,6 +25,7 @@ import com.sagar.qbar.activities.host.history.adapter.HistoryAdapter;
 import com.sagar.qbar.activities.host.history.adapter.HistoryModel;
 import com.sagar.qbar.databinding.FragmentHistoryBinding;
 import com.sagar.qbar.room.entities.StorableResult;
+import com.sagar.qbar.services.FirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,9 @@ import dagger.android.support.AndroidSupportInjection;
 public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterListener {
 
     @Inject
+    FirebaseService firebaseService;
+
+    @Inject
     HistoryFragmentViewModelFactory viewModelFactory;
 
     @Inject
@@ -49,6 +53,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
     private HistoryFragmentModel historyFragmentModel;
 
     private View root;
+
 
     @Override
     public void onAttach(Context context) {
@@ -153,6 +158,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.AdapterL
                 Navigation.findNavController(root).navigate(R.id.action_historyFragment_to_emailFragment, bundle);
                 break;
         }
+        firebaseService.accessedHistory(type);
     }
 
     @Override

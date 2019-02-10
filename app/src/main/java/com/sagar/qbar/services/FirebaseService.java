@@ -3,6 +3,7 @@ package com.sagar.qbar.services;
 import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.zxing.client.result.ParsedResultType;
 import com.sagar.qbar.ApplicationScope;
 
 import javax.inject.Inject;
@@ -21,22 +22,18 @@ public class FirebaseService {
         this.firebaseAnalytics = firebaseAnalytics;
     }
 
-
-    public void linkOpen() {
-        firebaseAnalytics.logEvent("searchedFromResult", null);
+    public void scannedImage(ParsedResultType type) {
+        logType(type, "scanned_image");
     }
 
-    public void linkOrTextSearched() {
-        firebaseAnalytics.logEvent("openedLinkFromResult", null);
+    public void accessedHistory(ParsedResultType type) {
+        logType(type, "accessed_history");
     }
 
-    public void scannedImage( ) {
-
+    private void logType(ParsedResultType type, String tag) {
         Bundle bundle = new Bundle();
-//        bundle.putString("type", resultType.toString().toLowerCase());
-        firebaseAnalytics.logEvent("scannedResultType", bundle);
-
-        firebaseAnalytics.logEvent("scannedImage", null);
+        bundle.putString("type", type.toString().toLowerCase());
+        firebaseAnalytics.logEvent(tag, bundle);
 
     }
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
@@ -26,6 +27,7 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory;
 import com.sagar.qbar.R;
 import com.sagar.qbar.response.Response;
 import com.sagar.qbar.response.Status;
+import com.sagar.qbar.services.FirebaseService;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,10 +47,14 @@ import dagger.android.support.AndroidSupportInjection;
 public class ScannerFragment extends Fragment implements DecoratedBarcodeView.TorchListener, BarcodeCallback {
 
     @Inject
+    FirebaseService firebaseService;
+
+    @Inject
     ScannerFragmentViewModelFactory viewModelFactory;
 
     @Inject
     BeepManager beepManager;
+
 
     @BindView(R.id.barcode_scanner)
     MyBarcodeView barcodeView;
@@ -115,6 +121,7 @@ public class ScannerFragment extends Fragment implements DecoratedBarcodeView.To
         Status status = response.getStatus();
         if (status == Status.ERROR) {
             Toast.makeText(getContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
+            Crashlytics.logException(response.getError());
 
         } else if (status == Status.SUCCESS) {
 
@@ -164,6 +171,7 @@ public class ScannerFragment extends Fragment implements DecoratedBarcodeView.To
                     navController.navigate(R.id.action_scannerFragment_to_emailFragment, bundle);
                     break;
             }
+            firebaseService.scannedImage(type);
         }
     }
 
