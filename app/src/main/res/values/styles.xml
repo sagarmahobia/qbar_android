@@ -19,7 +19,7 @@
 
     <style name="ProjectNameText">
         <item name="android:padding">5dp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center</item>
     </style>
@@ -33,7 +33,7 @@
 
     <style name="LicenceText">
         <item name="android:padding">3dp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center</item>
     </style>
