@@ -6,7 +6,6 @@
     <!--ad units-->
     <string name="app_pub_id">ca-app-pub-5244380836127327~3321417095</string>
     <string name="ad_unit_id_scanner_bottom">ca-app-pub-5244380836127327/8098294172</string>
-    <string name="ad_unit_id_scanner_full_screen">ca-app-pub-5244380836127327/4355233475</string>
 
     <string name="action_flash">Toggle Flash</string>
     <string name="app_name_short">QBar</string>

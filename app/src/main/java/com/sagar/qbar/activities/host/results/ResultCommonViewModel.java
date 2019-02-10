@@ -37,7 +37,7 @@ public class ResultCommonViewModel extends ViewModel {
         disposable.add(
                 Single.
                         just(true).
-                        delay(5, TimeUnit.SECONDS).
+                        delay(4, TimeUnit.SECONDS).
                         observeOn(AndroidSchedulers.mainThread()).
                         subscribe((x) -> timerLiveData.setValue(x))
         );

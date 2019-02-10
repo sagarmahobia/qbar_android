@@ -68,7 +68,7 @@ public class BaseResultFragment extends Fragment {
     void showAlertDialog() {
         new AlertDialog.Builder(getContext())
                 .setTitle("⭐⭐⭐⭐⭐")
-                .setMessage("Enjoying this app? Help us grow by rating this app.")
+                .setMessage("If you're enjoying this app, we will be very thankful if you help us grow by rating this app. Thank you.")
                 .setPositiveButton("Ok, Sure", (dialog, which) -> {
                     dialog.dismiss();
                     openStore();
