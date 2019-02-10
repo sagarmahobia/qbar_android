@@ -42,6 +42,7 @@ public class URIFragment extends BaseResultFragment implements URIFragmentEventH
         model = viewModel.getUriModel();
         super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
+        super.observeTimerResponse(viewModel);
     }
 
     @Override

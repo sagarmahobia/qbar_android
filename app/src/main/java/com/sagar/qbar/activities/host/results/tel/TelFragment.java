@@ -52,6 +52,7 @@ public class TelFragment extends BaseResultFragment implements TelFragmentEventH
         model = viewModel.getTelFragmentModel();
         super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
+        super.observeTimerResponse(viewModel);
 
     }
 

@@ -45,6 +45,7 @@ public class SmsFragment extends BaseResultFragment implements SmsFragmentEventH
         model = viewModel.getSmsFragmentModel();
         super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
+        super.observeTimerResponse(viewModel);
 
     }
 

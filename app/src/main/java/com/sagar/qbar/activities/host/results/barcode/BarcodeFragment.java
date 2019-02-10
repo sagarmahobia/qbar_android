@@ -40,6 +40,7 @@ public class BarcodeFragment extends BaseResultFragment implements BarcodeFragme
         model = viewModel.getBarcodeFragmentModel();
         super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
+        super.observeTimerResponse(viewModel);
     }
 
     @Override

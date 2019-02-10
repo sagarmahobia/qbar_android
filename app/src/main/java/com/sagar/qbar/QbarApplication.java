@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.google.android.gms.ads.MobileAds;
+import com.sagar.qbar.services.SharedPreferenceService;
 
 import javax.inject.Inject;
 
@@ -19,6 +20,8 @@ public class QbarApplication extends Application implements HasActivityInjector 
     @Inject
     DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
 
+    @Inject
+    SharedPreferenceService sharedPreferenceService;
 
     @Override
     public void onCreate() {
@@ -31,6 +34,8 @@ public class QbarApplication extends Application implements HasActivityInjector 
                 .application(this)
                 .build()
                 .inject(this);
+
+        sharedPreferenceService.incrementLaunchCount();
 
     }
 

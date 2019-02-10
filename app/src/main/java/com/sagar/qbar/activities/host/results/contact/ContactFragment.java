@@ -47,6 +47,7 @@ public class ContactFragment extends BaseResultFragment implements ContactFragme
         model = viewModel.getContactFragmentModel();
         super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
+        super.observeTimerResponse(viewModel);
     }
 
 

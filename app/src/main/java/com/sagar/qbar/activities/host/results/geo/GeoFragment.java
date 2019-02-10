@@ -44,6 +44,7 @@ public class GeoFragment extends BaseResultFragment implements GeoFragmentEventH
         model = viewModel.getGeoFragmentModel();
         super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
+        super.observeTimerResponse(viewModel);
 
     }
 

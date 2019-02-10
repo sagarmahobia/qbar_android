@@ -43,7 +43,7 @@ public class CalenderFragment extends BaseResultFragment implements CalenderFrag
         model = viewModel.getCalenderFragmentModel();
         super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
-
+        super.observeTimerResponse(viewModel);
     }
 
 

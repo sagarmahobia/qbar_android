@@ -50,6 +50,7 @@ public class WifiFragment extends BaseResultFragment implements WifiFragmentEven
         model = viewModel.getWifiModel();
         super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
+        super.observeTimerResponse(viewModel);
 
         boolean wifiEnabled = wifiManager.isWifiEnabled();
         if (!wifiEnabled) {

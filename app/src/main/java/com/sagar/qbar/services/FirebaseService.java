@@ -30,6 +30,15 @@ public class FirebaseService {
         logType(type, "accessed_history");
     }
 
+    public void onRateRequestAccepted() {
+        firebaseAnalytics.logEvent("RATE_REQUEST_ACCEPTED".toLowerCase(), null);
+    }
+
+    public void onRateRequestRejected() {
+        firebaseAnalytics.logEvent("RATE_REQUEST_REJECTED".toLowerCase(), null);
+    }
+
+
     private void logType(ParsedResultType type, String tag) {
         Bundle bundle = new Bundle();
         bundle.putString("type", type.toString().toLowerCase());

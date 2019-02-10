@@ -44,6 +44,7 @@ public class EmailFragment extends BaseResultFragment implements EmailFragmentEv
         model = viewModel.getEmailFragmentModel();
         super.commonModel = viewModel.getCommonModel();
         viewModel.getResponse().observe(this, this::onResponse);
+        super.observeTimerResponse(viewModel);
     }
 
 
